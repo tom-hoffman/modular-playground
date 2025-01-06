@@ -10,17 +10,21 @@ import neopixel
 lStart = 4
 rStart = 5
 
-class HalfBar(object):
+class CPixUI(object):
+    def limitInput(self, n, min, max):
+        if n > max:
+            return max
+        elif n < min:
+            return min
+        else:
+            return n
+
+class HalfBar(CPixUI):
     # HalfBar :: (pixels :: list<tuple><int>, 
     #             length :: int, color :: tuple<int>) -> HalfBar
     def __init__(self, pixels, length, color):
         self.pixels = pixels
-        if length > 5:
-            self.length = 5
-        elif length < 0:
-            length = 0
-        else:
-            self.length = length
+        self.length = self.limitInput(length, 0, 5)
         self.color = color
 
 class LeftBar(HalfBar):
@@ -41,7 +45,6 @@ class RightBar(HalfBar):
     def clear(self):
         for i in range(rStart, 10):
             self.pixels[i] = (0, 0, 0)
-
     def draw(self):
         self.clear()
         end = rStart + self.length
