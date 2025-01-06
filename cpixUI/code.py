@@ -6,25 +6,15 @@ import gc
 import board
 import neopixel
 
-
 lStart = 4
 rStart = 5
 
-class CPixUI(object):
-    def limitInput(self, n, min, max):
-        if n > max:
-            return max
-        elif n < min:
-            return min
-        else:
-            return n
-
-class HalfBar(CPixUI):
+class HalfBar(object):
     # HalfBar :: (pixels :: list<tuple><int>, 
     #             length :: int, color :: tuple<int>) -> HalfBar
     def __init__(self, pixels, length, color):
         self.pixels = pixels
-        self.length = self.limitInput(length, 0, 5)
+        self.length = length % 6
         self.color = color
 
 class LeftBar(HalfBar):
