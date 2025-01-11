@@ -11,6 +11,9 @@
 # WholeBar: an anticlockwise bar graph starting at neopixel 0.
 # HalfBar: base class for 0-5 bar graphs.
 
+# Notes
+# parameter pixels is assumed to be the list of 10 neopixels in a CP. 
+
 import gc
 import neopixel
 
@@ -29,6 +32,7 @@ class Flasher(CPixUI):
         self.pixels = pixels
         self.lit = lit
         self.color = color
+
     def draw(self):
         print(self.lit)
         if self.lit:
@@ -38,10 +42,11 @@ class Flasher(CPixUI):
         for i in range(0, len(self.pixels)):
             self.pixels[i] = c
         self.pixels.show()
+
     def toggle(self):
         self.lit = not self.lit
         self.draw()
-                
+        
 class Photon(CPixUI):
     # Photon :: (pixels :: list<tuple><int>, 
     #            position :: int, color :: tuple<int>) -> Photon
@@ -60,73 +65,67 @@ class Photon(CPixUI):
     def advanceAntiClockwise(self):
         self.position = (self.position + 1) % self.NEOPIXEL_COUNT
 
+
+
+class Bar(CPixUI):
+    # Bar :: (pixels :: list<tuple><int>, 
+    #         length :: int, color :: tuple<int>) -> Bar
+    MAX_LENGTH = 10
+    START = 0
+    END = 9
+    
+    def __init__(self, pixels, length, color):
+        self.pixels = pixels
+        self.length = length % (self.MAX_LENGTH + 1)
+        self.color = color
+
+    def clear(self):
+        for i in range(self.END, self.START + 1):
+            self.pixels[i] = self.NO_LIGHT
+
+    def add(self):
+        self.length = (self.length + 1) % (self.MAX_LENGTH + 1)
+
+    def subtract(self):
+        self.length = (self.length - 1) % (self.MAX_LENGTH + 1)
+    
+    def draw(self):
+        self.clear()
+        end = self.START + self.length
+        for i in range(self.START, end):
+            self.pixels[i] = self.color
+        self.pixels.show()
+        
+
+class LeftBar(Bar):
+    # this starts at pixel 4 and goes clockwise to pixel 0
+    MAX_LENGTH = 5
+    START = 4
+    END = 0
+
+    def draw(self):
+        self.clear()
+        end = self.START - self.length + 1
+        for i in range(end, self.START + 1):
+            self.pixels[i] = self.color
+        self.pixels.show()
+
+class RightBar(Bar):
+    # this starts at pixel 5 and goes anticlockwise to pixel 9
+    MAX_LENGTH = 5
+    START = 5
+    END = 9
+    
 class Selector(CPixUI):
     """A clockwise selector, starting at neopixel 9 (right of USB),
     with a Photon indicator."""
     # Selector :: (pixels :: list<tuple><int>, )    
 
-class HalfBar(CPixUI):
-    LEFT_START  = 4
-    LEFT_END    = 0
-    RIGHT_START = 5
-    RIGHT_END   = 9
-    # HalfBar :: (pixels :: list<tuple><int>, 
-    #             length :: int, color :: tuple<int>) -> HalfBar
-    def __init__(self, pixels, length, color):
-        self.pixels = pixels
-        self.length = length % 6
-        self.color = color
-        
-    def add(self):
-        self.length = (self.length + 1) % 6
-
-    def subtract(self):
-        self.length = (self.length - 1) % 6
-
-class LeftBar(HalfBar):
-    # this starts at pixel 4 and goes clockwise to pixel 0
-    def clear(self):
-        for i in range(self.LEFT_END, self.LEFT_START + 1):
-            self.pixels[i] = self.NO_LIGHT
-
-    def draw(self):
-        self.clear()
-        end = self.LEFT_START - self.length + 1
-        for i in range(end, self.LEFT_START + 1):
-            self.pixels[i] = self.color
-        self.pixels.show()
-
-class RightBar(HalfBar):
-    # this starts at pixel 5 and goes anticlockwise to pixel 9
-    def clear(self):
-        for i in range(self.RIGHT_START, self.RIGHT_END + 1):
-            self.pixels[i] = (0, 0, 0)
-    def draw(self):
-        self.clear()
-        end = self.RIGHT_START + self.length
-        for i in range(self.RIGHT_START, end):
-            self.pixels[i] = self.color
-        self.pixels.show()
-
-
 import board
 import time
 p = neopixel.NeoPixel(board.NEOPIXEL, 10, brightness=0.2, auto_write=False)
-fl = Flasher(p)
-fl.toggle()
-time.sleep(1)
-fl.toggle()
-time.sleep(1)
-l = LeftBar(p, 3, (32, 0, 0))
-l.add()
-l.draw()
-r = RightBar(p, 0, (0, 32, 0))
-r.subtract()
-r.subtract()
-r.draw()
-pho = Photon(p, 0, (128, 128, 128))
-pho.advanceClockwise()
-pho.draw()
+b = Bar(p, 12, (0, 0, 64))
+b.draw()
 
 
 print(gc.mem_free())
