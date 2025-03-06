@@ -3,4 +3,15 @@
   * Download the 9.x version of CircuitPython (.uf2).
   * You *can* download that directly to the CPLAYBOOT drive.
   * After the download, the Circuit Playground should unmount and remount as CIRCUITPY.
-  * At this point you should see 
+  * At this point the NeoPixels should rapidly flash yellow three times, and then 
+    occasionally give a quick green flash.
+* Development Environment(s)
+  * For school: use https://code.circuitpython.org/
+    * Note that each of these steps might take 0 - 15 seconds.  Be (somewhat) patient.
+    * Connect your Circuit Playground using USB.
+    * After you click CONNECT and USB, you should see a dialog which has 
+      "CircuitPython CDC Connect (COMxx) - Paired"
+      as an option.  Select that one, and click [Connect].
+    * If this is working, you should see a spinning Python animation (ouroboros),
+      and the neopixels will turn white.
+    * Then select the CIRCUITPY drive as the "host folder."
