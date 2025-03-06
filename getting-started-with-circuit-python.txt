@@ -1,7 +1,10 @@
 * Installing Circuit Python (for Circuit Playground).
   * Go here: https://circuitpython.org/board/circuitplayground_express/
   * Download the 9.x version of CircuitPython (.uf2).
-  * You *can* download that directly to the CPLAYBOOT drive.
+  * If a dialog comes up, you *can* download that directly to the CPLAYBOOT drive.
+  * Otherwise, you will need to drag the .uf2 file from your Downloads file to the CPLAYBOOT drive.
+  * If the CPLAYBOOT drive does not come up and the neopixels are not a steady green, 
+    click the RESET button on the Circuit Playground.
   * After the download, the Circuit Playground should unmount and remount as CIRCUITPY.
   * At this point the NeoPixels should rapidly flash yellow three times, and then 
     occasionally give a quick green flash.
