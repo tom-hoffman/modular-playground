@@ -1,1 +1,6 @@
-
+* Installing Circuit Python (for Circuit Playground).
+  * Go here: https://circuitpython.org/board/circuitplayground_express/
+  * Download the 9.x version of CircuitPython (.uf2).
+  * You *can* download that directly to the CPLAYBOOT drive.
+  * After the download, the Circuit Playground should unmount and remount as CIRCUITPY.
+  * At this point you should see 
