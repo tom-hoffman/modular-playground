@@ -1,8 +1,10 @@
 # Oxygen25 -> NTS-1 MIDI Adapter
-# MIDI IN (from Oxygen25) on channel 0x0E
-# MIDI OUT (to NTS-1) on channel 0x0F
+# MIDI IN (from Oxygen25) 
+# MIDI OUT (to NTS-1) 
 
 import gc
+gc.collect()
+print("Starting free bytes (after gc) = " + str(gc.mem_free()))
 import board
 import digitalio
 
@@ -17,17 +19,52 @@ from adafruit_midi.pitch_bend import PitchBend
 gc.collect()
 print("Free bytes after imports = " + str(gc.mem_free()))
 
-# for the Oxygen25 {Control ID on device : MIDI Control Change Number}
-CONTROLLER_CODES = {
-    # Control Knobs
-    'C1' : 74,
-    'C2' : 71,
-    'C3' : 91,
-    'C4' : 93,
-    'C5' : 73,
-    'C6' : 72,
-    'C7' : 5,
-    'C8' : 84,
+CONTROLLER_OUT = 0x0E
+TARGET_IN = 0x00
+
+# For the NTS-1 {effect description : MIDI Control Change number}
+def buildCCMap():
+    TARGET_CODES = {
+        'EG TYPE' : 14,
+        'ATTACK' : 16,
+        'RELEASE' : 19,
+        'TREMOLO DEPTH' : 20,
+        'TREMOLO RATE' : 21,
+        'LFO RATE' : 24,
+        'LFO DEPTH' : 26,
+        'MOD TIME' : 28,
+        'MOD DEPTH' : 29,
+        'DELAY TIME' : 30,
+        'DELAY DEPTH' : 31,
+        'DELAY MIX' : 33,
+        'REVERB TIME' : 34,
+        'REVERB DEPTH' : 35,
+        'REVERB MIX' : 36,
+        'FILTER TYPE' : 42,
+        'FILTER CUTOFF' : 43,
+        'FILTER RESONANCE' : 44,
+        'FILTER SWEEP DEPTH' : 45,
+        'FILTER SWEEP RATE' : 46,
+        'OSC TYPE' : 88,
+        'DELAY TYPE' : 89,
+        'REVERB TYPE' : 90,
+        'ARP PATTERN' : 117,
+        'ARP INTERVALS' : 118,
+        'ARP LENGTH' : 119
+    }
+
+    # for the Oxygen25 CC KNOBS (not pads or keyboard)
+    # {Control ID on device : MIDI Control Change Number}
+    CONTROLLER_CODES = {
+        # Control Knobs
+        'C1' : 74,
+        'C2' : 71,
+        'C3' : 91,
+        'C4' : 93,
+        'C5' : 73,
+        'C6' : 72,
+        'C7' : 5,
+        'C8' : 84,
     
     # slider
     'C9' : 7,
@@ -47,55 +84,17 @@ CONTROLLER_CODES = {
     # MOD wheel
     'C16' : 1
     }
-
-# For the NTS-1 {effect description : MIDI Control Change number}
-TARGET_CODES = {
-    'EG TYPE' : 14,
-    'ATTACK' : 16,
-    'RELEASE' : 19,
-    'TREMOLO DEPTH' : 20,
-    'TREMOLO RATE' : 21,
-    'LFO RATE' : 24,
-    'LFO DEPTH' : 26,
-    'MOD TIME' : 28,
-    'MOD DEPTH' : 29,
-    'DELAY TIME' : 30,
-    'DELAY DEPTH' : 31,
-    'DELAY MIX' : 33,
-    'REVERB TIME' : 34,
-    'REVERB DEPTH' : 35,
-    'REVERB MIX' : 36,
-    'FILTER TYPE' : 42,
-    'FILTER CUTOFF' : 43,
-    'FILTER RESONANCE' : 44,
-    'FILTER SWEEP DEPTH' : 45,
-    'FILTER SWEEP RATE' : 46,
-    'OSC TYPE' : 88,
-    'DELAY TYPE' : 89,
-    'REVERB TYPE' : 90,
-    'ARP PATTERN' : 117,
-    'ARP INTERVALS' : 118,
-    'ARP LENGTH' : 119
-    }
-
-# This is the human readable mapping.
-# {CONTROLLER_CODES key : TARGET_CODES key}    
-CC_STRING_MAPPING = {
-    'C16' : 'FILTER CUTOFF',
-    'C1'  : 'ARP PATTERN',
-    'C5'  : 'ARP INTERVALS',
-    'C2'  : 'ARP LENGTH',
-    'C8'  : 'FILTER RESONANCE'
-    }
-
-def getKeyFromValue(d, v):
-    for key, value in d.items():
-        if v == value:
-            return key
-        raise Exception("No such controller ID.")
-
-def buildCCMap():
-    '''Builds the optimized Controller Code mapping.'''
+    
+    # This is the human readable mapping.
+    # {CONTROLLER_CODES key : TARGET_CODES key}    
+    CC_STRING_MAPPING = {
+        'C16' : 'FILTER CUTOFF',
+        'C1'  : 'ARP PATTERN',
+        'C5'  : 'ARP INTERVALS',
+        'C2'  : 'ARP LENGTH',
+        'C8'  : 'FILTER RESONANCE',
+        'C6'  : 'REVERB TYPE'
+        }
     ccMap = {}
     for controller_id in CC_STRING_MAPPING.keys():
         ccMap[CONTROLLER_CODES[controller_id]] = \
@@ -104,9 +103,6 @@ def buildCCMap():
 
 CC_MAP = buildCCMap()
 gc.collect()
-
-CONTROLLER_OUT = 0x0E
-TARGET_IN = 0x00
 
 led = digitalio.DigitalInOut(board.LED)
 led.direction = digitalio.Direction.OUTPUT
@@ -135,24 +131,19 @@ def handlePitchBend(m):
 def handleNoteOff(m):
     midi.send(NoteOff(m.note))
 
-class MessageRoute:
-    ''' Configuration information for processing different message types.'''
-    def __init__(self, type, handler):
-        self.type = type
-        self.handler = handler
-        
-MESSAGE_ROUTES = (MessageRoute(NoteOn, handleNoteOn),
-                  MessageRoute(ControlChange, handleControlChange),
-                  MessageRoute(PitchBend, handlePitchBend),
-                  MessageRoute(NoteOff, handleNoteOff))
-
 gc.collect()
 print("Free bytes after setup = " + str(gc.mem_free()))
 
 while True:
     msg_in = midi.receive()
-    for route in MESSAGE_ROUTES:
-        if isinstance(msg_in, route.type):
-            route.handler(msg_in)
-    
+    if isinstance(msg_in, NoteOn):
+        handleNoteOn(msg_in)
+    elif isinstance(msg_in, ControlChange):
+        handleControlChange(msg_in)
+    elif isinstance(msg_in, PitchBend):
+        handlePitchBend(msg_in)
+    elif isinstance(msg_in, NoteOff):
+        handleNoteOff(msg_in)
 
+
+    
