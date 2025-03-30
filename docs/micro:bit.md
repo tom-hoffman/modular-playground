@@ -5,18 +5,27 @@ In addition to the Circuit Playground, the "other" widely used microcontroller b
 
 | Feature            | Circuit Playground                     | micro:bit v2                                   |
 |--------------------|----------------------------------------|------------------------------------------------|
-| SoC                | ATSAMD21G18                            | nRF52833                                       |
-| CPU                | ARM Cortex M0                          | ARM Cortex M4 with FPU (floating point math)   |
+| SoC                | ATSAMD21G18                            | nRF52833 (ATSAMD51?)                           |
+| CPU                | ARM Cortex M0                          | ARM Cortex M4                                  |
+| Hardware FPU       | *NO*                                   | *YES*                                          |
 | Max. clock speed   | 48 Mhz                                 | 64 MHz                                         |
 | RAM                | 32K                                    | 128K                                           |
-| Flash memory       | 256K                                   | 512K                                           |
+| Flash memory       | 2 MB                                   | 512K                                           |
+| DAC                | 10-bit, pin A0                         | *NO*                                           |
+| I2S                | no                                     | no                                             |
+| favored Python     | CircuitPython                          | MicroPython                                    |
+| Arduino IDE        | Plug and play                          | a bit more work to set up, fewer examples, etc |
+| Mozzi C++ library  | works                                  | reportedly works with a fair bit of setup      |
 | Makecode           | https://makecode.adafruit.com/         | https://makecode.microbit.org/#editor          |
 | Basic sound & music| yes                                    | yes                                            |
-| Synthesis blocks   | no                                     | yes!!!                                            |
+| Synthesis blocks   | no                                     | *YES!!!*                                       |
 | MIDI out blocks    | no                                     | yes (via extension); limited Bluetooth out     |
 | MIDI in blocks     | no                                     | no                                             |
-| Recording blocks   | no                                     | yes (via extension                             |
+| Recording blocks   | no                                     | yes (via extension)                            |
 
+References:
+* [micro:bit with Arduino setup](https://learn.adafruit.com/use-micro-bit-with-arduino/overview)
+* [micro:bit with Mozzi synth library](https://diyelectromusic.com/2021/04/16/samd-usb-midi-multi-pot-mozzi-synthesis/)
 
 
 
