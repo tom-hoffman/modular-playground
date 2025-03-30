@@ -6,20 +6,21 @@ In addition to the Circuit Playground, the "other" widely used microcontroller b
 | Feature            | Circuit Playground                     | micro:bit v2                                   |
 |--------------------|----------------------------------------|------------------------------------------------|
 | SoC                | ATSAMD21G18                            | nRF52833                                       |
-|                    | * ARM Cortex M0                        | * ARM Cortex M4 with FPU (floating point math) |
-|                    | * 48 Mhz                               | * 64 MHz                                       |
-|                    | * 32K SRAM                             | * 128K RAM                                     |
-|                    | * 256K Flash                           | * 512K Flash                                   |
-|--------------------|----------------------------------------|------------------------------------------------|
+| CPU                | ARM Cortex M0                          | ARM Cortex M4 with FPU (floating point math)   |
+| Max. clock speed   | 48 Mhz                                 | 64 MHz                                         |
+| RAM                | 32K                                    | 128K                                           |
+| Flash memory       | 256K                                   | 512K                                           |
 | Makecode           | https://makecode.adafruit.com/         | https://makecode.microbit.org/#editor          |
-|                    | * basic sound & music blocks           | * basic sound and music blocks                 |
-|                    |                                        | * ext for MIDI out over serial (route to USB?)*|
-|                    |                                        | * ext for recording/sampling(?)*               |
-|                    |                                        | * ext for limited (ios only) Bluetooth MIDI    |
-|--------------------|----------------------------------------|------------------------------------------------|
+| Basic sound & music| yes                                    | yes                                            |
+| Synthesis blocks   | no                                     | yes!!!                                            |
+| MIDI out blocks    | no                                     | yes (via extension); limited Bluetooth out     |
+| MIDI in blocks     | no                                     | no                                             |
+| Recording blocks   | no                                     | yes (via extension                             |
 
 
-* needs testing
+
+
+
 
 
 
