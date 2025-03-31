@@ -33,6 +33,20 @@ References:
 Advantages of micro:bit vs. Circuit Playground
 ----------------------------------------------
 * faster CPU clock **and** dedicated floating point and digital signal processing;
+* 4x more RAM;
+* great API support for audio synthesis in MakeCode and MicroPython;
+* nice self-contained Python libraries (esp. built into web editor);
+* very easy Bluetooth/radio connection between micro:bits;
+
+Advantages of Circutt Playground vs. micro:bit
+----------------------------------------------
+* Digital to audio conversion (DAC) pin -- should be higher fidelity than PWM on micro:bit;
+* more flexible, expressive and compelling user interface with RGB neoPixels;
+* an onboard switch in addition to buttons allows more input flexibility;
+* more capacitive touch points for more input options;
+* all pins are more physically accessible without breakout board;
+* better supported/documented in Arduino IDE;
+* clearer MIDI story in CircuitPython.
 
 MicroPython vs. CircuitPython audio notes
 -----------------------------------------
@@ -40,6 +54,9 @@ MicroPython vs. CircuitPython audio notes
 Both MicroPython and CircuitPython should run on both boards. The micro:bit team favors MicroPython and the Circuit Playground's creators at Adafruit also developed CircuitPython, so those two work together seamlessly. Both language variants also have nice web based editors.
 
 
+TODO:
+* test Circuit Python & MIDI on micro:bit;
+* explore memory usage with MicroPython on micro:bit;
 
 
 
