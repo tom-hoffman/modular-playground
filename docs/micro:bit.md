@@ -12,7 +12,7 @@ This overall analysis is slanted toward music and audio synthesis and processing
 | FPU & DSP hardware | **NO**                                 | **YES**                                        |
 | Max. clock speed   | 48 Mhz                                 | 64 MHz                                         |
 | RAM                | 32K                                    | 128K                                           |
-| Flash memory       | 2 MB                                   | 512K                                           |
+| Flash memory       | 2 MB                                   | **512K**                                       |
 | DAC                | 10-bit, pin A0                         | **NO**                                         |
 | I2S                | no                                     | no                                             |
 | favored Python     | CircuitPython                          | MicroPython                                    |
@@ -33,7 +33,7 @@ References:
 Advantages of micro:bit vs. Circuit Playground
 ----------------------------------------------
 * faster CPU clock **and** dedicated floating point and digital signal processing;
-* 4x more RAM;
+* 4x more RAM (but flash space is limiting for MicroPython modules);
 * great API support for audio synthesis in MakeCode and MicroPython;
 * nice self-contained Python libraries (esp. built into web editor);
 * very easy Bluetooth/radio connection between micro:bits;
@@ -41,12 +41,13 @@ Advantages of micro:bit vs. Circuit Playground
 Advantages of Circutt Playground vs. micro:bit
 ----------------------------------------------
 * Digital to audio conversion (DAC) pin -- should be higher fidelity than PWM on micro:bit;
+* more flash allows more CircuitPython libraries;
 * more flexible, expressive and compelling user interface with RGB neoPixels;
 * an onboard switch in addition to buttons allows more input flexibility;
 * more capacitive touch points for more input options;
 * all pins are more physically accessible without breakout board;
 * better supported/documented in Arduino IDE;
-* clearer MIDI story in CircuitPython.
+* USB MIDI support in CircuitPython (thanks to plentiful flash).
 
 MicroPython vs. CircuitPython audio notes
 -----------------------------------------
