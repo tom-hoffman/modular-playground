@@ -22,6 +22,21 @@ The broadest mission met by the Modular Playground is to create a long term, ope
 
 To create modular (audio) synthesizers and modular synthesis components based on Adafruit's Circuit Playground microcontrollers.
 
+#### Why Circuit Playgrounds?
+
+The first reason for basing this project on the Circuit Playground is that our school purchased class sets of them to teach the popular Code.org Computer Science Discoveries course.  This course is widely taught in US middle and high schools.  In exploring and testing various approaches and microcontrollers, it became apparent that there were some significant advantages to the Circuit Playground, despite the fact that on raw processing and memory terms, there are many more powerful microcontrollers available at lower prices.
+
+Advantages:
+  * We've already paid for them and have a set sitting in the closet most of the year.
+  * Interesting user interface options for synthesizer modules:
+    * Circle of 10 LED neopixels works great for common uses like displaying levels and sequencer steps.
+    * RBG neopixels allow 3 or more layers of information simultaneously (e.g., blue shows sequence steps, green shows  triggers, red shows active step in sequence).
+    * On board switch allows two-mode interface, e.g., performance mode is switch right and configuration mode is switch left, which works well as a standard for many modules.
+    * Two built in buttons are minimal usually enough in combination with switch.
+    * 
+  * Excellent MIDI over USB (USB-MIDI) support in both Circuit Python and Arduino C++ (not true of all similar boards).
+  * 
+
 [a complete system or part of a system with 3rd party components using standard protocols and formats]
 
 
