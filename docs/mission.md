@@ -22,6 +22,7 @@ The broadest mission met by the Modular Playground is to create a long term, ope
 
 To create modular (audio) synthesizers and modular synthesis components based on Adafruit's Circuit Playground microcontrollers.
 
+[a complete system or part of a system with 3rd party components using standard protocols and formats]
 
 
 #### Guidelines
@@ -33,9 +34,4 @@ To create modular (audio) synthesizers and modular synthesis components based on
   * For C++ projects, the Mozzi synthesis library is recommended.
   * No part of the project should depend on digital audio workstation (DAW) components.
 
-### General Guidelines
-  * creating components that interact with other modular music making tools and technologies are good, particularly using USB-MIDI or analog triggers or control voltages;
-  * additional support hardware should be kept simple and commonly accessible;
-  * some open source CAD work and 3d printing is good;
-  * soldering is to be avoided;
-  * Digital Audio Workstation (DAW) software is to be avoided.
+
