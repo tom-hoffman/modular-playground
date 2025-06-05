@@ -22,7 +22,7 @@ The broadest mission met by the Modular Playground is to create a long term, ope
 
 To create modular (audio) synthesizers and modular synthesis components based on Adafruit's Circuit Playground microcontrollers.
 
-#### Why Circuit Playgrounds?
+#### Why Circuit Playground?
 
 The first reason for basing this project on the Circuit Playground is that our school purchased class sets of them to teach the popular Code.org Computer Science Discoveries course.  This course is widely taught in US middle and high schools.  In exploring and testing various approaches and microcontrollers, it became apparent that there were some significant advantages to the Circuit Playground, despite the fact that on raw processing and memory terms, there are many more powerful microcontrollers available at lower prices.
 
@@ -32,10 +32,12 @@ Advantages:
     * Circle of 10 LED neopixels works great for common uses like displaying levels and sequencer steps.
     * RBG neopixels allow 3 or more layers of information simultaneously (e.g., blue shows sequence steps, green shows  triggers, red shows active step in sequence).
     * On board switch allows two-mode interface, e.g., performance mode is switch right and configuration mode is switch left, which works well as a standard for many modules.
-    * Two built in buttons are minimal usually enough in combination with switch.
-    * 
+    * Two built in buttons are minimal but usually enough in combination with switch.
+    * Up to 8 capacitive touch pads allow auxiliary button inputs (although somewhat slower and less reliable than the standard buttons).
+    * Additional sensors allow development of a variety of interesting controllers (e.g., light-based theramin MIDI controller).
   * Excellent MIDI over USB (USB-MIDI) support in both Circuit Python and Arduino C++ (not true of all similar boards).
-  * 
+  * Built in 10-bit Digital to Analog Converter (DAC) for better audio quality (than relying on pulse wave modulation (PWM) without a DAC).
+  * Great libraries and development environments in both Circuit Python and Arduino C++ supported by Adafruit, including web-based IDE's.
 
 [a complete system or part of a system with 3rd party components using standard protocols and formats]
 
