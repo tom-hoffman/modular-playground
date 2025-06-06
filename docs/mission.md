@@ -22,6 +22,8 @@ The broadest mission met by the Modular Playground is to create a long term, ope
 
 To create modular (audio) synthesizers and modular synthesis components based on Adafruit's Circuit Playground microcontrollers.
 
+
+
 #### Why Circuit Playground?
 
 The first reason for basing this project on the Circuit Playground is that our school purchased class sets of them to teach the popular Code.org Computer Science Discoveries course.  This course is widely taught in US middle and high schools.  In exploring and testing various approaches and microcontrollers, it became apparent that there were some significant advantages to the Circuit Playground, despite the fact that on raw processing and memory terms, there are many more powerful microcontrollers available at lower prices.
