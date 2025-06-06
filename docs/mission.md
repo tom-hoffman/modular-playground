@@ -22,7 +22,7 @@ The broadest mission met by the Modular Playground is to create a long term, ope
 
 To create modular (audio) synthesizers and modular synthesis components based on Adafruit's Circuit Playground microcontrollers.
 
-
+The first step in this process is to create individual modules that interact with existing sythesizers and other modules, via MIDI primarily and secondarily through analog control and trigger voltages.  Example basic module types include: sequencers, oscillators, audio sample players, and MIDI utilities.  
 
 #### Why Circuit Playground?
 
