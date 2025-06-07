@@ -20,13 +20,21 @@ The broadest mission met by the Modular Playground is to create a long term, ope
 
 ### Practical Project Mission
 
-To create modular (audio) synthesizers and modular synthesis components based on Adafruit's Circuit Playground microcontrollers.
+To create modular (audio) synthesizers and modular synthesis components based on Adafruit's Circuit Playground Express (CPX) or Circuit Playground Bluefruit (CPB) microcontroller development boards.
 
-The first step in this process is to create individual modules that interact with existing sythesizers and other modules, via MIDI primarily and secondarily through analog control and trigger voltages.  Example basic module types include: sequencers, oscillators, audio sample players, and MIDI utilities.  
+The first step in this process is to create individual modules that interact with existing sythesizers and other modules, via MIDI primarily and secondarily through analog control and trigger voltages.  Example basic module types include: sequencers, oscillators, audio sample players, arpeggiators and MIDI utilities.  
+
+#### What is the scope of the project?
+
+There are a few types of projects encompassed by this project:
+
+  * Modular Playground is an **open source software project**, that is, we're writing software to be freely shared under an open source software license, primarily though Github.
+  * Modular Playground is a **synthesizer format**, specifying how compatible modules should interact and communicate with each other and how they can by physically mounted together to work as a single instrument.  Other sythesizer formats include Eurorack, Moog Unit (5U) and Kosmo.  In the compact tabletop synthesizer world, Korg's Volca series represents an example of a de-facto format.  The particulars of Modular Playground's format are based on the specifications of the CPX board.
+  * Modular Playground is an **open source software distribution**, that is, a set of multiple pieces of open source software specifically modified and tested to work together reliably, particularly on specified hardware.  There are *many* microcontroller-based music synthesis projects that can be adapted with varying degrees of difficulty to work on the CPX and as part of a Modular Playground system.  This kind of adaptation and testing is very typical work in a professional environment.
 
 #### Why Circuit Playground?
 
-The first reason for basing this project on the Circuit Playground is that our school purchased class sets of them to teach the popular Code.org Computer Science Discoveries course.  This course is widely taught in US middle and high schools.  In exploring and testing various approaches and microcontrollers, it became apparent that there were some significant advantages to the Circuit Playground, despite the fact that on raw processing and memory terms, there are many more powerful microcontrollers available at lower prices.
+The first reason for basing this project on the CPX is that our school purchased class sets of them to teach the popular Code.org Computer Science Discoveries course.  This course is widely taught in US middle and high schools.  In exploring and testing various approaches and microcontrollers, it became apparent that there were some significant advantages to the Circuit Playground, despite the fact that on raw processing and memory terms, there are many more powerful microcontrollers available at lower prices.
 
 Advantages:
   * We've already paid for them and have a set sitting in the closet most of the year.
@@ -47,7 +55,7 @@ Advantages:
 #### Guidelines
   * USB-MIDI is the preferred means of communication between components.
   * No components should be directly soldered, but custom jacks/connectors may need to be soldered to wires, crimping is acceptible if effective in a given case.  Nothing should be permanently attached to a Circuit Playground.
-  * Each module should be fully functional with only the sensors, LEDs and buttons integrated into the Circuit Playground (that is, not depending on wiring up additional buttons, etc.).
+  * Each module should be fully functional with only the sensors, LEDs and buttons integrated into the CPX (that is, not depending on wiring up additional buttons, etc.).
   * For enhanced monitoring modules using a LCD, the Adafruit TFT Gizmo is recommended.
   * Circuit Python and Arduino IDE C++ are both acceptable, with Circuit Python preferred when it offers sufficient performance.
   * For C++ projects, the Mozzi synthesis library is recommended.
