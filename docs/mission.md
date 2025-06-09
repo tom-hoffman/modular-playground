@@ -49,8 +49,12 @@ Advantages:
   * Built in 10-bit Digital to Analog Converter (DAC) for better audio quality (than relying on pulse wave modulation (PWM) without a DAC).
   * Great libraries and development environments in both Circuit Python and Arduino C++ supported by Adafruit, including web-based IDE's.
 
-[a complete system or part of a system with 3rd party components using standard protocols and formats]
+Disadvantages:
+  * The CPX does not have a dedicated floating point unit (FPU) or other digital signal processing hardware that would allow high quality, low-latency audio effect processing.  
+  * A wider range of voltage input and output (e.g., +5 volts) would give wider control voltage compatibility with Eurorack and other standard modules.
+  * RAM is barely adequate for simple CircuitPython programming once necessary libraries for USB-MIDI, etc. are imported.
 
+[a complete system or part of a system with 3rd party components using standard protocols and formats]
 
 #### Guidelines
   * USB-MIDI is the preferred means of communication between components.
