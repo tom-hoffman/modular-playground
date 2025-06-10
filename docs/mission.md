@@ -80,6 +80,8 @@ It *seems* like most CPX code should be forward compatible to the CPB, particula
       * [audiomixer](https://docs.circuitpython.org/en/latest/shared-bindings/audiomixer/index.html)
       * [audiomp3](https://docs.circuitpython.org/en/latest/shared-bindings/audiomp3/index.html)
 
+We do encourage deveopers to get the most out of the CPX before jumping to CPB.
+
 #### What about the Circuit Playground Classic?
 Most importantly, the Circuit Playground Classic (CPC) does not support CircuitPython at all, so that will exclude many if not most modules going forward.  Arduino C++ programs *may* work, but backward compatibility is not a priority at the start of this project.  The CPC is a bit cheaper purchased individually at [$19.95](https://www.adafruit.com/product/3000) (as of 6/10/2025), but it is hard to imagine people are still purchasing a lot of these, and my impression is that there are many more CPX in the field than CPC.  Again, down the road some compatibility testing would be a good project for some students.
 
