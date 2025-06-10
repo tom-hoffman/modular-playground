@@ -32,9 +32,9 @@ There are a few types of projects encompassed by this project:
   * Modular Playground is a **synthesizer format**, specifying how compatible modules should interact and communicate with each other and how they can by physically mounted together to work as a single instrument.  Other sythesizer formats include Eurorack, Moog Unit (5U) and Kosmo.  In the compact tabletop synthesizer world, Korg's Volca series represents an example of a de-facto format.  The particulars of Modular Playground's format are based on the specifications of the CPX board.
   * Modular Playground is an **open source software distribution**, that is, a set of multiple pieces of open source software specifically modified and tested to work together reliably, particularly on specified hardware.  There are *many* microcontroller-based music synthesis projects that can be adapted with varying degrees of difficulty to work on the CPX and as part of a Modular Playground system.  This kind of adaptation and testing is very typical work in a professional environment.
 
-#### Why Circuit Playground?
+#### Why Circuit Playground Express?
 
-The first reason for basing this project on the CPX is that our school purchased class sets of them to teach the popular Code.org Computer Science Discoveries course.  This course is widely taught in US middle and high schools.  In exploring and testing various approaches and microcontrollers, it became apparent that there were some significant advantages to the Circuit Playground, despite the fact that on raw processing and memory terms, there are many more powerful microcontrollers available at lower prices.
+The first reason for basing this project on the CPX is that our school purchased class sets of them to teach the popular Code.org Computer Science Discoveries course.  This course is widely taught in US middle and high schools.  In exploring and testing various approaches and microcontrollers, it became apparent that there were some significant advantages to the Circuit Playground Express, despite the fact that on raw processing and memory terms, there are many more powerful microcontrollers available at lower prices.
 
 Advantages:
   * We've already paid for them and have a set sitting in the closet most of the year.
@@ -55,7 +55,32 @@ Disadvantages:
   * A wider range of voltage input and output (e.g., +5 volts) would give wider control voltage compatibility with Eurorack and other standard modules.
   * RAM is barely adequate for simple CircuitPython programming once necessary libraries for USB-MIDI, etc. are imported.
 
-[a complete system or part of a system with 3rd party components using standard protocols and formats]
+#### What about the Circuit Playground Bluefruit?
+
+Advantages of CPB over CPX:
+  * Faster processor -- Cortex M4 vs. Cortex M0 for CPX.
+  * More RAM -- particularly significant for Circuit Python programming.
+  * Compatible with CircuitPython's powerful [synthio](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#) library and a few others listed below. (CPX does not have enough RAM).
+  * Bluetooth for wireless communication and [Bluetooth MIDI](https://docs.circuitpython.org/projects/ble_midi/en/latest/).
+  * Currently the same price for a single unit as CPX ($24.95 as of 6/10/2025).
+Disadvantages of CPB vs. CPX:
+  * Not sold in class sets for Code.org and other curricula so unlikely to already be lying around in large numbers.
+  * Buying 15 individual CPB is more expensive than a [class set of CPX](https://www.adafruit.com/product/3399).
+  * No hardware DAC output pin; the "audio" pin provides high frequency pulse width modulation but not true DAC.
+
+##### How compatible is code between the two?
+It *seems* like most CPX code should be forward compatible to the CPB, particularly in CircuitPython, but at this early point, I don't think any promises should be made about universal compatibility with CPB.  I would regard this as a good task for year two or three of the project: doing compatibility testing and considering whether an abstraction layer is necessary or desirable to smooth out any issues in CircuitPython or C++.  I would consider forward compatibility to be a premature optimization in starting this project.
+
+##### Where would dedicated CPB hardware modules be potentially useful?
+  1. Providing a bridge to external Bluetooth MIDI devices, particularly tablets and smartphones.
+  2. CircuitPython modules making specific use of:
+    * [synthio](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#)
+    * [audiomixer](https://docs.circuitpython.org/en/latest/shared-bindings/audiomixer/index.html)
+    * [audiomp3](https://docs.circuitpython.org/en/latest/shared-bindings/audiomp3/index.html)
+
+
+
+  [a complete system or part of a system with 3rd party components using standard protocols and formats]
 
 #### Guidelines
   * USB-MIDI is the preferred means of communication between components.
