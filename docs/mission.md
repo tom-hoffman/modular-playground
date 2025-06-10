@@ -73,13 +73,18 @@ The first reason for basing this project on the CPX is that our school purchased
 It *seems* like most CPX code should be forward compatible to the CPB, particularly in CircuitPython, but at this early point, I don't think any promises should be made about universal compatibility with CPB.  I would regard this as a good task for year two or three of the project: doing compatibility testing and considering whether an abstraction layer is necessary or desirable to smooth out any issues in CircuitPython or C++.  I would consider forward compatibility to be a premature optimization in starting this project.
 
 ##### Where would dedicated CPB hardware modules be potentially useful?
+
   1. Providing a bridge to external Bluetooth MIDI devices, particularly tablets and smartphones.
   2. CircuitPython modules making specific use of:
-    * [synthio](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#)
-    * [audiomixer](https://docs.circuitpython.org/en/latest/shared-bindings/audiomixer/index.html)
-    * [audiomp3](https://docs.circuitpython.org/en/latest/shared-bindings/audiomp3/index.html)
+      * [synthio](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#)
+      * [audiomixer](https://docs.circuitpython.org/en/latest/shared-bindings/audiomixer/index.html)
+      * [audiomp3](https://docs.circuitpython.org/en/latest/shared-bindings/audiomp3/index.html)
 
+#### What about the Circuit Playground Classic?
+Most importantly, the Circuit Playground Classic (CPC) does not support CircuitPython at all, so that will exclude many if not most modules going forward.  Arduino C++ programs *may* work, but backward compatibility is not a priority at the start of this project.  The CPC is a bit cheaper purchased individually at [$19.95](https://www.adafruit.com/product/3000) (as of 6/10/2025), but it is hard to imagine people are still purchasing a lot of these, and my impression is that there are many more CPX in the field than CPC.  Again, down the road some compatibility testing would be a good project for some students.
 
+#### What about (my favorite microcontroller board)!?!?
+(Your favorite microcontroller board) is awesome!  You should make some modules that communicate with Modular Playground modules using USB-MIDI!  However, those awesome modules will be separate projects.  Modular Playground is for Circuit Playground Expresses and occasionally Circuit Playground Bluetooths (blueteeth?), which share the same form factor and quirky but flexible user interface.
 
   [a complete system or part of a system with 3rd party components using standard protocols and formats]
 
