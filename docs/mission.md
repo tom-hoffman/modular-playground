@@ -11,8 +11,8 @@ The broadest mission met by the Modular Playground is to create a long term, ope
   * The end product(s) should be usable *and engaging* to at least some high school and middle school students for real work/play.
   * Each module runs on standard, relatively inexpensive microcontroller development boards already widely owned by US schools.
   * Modules should interface with existing commercial and open source tools and products using standard protocols.
-  * The coding skills needed to contribute a genuinely useful module is within reach of a student who has successfully completed AP Computer Science Principles.
-  * The overall emphasis must remain on coding, optimizing use of microcontrollers already owned by the school, and minimizing non-reversible changes to the hardware (which may be needed for other classes/projects).
+  * A student who has successfully completed AP Computer Science Principles should have the core programming competencies necessary to complete a module. 
+  * The overall emphasis should remain on coding, optimizing use of microcontrollers already owned by the school, and minimizing non-reversible changes to the hardware (which may be needed for other classes/projects).
   * A competent small group of students should be able to *fully* complete a module in less than a semester.
   * A completed module/project should include not just coding and unit testing but integration testing with the rest of the system and external compatible tools, technical and end-user documentation.
   * Overall project documentation, publicity and promotion is integral to the process.
@@ -99,4 +99,10 @@ Most importantly, the Circuit Playground Classic (CPC) does not support CircuitP
   * For C++ projects, the Mozzi synthesis library is recommended.
   * No part of the project should depend on digital audio workstation (DAW) components.
 
-
+### Additional hardware needed
+In Modular Playground, USB provides both power and MIDI connectivity to the CPX in a single cable.  In testing this has proven to be reliable and robust.  This requires the following additional hardware:
+    1. **USB hub**:  For a reliable setup, we recommend a powered USB 2 or 3 hub with 10 or 15 ports.  These are commonly available on Amazon and similar sources for $30 - $80.  Separate power buttons on the hub are a nice but not essential feature.  Make sure it supports *data* transfer, not just power.  
+    2. **PC as USB host**:  There are a few options here:
+        * In theory, any Windows, Mac, or Linux PC can be configured to act as the host for USB-MIDI communications.  In practice, this process can fail silently for a variety of reasons and will prevent any communication at all between the CPX modules.  We don't recommend starting this way until the correct process can be fully documented.
+        * Most sites that already have a set of Circuit Playgrounds probably also have a stash of Rasberry Pi's, and a Pi 3 or greater can act as a USB MIDI host.  There are clear instructions online for setting up a Pi running Linux as a USB-MIDI host which have proven to be very reliable.  The Pi is small enough that it can fit alongside the CPXs on a board or in a case to create a self-contained instrument (i.e., you don't also have to plug the whole thing into a laptop).  In the long run, an advanced project would be to manage the software on the set of connected CPX's through the Raspberry PI through a web interface, for example, by assigning specific roles (MIDI clock, step sequencer, bass drum) to each CPX.
+        * Some microcontroller boards, such as the Arduino Due or Adafruit Metro RP2350 can act as USB hosts, but this has not been tested and the price difference between these boards and a Raspberry Pi 3 or 4 does not seem to be worth the bother, but it is another point for additional study and testing.
