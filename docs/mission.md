@@ -36,7 +36,7 @@ There are a few types of projects encompassed by this project:
 
 The first reason for basing this project on the CPX is that our school purchased class sets of them to teach the popular Code.org Computer Science Discoveries course.  This course is widely taught in US middle and high schools.  In exploring and testing various approaches and microcontrollers, it became apparent that there were some significant advantages to the Circuit Playground Express, despite the fact that on raw processing and memory terms, there are many more powerful microcontrollers available at lower prices.
 
-Advantages:
+##### Advantages:
   * We've already paid for them and have a set sitting in the closet most of the year.
   * Interesting user interface options for synthesizer modules:
     * Circle of 10 LED neopixels works great for common uses like displaying levels and sequencer steps.
@@ -50,20 +50,21 @@ Advantages:
   * Great libraries and development environments in both Circuit Python and Arduino C++ supported by Adafruit, including web-based IDE's.
   * Good compatibility with the open source [Mozzi](https://sensorium.github.io/Mozzi/) C++ audio and synthesis library.
 
-Disadvantages:
+##### Disadvantages:
   * The CPX does not have a dedicated floating point unit (FPU) or other digital signal processing hardware that would allow high quality, low-latency audio effect processing.  
   * A wider range of voltage input and output (e.g., +5 volts) would give wider control voltage compatibility with Eurorack and other standard modules.
   * RAM is barely adequate for simple CircuitPython programming once necessary libraries for USB-MIDI, etc. are imported.
 
 #### What about the Circuit Playground Bluefruit?
 
-Advantages of CPB over CPX:
+##### Advantages of CPB over CPX:
   * Faster processor -- Cortex M4 vs. Cortex M0 for CPX.
   * More RAM -- particularly significant for Circuit Python programming.
   * Compatible with CircuitPython's powerful [synthio](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#) library and a few others listed below. (CPX does not have enough RAM).
   * Bluetooth for wireless communication and [Bluetooth MIDI](https://docs.circuitpython.org/projects/ble_midi/en/latest/).
   * Currently the same price for a single unit as CPX ($24.95 as of 6/10/2025).
-Disadvantages of CPB vs. CPX:
+
+##### Disadvantages of CPB vs. CPX:
   * Not sold in class sets for Code.org and other curricula so unlikely to already be lying around in large numbers.
   * Buying 15 individual CPB is more expensive than a [class set of CPX](https://www.adafruit.com/product/3399).
   * No hardware DAC output pin; the "audio" pin provides high frequency pulse width modulation but not true DAC.
