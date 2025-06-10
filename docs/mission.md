@@ -34,7 +34,7 @@ There are a few types of projects encompassed by this project:
 
 #### Why Circuit Playground Express?
 
-The first reason for basing this project on the CPX is that our school, like many other schools, libraries, maker spaces, etc., purchased class sets of them to teach the popular Code.org Computer Science Discoveries course and other similar curricula.  CS Discoveries specifically is widely taught in US middle and high schools.  In exploring and testing various approaches and microcontrollers, it became apparent that in addition to the wide availability there were some significant advantages to the Circuit Playground Express, despite the fact that on raw processing and memory terms, there are many more powerful microcontrollers available at lower prices.
+The first reason for basing this project on the CPX is that our school, like many other schools, libraries, maker spaces, etc., purchased class sets of 15 boards to teach the popular Code.org Computer Science Discoveries course and other similar curricula.  CS Discoveries specifically is widely taught in US middle and high schools.  In exploring and testing various approaches and microcontrollers, it became apparent that in addition to the wide availability there were some significant advantages to the Circuit Playground Express, despite the fact that on raw processing and memory terms, there are many more powerful microcontrollers available at lower prices.
 
 ##### Advantages:
   * We've already paid for them and have a set sitting in the closet most of the year.
@@ -60,7 +60,7 @@ This project starts from a unique starting point: *"Assume 15 microcontrollers..
 
 Let's say we are working on a sequencer.  In terms of computing power, a single CPX could easily run a very complex sequencer with many channels, steps and outputs.  Normally, one would add a variety of buttons, LEDs, other displays, etc. which would all be connected ultimately to a single microcontroller.  In the Modular Playground, the job of the sequencer would be split between multiple CPXs, not because of computational load, but to provide enough inputs and outputs for the user interface.  
 
-For example, each CPX might represent a single track in an 8 step sequencer, so you would need four CPX for a four track sequencer with 8 steps.  From a normal cost perspective as a synth manufacturer or hobbyist this makes no sense -- you're using a 3 $30 boards in the place of maybe $2 in buttons and LEDs.  On the other hand, if the motivation is giving students a context in which to write highly modular code working in a real computing system, and being creative within a limited user interface, using hardware the school already owns, then it makes total sense.
+For example, each CPX might represent a single track in an 8 step sequencer, so you would need four CPX for a four track sequencer with 8 steps.  From a normal cost perspective as a synth manufacturer or hobbyist this makes no sense -- you're using a 3 $30 boards in the place of maybe $10 in buttons and LEDs.  On the other hand, if the motivation is giving students a context in which to write highly modular code working in a real computing system, and being creative within a limited user interface, while using hardware the school already owns, then it makes total sense.
 
 #### What about the Circuit Playground Bluefruit?
 
