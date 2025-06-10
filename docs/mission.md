@@ -48,6 +48,7 @@ Advantages:
   * Excellent MIDI over USB (USB-MIDI) support in both Circuit Python and Arduino C++ (not true of all similar boards).
   * Built in 10-bit Digital to Analog Converter (DAC) for better audio quality (than relying on pulse wave modulation (PWM) without a DAC).
   * Great libraries and development environments in both Circuit Python and Arduino C++ supported by Adafruit, including web-based IDE's.
+  * Good compatibility with the open source [Mozzi](https://sensorium.github.io/Mozzi/) C++ audio and synthesis library.
 
 Disadvantages:
   * The CPX does not have a dedicated floating point unit (FPU) or other digital signal processing hardware that would allow high quality, low-latency audio effect processing.  
