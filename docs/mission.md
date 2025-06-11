@@ -32,11 +32,13 @@ There are a few types of projects encompassed by this project:
   * Modular Playground is a **synthesizer format**, specifying how compatible modules should interact and communicate with each other and how they can by physically mounted together to work as a single instrument.  Other sythesizer formats include Eurorack, Moog Unit (5U) and Kosmo.  In the compact tabletop synthesizer world, Korg's Volca series represents an example of a de-facto format.  The particulars of Modular Playground's format are based on the specifications of the CPX board.
   * Modular Playground is an **open source software distribution**, that is, a set of multiple pieces of open source software specifically modified and tested to work together reliably, particularly on specified hardware.  There are *many* microcontroller-based music synthesis projects that can be adapted with varying degrees of difficulty to work on the CPX and as part of a Modular Playground system.  This kind of adaptation and testing is very typical work in a professional environment.
 
-#### Why Circuit Playground Express?
+## Hardware considerations
+
+### Why Circuit Playground Express?
 
 The first reason for basing this project on the CPX is that our school, like many other schools, libraries, maker spaces, etc., purchased class sets of 15 boards to teach the popular Code.org Computer Science Discoveries course and other similar curricula.  CS Discoveries specifically is widely taught in US middle and high schools.  In exploring and testing various approaches and microcontrollers, it became apparent that in addition to the wide availability there were some significant advantages to the Circuit Playground Express, despite the fact that on raw processing and memory terms, there are many more powerful microcontrollers available at lower prices.
 
-##### Advantages:
+#### Advantages:
   * We've already paid for them and have a set sitting in the closet most of the year.
   * Interesting user interface options for synthesizer modules:
     * Circle of 10 LED neopixels works great for common uses like displaying levels and sequencer steps.
@@ -50,36 +52,36 @@ The first reason for basing this project on the CPX is that our school, like man
   * Great libraries and development environments in both Circuit Python and Arduino C++ supported by Adafruit, including web-based IDE's.
   * Good compatibility with the open source [Mozzi](https://sensorium.github.io/Mozzi/) C++ audio and synthesis library.
 
-##### Disadvantages:
+#### Disadvantages:
   * The CPX does not have a dedicated floating point unit (FPU) or other digital signal processing hardware that would allow high quality, low-latency audio effect processing.  
   * A wider range of voltage input and output (e.g., +5 volts) would give wider control voltage compatibility with Eurorack and other standard modules.
   * RAM is barely adequate for simple CircuitPython programming once necessary libraries for USB-MIDI, etc. are imported.
 
-##### Design implications
+#### Design implications
 This project starts from a unique starting point: *"Assume 15 microcontrollers..."*  In addition, each microcontroller is mounted on its own circular circuit board with its own buttons, switch and set of NeoPixels and LEDs.  
 
 Let's say we are working on a sequencer.  In terms of computing power, a single CPX could easily run a very complex sequencer with many channels, steps and outputs.  Normally, one would add a variety of buttons, LEDs, other displays, etc. which would all be connected ultimately to a single microcontroller.  In the Modular Playground, the job of the sequencer would be split between multiple CPXs, not because of computational load, but to provide enough inputs and outputs for the user interface.  
 
 For example, each CPX might represent a single track in an 8 step sequencer, so you would need four CPX for a four track sequencer with 8 steps.  From a normal cost perspective as a synth manufacturer or hobbyist this makes no sense -- you're using a 3 $30 boards in the place of maybe $10 in buttons and LEDs.  On the other hand, if the motivation is giving students a context in which to write highly modular code working in a real computing system, and being creative within a limited user interface, while using hardware the school already owns, then it makes total sense.
 
-#### What about the Circuit Playground Bluefruit?
+### What about the Circuit Playground Bluefruit?
 
-##### Advantages of CPB over CPX:
+#### Advantages of CPB over CPX:
   * Faster processor -- Cortex M4 vs. Cortex M0 for CPX.
   * More RAM -- particularly significant for Circuit Python programming.
   * Compatible with CircuitPython's powerful [synthio](https://docs.circuitpython.org/en/latest/shared-bindings/synthio/index.html#) library and a few others listed below. (CPX does not have enough RAM).
   * Bluetooth for wireless communication and [Bluetooth MIDI](https://docs.circuitpython.org/projects/ble_midi/en/latest/).
   * Currently the same price for a single unit as CPX ($24.95 as of 6/10/2025).
 
-##### Disadvantages of CPB vs. CPX:
+#### Disadvantages of CPB vs. CPX:
   * Not sold in class sets for Code.org and other curricula so unlikely to already be lying around in large numbers.
   * Buying 15 individual CPB is more expensive than a [class set of CPX](https://www.adafruit.com/product/3399).
   * No hardware DAC output pin; the "audio" pin provides high frequency pulse width modulation but not true DAC.
 
-##### How compatible is code between the two?
+#### How compatible is code between the two?
 It *seems* like most CPX code should be forward compatible to the CPB, particularly in CircuitPython, but at this early point, I don't think any promises should be made about universal compatibility with CPB.  I would regard this as a good task for year two or three of the project: doing compatibility testing and considering whether an abstraction layer is necessary or desirable to smooth out any issues in CircuitPython or C++.  I would consider forward compatibility to be a premature optimization in starting this project.
 
-##### Where would dedicated CPB hardware modules be potentially useful?
+#### Where would dedicated CPB hardware modules be potentially useful?
 
   1. Providing a bridge to external Bluetooth MIDI devices, particularly tablets and smartphones.
   2. CircuitPython modules making specific use of:
@@ -89,15 +91,15 @@ It *seems* like most CPX code should be forward compatible to the CPB, particula
 
 We do encourage deveopers to get the most out of the CPX before jumping to CPB.
 
-#### What about the Circuit Playground Classic?
+### What about the Circuit Playground Classic?
 Most importantly, the Circuit Playground Classic (CPC) does not support CircuitPython at all, so that will exclude many if not most modules going forward.  Arduino C++ programs *may* work, but backward compatibility is not a priority at the start of this project.  The CPC is a bit cheaper purchased individually at [$19.95](https://www.adafruit.com/product/3000) (as of 6/10/2025), but it is hard to imagine people are still purchasing a lot of these, and my impression is that there are many more CPX in the field than CPC.  Again, down the road some compatibility testing would be a good project for some students.
 
-#### What about (my favorite microcontroller board)!?!?
+### What about (my favorite microcontroller board)!?!?
 (Your favorite microcontroller board) is awesome!  You should make some modules that communicate with Modular Playground modules using USB-MIDI!  However, those awesome modules will be separate projects.  Modular Playground is for Circuit Playground Expresses and occasionally Circuit Playground Bluetooths (blueteeth?), which share the same form factor and quirky but flexible user interface.
 
   [a complete system or part of a system with 3rd party components using standard protocols and formats]
 
-#### Guidelines
+### Guidelines
   * USB-MIDI is the preferred means of communication between components.
   * No components should be directly soldered, but custom jacks/connectors may need to be soldered to wires, crimping is acceptible if effective in a given case.  Nothing should be permanently attached to a Circuit Playground.
   * Each module should be fully functional with only the sensors, LEDs and buttons integrated into the CPX (that is, not depending on wiring up additional buttons, etc.).
@@ -106,7 +108,7 @@ Most importantly, the Circuit Playground Classic (CPC) does not support CircuitP
   * For C++ projects, the Mozzi synthesis library is recommended.
   * No part of the project should depend on digital audio workstation (DAW) components.
 
-### Additional hardware needed
+## Additional hardware needed
 In Modular Playground, USB provides both power and MIDI connectivity to the CPX in a single cable.  In testing this has proven to be reliable and robust.  This requires the following additional hardware:
   1. **USB hub**:  For a reliable setup, we recommend a powered USB 2 or 3 hub with 10 or 15 ports.  These are commonly available on Amazon and similar sources for $30 - $80.  Separate power buttons on the hub are a nice but not essential feature.  Make sure it supports *data* transfer, not just power.    
   1. **PC as USB host**:  There are a few options here:
