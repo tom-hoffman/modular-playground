@@ -80,6 +80,7 @@ class Bar(CPixUI):
         self.color = color
 
     def clear(self):
+        # should I slice the list and iterate over it?  better style?
         for i in range(self.END, self.START + 1):
             self.pixels[i] = self.NO_LIGHT
 
