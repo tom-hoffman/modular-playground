@@ -14,8 +14,10 @@
 # Notes
 # parameter pixels is assumed to be the list of 10 neopixels in a CP. 
 
-import gc
+import gc  # for development
+
 import neopixel
+from adafruit_debouncer import Debouncer
 
 class CPixUI(object):
     """Base class for widgets, mostly shared constants."""
