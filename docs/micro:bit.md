@@ -16,7 +16,7 @@ This overall analysis is slanted toward music and audio synthesis and processing
 | DAC                | 10-bit, pin A0                         | **NO**                                         |
 | I2S                | no                                     | no                                             |
 | favored Python     | CircuitPython                          | MicroPython                                    |
-| Arduino IDE        | Plug and play                          | a more work to set up, fewer examples, etc     |
+| Arduino IDE        | Plug and play                          | more work to set up, fewer examples, etc     |
 | Mozzi C++ library  | works                                  | reportedly works with a fair bit of setup      |
 | Makecode           | https://makecode.adafruit.com/         | https://makecode.microbit.org/#editor          |
 | Basic sound & music| yes                                    | yes                                            |
