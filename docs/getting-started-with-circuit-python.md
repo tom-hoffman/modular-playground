@@ -26,3 +26,7 @@
         import storage
         storage.erase_filesystem()
         ```
+* Useful links:
+  * [Adafruit docs](https://docs.circuitpython.org/en/latest/README.html)
+  * [Memory saving tips](https://learn.adafruit.com/Memory-saving-tips-for-CircuitPython/overview)
+  * [todbot Tricks (esp. `synthio`)](https://github.com/todbot/circuitpython-tricks)
