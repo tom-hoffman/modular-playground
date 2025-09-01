@@ -18,3 +18,5 @@
     * If this is working, you should see a spinning Python animation (ouroboros),
       and the neopixels will turn white.
     * Then select the CIRCUITPY drive as the "host folder."
+  * For Ubunutu: DON'T use https://code.circuitpython.org!!! (not sure why it doesn't work)
+    * Bare Text Editor and screen in the terminal seems to be the way to go.  If it doesn't work it doesn't work directly!
