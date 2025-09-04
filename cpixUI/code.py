@@ -19,6 +19,8 @@ import gc  # for development
 import neopixel
 from adafruit_debouncer import Debouncer
 
+# add class for board state
+
 class CPixUI(object):
     """Base class for widgets, mostly shared constants."""
     # Possibly useless.
