@@ -134,4 +134,6 @@ b.draw()
 print(gc.mem_free())
 
 while 1:
+    # need an update call to cpixUI to get button states
+    # use a dictionary for this?
     pass
