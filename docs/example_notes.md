@@ -11,3 +11,8 @@ https://learn.adafruit.com/adafruit-circuit-playground-express/circuitpython-aud
 
 Additional libraries: none; Works out of the box: yes; Tweakability: high.
 
+To use any frequency you need to prevent slight overflows for some values, using `min()`: 
+
+`    sine_wave[i] = min(int(math.sin(math.pi * 2 * i / length) * (2 ** 15) + 2 ** 15), 65535)`
+
+
