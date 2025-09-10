@@ -26,7 +26,15 @@
         import storage
         storage.erase_filesystem()
         ```
-  
+* Downloading and unzipping Project Bundles from Adafruit
+  * Change your browser settings (if necessary):
+    * Go to Settings > Downloads
+    * Turn ON: `Ask where to save each file before downloading`
+    * For the save location choose your network drive as indicated below.
+  * You need to download files to your NETWORK DRIVE.
+  * This is INSIDE "MY COMPUTER" (which makes no sense).
+  * It is named after your student ID number and is the `H:` drive.
+  * These files can then be used from any Windows PC in the school (or district).
 * Useful links:
   * [Adafruit docs](https://docs.circuitpython.org/en/latest/README.html)
   * [Audio out tutorial](https://learn.adafruit.com/adafruit-circuit-playground-express/circuitpython-audio-out)
