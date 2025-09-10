@@ -26,8 +26,11 @@
         import storage
         storage.erase_filesystem()
         ```
+  
 * Useful links:
   * [Adafruit docs](https://docs.circuitpython.org/en/latest/README.html)
-  * [Audio out tutorial](https://learn.adafruit.com/circuitpython-essentials/circuitpython-audio-out)
+  * [Audio out tutorial](https://learn.adafruit.com/adafruit-circuit-playground-express/circuitpython-audio-out)
+  * [Microcontroller Compatible Audio File Conversion
+](https://learn.adafruit.com/microcontroller-compatible-audio-file-conversion)
   * [Memory saving tips](https://learn.adafruit.com/Memory-saving-tips-for-CircuitPython/overview)
   * [todbot Tricks (esp. `synthio`)](https://github.com/todbot/circuitpython-tricks)
