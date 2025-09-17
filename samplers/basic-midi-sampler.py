@@ -2,6 +2,10 @@
 #
 # SPDX-License-Identifier: MIT
 
+import gc
+gc.collect()
+print("Starting free bytes (after gc) = " + str(gc.mem_free()))
+
 import board
 import digitalio
 
@@ -57,3 +61,4 @@ while True:
         play_file(audiofiles[0])
     if buttonB.value:
         play_file(audiofiles[1])
+
