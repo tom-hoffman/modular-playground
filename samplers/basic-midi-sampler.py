@@ -14,18 +14,15 @@ import adafruit_midi
 
 from adafruit_midi.note_on import NoteOn
 
-try:
-    from audiocore import WaveFile
-except ImportError:
-    from audioio import WaveFile
+from audiocore import WaveFile
 
-try:
-    from audioio import AudioOut
-except ImportError:
-    try:
-        from audiopwmio import PWMAudioOut as AudioOut
-    except ImportError:
-        pass  # not always supported by every board!
+from audioio import AudioOut
+
+gc.collect()
+print("Free bytes after imports = " + str(gc.mem_free()))
+
+CONTROLLER_OUT = 0x0E
+TARGET_IN = 0x00
 
 # Enable the speaker
 spkrenable = digitalio.DigitalInOut(board.SPEAKER_ENABLE)
@@ -44,6 +41,9 @@ buttonB.pull = digitalio.Pull.DOWN
 # The two files assigned to buttons A & B
 audiofiles = ["rimshot.wav", "laugh.wav"]
 
+# set up the red LED
+led = digitalio.DigitalInOut(board.LED)
+led.direction = digitalio.Direction.OUTPUT
 
 def play_file(filename):
     print("Playing file: " + filename)
@@ -55,8 +55,20 @@ def play_file(filename):
                 pass
     print("Finished")
 
+# Note that the in/out PORTS are always 0 & 1 for USB.
+# "Ports" are not MIDI channels.
+midi = adafruit_midi.MIDI(midi_in = usb_midi.ports[0],
+                          midi_out = usb_midi.ports[1],
+                          in_channel = CONTROLLER_OUT,
+                          out_channel = TARGET_IN)
+
+gc.collect()
+print("Free bytes after setup = " + str(gc.mem_free()))
 
 while True:
+    msg_in = midi.receive()
+    if isinstance(msg_in, NoteOn):
+        play_file(audiofiles[0])
     if buttonA.value:
         play_file(audiofiles[0])
     if buttonB.value:
