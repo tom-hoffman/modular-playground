@@ -43,23 +43,9 @@ BLACK = (0, 0, 0)
 # need a few more...
 NEOPIXELS = [RED, ORANGE, YELLOW, GREEN, BLUE, INDIGO, VIOLET]
 
-
 # MIDI setup
 # The controller sending note messages is set to this channel:
 CONTROLLER_OUT = 0x0E # might display as 14 or 15 on device!
-
-# the standard MIDI note values used to trigger drum sounds
-
-# Dictionary mapping MIDI notes,
-# starting with standard drum "notes"
-# used to trigger drum machines 
-# (Nord Drum 1 specifically)
-# to drum sounds saved to flash memory on the board.
-# Use up to 10 (to match CPX neopixels).
-MIDI_NOTES_TO_WAVS = {36: "laugh.wav",
-                      38: "rimshot.wav",
-                      59: "laugh.wav",  # need more .wavs!
-                      47: "rimshot.wav"}
 
 class Sound:
     '''Encapsulates data about a sound.'''
