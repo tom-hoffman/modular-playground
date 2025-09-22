@@ -44,8 +44,8 @@ BLACK = (0, 0, 0)
 NEOPIXELS = [RED, ORANGE, YELLOW, GREEN, BLUE, INDIGO, VIOLET]
 
 # MIDI setup
-# The controller sending note messages is set to this channel:
-CONTROLLER_OUT = 0x0E # might display as 14 or 15 on device!
+# The controller sending note messages is set to send on this channel:
+CONTROLLER_OUT = 0
 
 class Sound:
     '''Encapsulates data about a sound.'''
