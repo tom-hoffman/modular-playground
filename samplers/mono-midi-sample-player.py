@@ -2,7 +2,8 @@
 # Copyright 2025 Tom Hoffman
 # License: MIT
 
-# Plays one sample.
+# Plays one sample, interrupting and restarting on new NoteOn.
+# Ignores the note value, just triggers on any NoteOn to the channel.
 
 # The starting point of this file was:
 # https://github.com/adafruit/Adafruit_Learning_System_Guides/blob/main/Introducing_CircuitPlaygroundExpress/CircuitPlaygroundExpress_AudioFiles/code.py
@@ -32,10 +33,8 @@ gc.collect()
 print("Free bytes after imports = " + str(gc.mem_free()))
 
 # COLORS
-
-NOTE_ON_COLOR = (75, 0, 130)
-NOTE_OFF_COLOR = (32, 0, 32)
-START_COLOR = (16, 16, 16)
+NOTE_ON_COLOR = (32, 0, 32)
+NOTE_OFF_COLOR = (16, 16, 0)
 
 # MIDI setup
 # The controller sending note messages is set to send on this channel:
@@ -61,21 +60,24 @@ midi = adafruit_midi.MIDI(midi_in = usb_midi.ports[0],
                           in_channel = channel_in)
 
 neoPixels = neopixel.NeoPixel(board.NEOPIXEL, 10)
-neoPixels.fill(START_COLOR)
 
 gc.collect()
 print("Free bytes after setup = " + str(gc.mem_free()))
 
-wf = open(wav, "rb")
-with WaveFile(wf) as wave:
-    with AudioOut(board.SPEAKER) as audio:
-        while True:
-            msg_in = midi.receive()
-            if isinstance(msg_in, NoteOn):
-                audio.play(wave)
-                neoPixels.fill(NOTE_ON_COLOR)
-            elif isinstance(msg_in, NoteOff) and audio.playing:
-                audio.stop()
-                neoPixels.fill(NOTE_OFF_COLOR)
-            elif msg_in:
-                led.value = not(led.value)
+# These "with" statements are used to cleanly open and close 
+# files, data streams and data outputs in Python.  
+# They are called "context managers."
+
+with open(wav, "rb") as wf:                         # opens the wav
+    with WaveFile(wf) as wave:                      # loads it for playback
+        with AudioOut(board.SPEAKER) as audio:      # sets up the speaker 
+            while True:                             # start main loop
+                msg_in = midi.receive()             # check for incoming msg
+                if isinstance(msg_in, NoteOn):      # if it is a NoteOn
+                    audio.play(wave)                # play from beginning
+                    neoPixels.fill(NOTE_ON_COLOR)   
+                elif isinstance(msg_in, NoteOff) and audio.playing:
+                    audio.stop()                    # stop note if playing
+                    neoPixels.fill(NOTE_OFF_COLOR)
+                elif msg_in:                        # flash LED for other msg
+                    led.value = not(led.value)
