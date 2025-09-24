@@ -72,11 +72,17 @@ with open(wav, "rb") as wf:                         # opens the wav
     with WaveFile(wf) as wave:                      # loads it for playback
         with AudioOut(board.SPEAKER) as audio:      # sets up the speaker 
             while True:                             # start main loop
-                msg_in = midi.receive()             # check for incoming msg
-                if isinstance(msg_in, NoteOn):      # if it is a NoteOn
-                    audio.play(wave)                # play from beginning
-                    neoPixels.fill(NOTE_ON_COLOR)   
-                elif isinstance(msg_in, NoteOff) and audio.playing:
+                msg_in = midi.receive() 
+                if msg_in:
+                    print(type(msg_in))
+                if isinstance(msg_in, NoteOn):
+                    if msg_in.velocity == 0:   
+                        audio.stop()                    # stop note if playing
+                        neoPixels.fill(NOTE_OFF_COLOR)
+                    else:   # if it is a NoteOn
+                        audio.play(wave)                # play from beginning
+                        neoPixels.fill(NOTE_ON_COLOR)   
+                elif isinstance(msg_in, NoteOff):
                     audio.stop()                    # stop note if playing
                     neoPixels.fill(NOTE_OFF_COLOR)
                 elif msg_in:                        # flash LED for other msg
