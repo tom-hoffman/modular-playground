@@ -76,7 +76,7 @@ print("Free bytes after setup = " + str(gc.mem_free()))
 # files, data streams and data outputs in Python.  
 # They are called "context managers."
 
-with open(WAV_LIST[0], "rb") as wf:                         # opens the wav
+with open(WAV_LIST[0], "rb") as wf:
     with WaveFile(wf) as wave:                      # loads it for playback
         with AudioOut(board.SPEAKER) as audio:      # sets up the speaker 
             while True:                             # start main loop
@@ -84,14 +84,15 @@ with open(WAV_LIST[0], "rb") as wf:                         # opens the wav
                 if msg_in:
                     print(type(msg_in))
                 if isinstance(msg_in, NoteOn):
-                    if msg_in.velocity == 0:   
+                    if(msg_in = MIDI_LISTEN_NOTE):
+                        if msg_in.velocity == 0:   
+                            audio.stop()                    # stop note if playing
+                            neoPixels.fill(NOTE_OFF_COLOR)
+                        else:   # if it is a NoteOn
+                            audio.play(wave)                # play from beginning
+                            neoPixels.fill(NOTE_ON_COLOR)   
+                    elif (isinstance(msg_in, NoteOff) and doNoteLoop):
                         audio.stop()                    # stop note if playing
                         neoPixels.fill(NOTE_OFF_COLOR)
-                    else:   # if it is a NoteOn
-                        audio.play(wave)                # play from beginning
-                        neoPixels.fill(NOTE_ON_COLOR)   
-                elif (isinstance(msg_in, NoteOff) and doNoteLoop):
-                    audio.stop()                    # stop note if playing
-                    neoPixels.fill(NOTE_OFF_COLOR)
-                elif msg_in:                        # flash LED for other msg
-                    led.value = not(led.value)
+                    elif msg_in:                        # flash LED for other msg
+                        led.value = not(led.value)
