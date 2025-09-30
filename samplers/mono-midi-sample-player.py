@@ -33,21 +33,29 @@ gc.collect()
 print("Free bytes after imports = " + str(gc.mem_free()))
 
 # COLORS
+
 NOTE_ON_COLOR = (32, 0, 32)
 NOTE_OFF_COLOR = (16, 16, 0)
 
 # MIDI setup
+
+doNoteLoop = False
+
 # The controller sending note messages is set to send on this channel:
+
 channel_in = 0
 
-wav = "rimshot.wav"
+# wav = "rimshot.wav"
+WAV_LIST = ["rimshot.wav"]
 
 # Enable the speaker
+
 spkrenable = digitalio.DigitalInOut(board.SPEAKER_ENABLE)
 spkrenable.direction = digitalio.Direction.OUTPUT
 spkrenable.value = True
 
 # set up the red LED
+
 led = digitalio.DigitalInOut(board.LED)
 led.direction = digitalio.Direction.OUTPUT
 led.value = True
@@ -68,7 +76,7 @@ print("Free bytes after setup = " + str(gc.mem_free()))
 # files, data streams and data outputs in Python.  
 # They are called "context managers."
 
-with open(wav, "rb") as wf:                         # opens the wav
+with open(WAV_LIST[0], "rb") as wf:                         # opens the wav
     with WaveFile(wf) as wave:                      # loads it for playback
         with AudioOut(board.SPEAKER) as audio:      # sets up the speaker 
             while True:                             # start main loop
@@ -82,7 +90,7 @@ with open(wav, "rb") as wf:                         # opens the wav
                     else:   # if it is a NoteOn
                         audio.play(wave)                # play from beginning
                         neoPixels.fill(NOTE_ON_COLOR)   
-                elif isinstance(msg_in, NoteOff):
+                elif (isinstance(msg_in, NoteOff) and doNoteLoop):
                     audio.stop()                    # stop note if playing
                     neoPixels.fill(NOTE_OFF_COLOR)
                 elif msg_in:                        # flash LED for other msg
