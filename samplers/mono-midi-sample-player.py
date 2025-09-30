@@ -44,6 +44,7 @@ doNoteLoop = False
 # The controller sending note messages is set to send on this channel:
 
 channel_in = 0
+midi_listen_note = 35
 
 # wav = "rimshot.wav"
 WAV_LIST = ["rimshot.wav"]
@@ -84,7 +85,7 @@ with open(WAV_LIST[0], "rb") as wf:
                 if msg_in:
                     print(type(msg_in))
                 if isinstance(msg_in, NoteOn):
-                    if(msg_in = MIDI_LISTEN_NOTE):
+                    if(msg_in == midi_listen_note):
                         if msg_in.velocity == 0:   
                             audio.stop()                    # stop note if playing
                             neoPixels.fill(NOTE_OFF_COLOR)
