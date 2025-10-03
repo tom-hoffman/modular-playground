@@ -103,6 +103,11 @@ if DEV_MODE:
 
 ############
 
+# Function definitions
+# Use camelCase for function definitions:
+# First letter lower case, first letter of new words upper case.
+
+############
 # Main loop(s)
 
 while True:
