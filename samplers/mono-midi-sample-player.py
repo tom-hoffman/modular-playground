@@ -44,10 +44,9 @@ doNoteLoop = False
 # The controller sending note messages is set to send on this channel:
 
 channel_in = 0
-midi_listen_note = 35
+midi_listen_note = 36
 
-# wav = "rimshot.wav"
-WAV_LIST = ["rimshot.wav"]
+wav = "hat.wav"
 
 # Enable the speaker
 
@@ -77,15 +76,14 @@ print("Free bytes after setup = " + str(gc.mem_free()))
 # files, data streams and data outputs in Python.  
 # They are called "context managers."
 
-with open(WAV_LIST[0], "rb") as wf:
+with open(wav, "rb") as wf:
     with WaveFile(wf) as wave:                      # loads it for playback
         with AudioOut(board.SPEAKER) as audio:      # sets up the speaker 
             while True:                             # start main loop
                 msg_in = midi.receive() 
-                if msg_in:
-                    print(type(msg_in))
                 if isinstance(msg_in, NoteOn):
-                    if(msg_in == midi_listen_note):
+                    print(msg_in.note)
+                    if(msg_in.note == midi_listen_note):
                         if msg_in.velocity == 0:   
                             audio.stop()                    # stop note if playing
                             neoPixels.fill(NOTE_OFF_COLOR)
