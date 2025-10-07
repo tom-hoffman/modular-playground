@@ -82,6 +82,7 @@ with open(wav, "rb") as wf:
             while True:                             # start main loop
                 msg_in = midi.receive() 
                 if isinstance(msg_in, NoteOn):
+                    print(msg_in.note)
                     if(msg_in.note == midi_listen_note):
                         audio.play(wave)                # play from beginning
                         led.value = not(led.value)
