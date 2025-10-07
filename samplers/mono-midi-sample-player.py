@@ -44,9 +44,10 @@ doNoteLoop = False
 # The controller sending note messages is set to send on this channel:
 
 channel_in = 0
-midi_listen_note = 36
+midi_listen_note = 35
 
-wav = "hat.wav"
+# wav = "rimshot.wav"
+WAV_LIST = ["perc.wav"]
 
 # Enable the speaker
 
@@ -61,7 +62,7 @@ led.direction = digitalio.Direction.OUTPUT
 led.value = True
 
 
-# Note that the in/out "ports" are always 0 & 1 for USB.
+# Note that the in/out "ports" are always 0 & 1 for USB.+
 # "Ports" are not MIDI channels.
 midi = adafruit_midi.MIDI(midi_in = usb_midi.ports[0],
                           midi_out = usb_midi.ports[1],
@@ -74,24 +75,26 @@ print("Free bytes after setup = " + str(gc.mem_free()))
 
 # These "with" statements are used to cleanly open and close 
 # files, data streams and data outputs in Python.  
-# They are called "context managers."
+# They are called "context managers."doNot
 
-with open(wav, "rb") as wf:
+with open(WAV_LIST[0], "rb") as wf:
     with WaveFile(wf) as wave:                      # loads it for playback
         with AudioOut(board.SPEAKER) as audio:      # sets up the speaker 
             while True:                             # start main loop
                 msg_in = midi.receive() 
+                if msg_in:
+                    print(type(msg_in))
                 if isinstance(msg_in, NoteOn):
                     print(msg_in.note)
+                    # here was the bug
                     if(msg_in.note == midi_listen_note):
                         if msg_in.velocity == 0:   
                             audio.stop()                    # stop note if playing
                             neoPixels.fill(NOTE_OFF_COLOR)
                         else:   # if it is a NoteOn
+                            led.value = not(led.value)
                             audio.play(wave)                # play from beginning
                             neoPixels.fill(NOTE_ON_COLOR)   
                     elif (isinstance(msg_in, NoteOff) and doNoteLoop):
                         audio.stop()                    # stop note if playing
                         neoPixels.fill(NOTE_OFF_COLOR)
-                    elif msg_in:                        # flash LED for other msg
-                        led.value = not(led.value)
