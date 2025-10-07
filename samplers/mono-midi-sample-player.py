@@ -61,7 +61,7 @@ led.direction = digitalio.Direction.OUTPUT
 led.value = True
 
 
-# Note that the in/out "ports" are always 0 & 1 for USB.
+# Note that the in/out "ports" are always 0 & 1 for USB.+
 # "Ports" are not MIDI channels.
 midi = adafruit_midi.MIDI(midi_in = usb_midi.ports[0],
                           midi_out = usb_midi.ports[1],
@@ -74,11 +74,11 @@ print("Free bytes after setup = " + str(gc.mem_free()))
 
 # These "with" statements are used to cleanly open and close 
 # files, data streams and data outputs in Python.  
-# They are called "context managers."
+# They are called "context managers."doNot
 
 with open(wav, "rb") as wf:
     with WaveFile(wf) as wave:                      # loads it for playback
-        with AudioOut(board.SPEAKER) as audio:      # sets up the speaker 
+       with AudioOut(board.SPEAKER) as audio:      # sets up the speaker 
             while True:                             # start main loop
                 msg_in = midi.receive() 
                 if isinstance(msg_in, NoteOn):
