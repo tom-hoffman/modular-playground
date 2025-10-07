@@ -1,6 +1,15 @@
 Debugging Checklists
 ====================
 
+CircuitPython & CPX
+-------------------
+
+* The CIRCUITPY mounts like a regular FAT32 drive and is prone to curruption if not unmounted properly.
+* When you're doing development, try to remember to unmount!
+* If something goes wrong:
+  * On Windows, this will be flagged and fixed on connection.
+  * On Linux, the drive will be mounted read only and not work properly until fixed in the Disks utility.  Select the drive and click on the little gear icon.
+
 USB-MIDI in general
 -------------------
 
