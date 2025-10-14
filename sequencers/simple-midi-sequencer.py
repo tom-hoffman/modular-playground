@@ -1,10 +1,10 @@
 # SPDX-FileCopyrightText: 2025 Tom Hoffman & E-Cubed students
 # SPDX-License-Identifier: MIT
 
-# Modular Playground MIDI Application Template
+# Modular Playground Simple MIDI Sequencer
 
 # Module Description:
-# Starting boilerplate for Modular Playground MIDI applications.
+# Sends a pre-defined sequence of MIDI notes.
 
 # Put gc.mem_free() checks and other print statements inside
 # conditionals which will only run when DEV_MODE is True.
