@@ -28,11 +28,10 @@ import usb_midi         # basic MIDI over USB support
 import adafruit_midi    # additional MIDI helpers from Adafruit
 
 from adafruit_midi.note_on import NoteOn    
-from adafruit_midi.note_off import NoteOff
 from adafruit_midi.timing_clock import TimingClock
 from adafruit_midi.start import Start
 from adafruit_midi.stop import Stop
-from adafruit_midi.midi_continue import Continue
+#from adafruit_midi.midi_continue import Continue
 
 if DEV_MODE:
     gc.collect()
@@ -45,21 +44,7 @@ LED_COUNT = 10
 MAX_VELOCITY = 5
 DEFAULT_VELOCITY = 4
 NOTE_COUNT = 4
-NOTES[4] = {36, 38, 59, 47}
-
-# COLORS
-# Delete the ones you don't need.
-# Add others as needed!
-
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
-CYAN = (0, 255, 255)
-PURPLE = (255, 0, 255)
-YELLOW = (255, 255, 0)
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-OFF = BLACK
+NOTES = [36, 38, 59, 47]
 
 ############
 
@@ -72,15 +57,26 @@ channel_out = 1
 # board setup steps
 
 # set up the red LED
-led = digitalio.DigitalInOut(board.LED)
-led.direction = digitalio.Direction.OUTPUT
-led.value = True
+
+a_button = digitalio.DigitalInOut(board.BUTTON_A)
+a_button.direction = digitalio.Direction.INPUT
+a_button.pull = digitalio.Pull.DOWN
+
+b_button = digitalio.DigitalInOut(board.BUTTON_B)
+b_button.direction = digitalio.Direction.INPUT
+b_button.pull = digitalio.Pull.DOWN
+
+switch = digitalio.DigitalInOut(board.SLIDE_SWITCH)
+switch.direction = digitalio.Direction.INPUT
+switch.pull = digitalio.Pull.UP
 
 midi = adafruit_midi.MIDI(midi_in = usb_midi.ports[0],
                           midi_out = usb_midi.ports[1],
                           out_channel = channel_out)
 
-neoPixels = neopixel.NeoPixel(board.NEOPIXEL, 10)
+pix = neopixel.NeoPixel(board.NEOPIXEL, 10)
+pix.fill((255, 0, 255))
+pix.show()
 
 if DEV_MODE:
     gc.collect()
@@ -88,7 +84,7 @@ if DEV_MODE:
 
 ############
 
-# functionDefinitions
+# function definitions
 
 def generateEuclidian(triggers, steps):
     '''
@@ -100,7 +96,6 @@ def generateEuclidian(triggers, steps):
     https://medium.com/code-music-noise/euclidean-rhythms-391d879494df
     '''
     slope = triggers / steps
-    print(slope)
     result = []
     previous = None
     for i in range(steps):
@@ -110,18 +105,88 @@ def generateEuclidian(triggers, steps):
         previous = current
     return result
 
+
+    
+
+
 ############
 # Main loop(s)
 
+def main(state):
+    pulse_count = 0
+    a_button_down = a_button.value
+    b_button_down = b_button.value
+    switch_is_left = switch.value
+    while True:
+        
+        msg_in = midi.receive()
+        if msg_in:
+            # if there is a message flip the red led
+            led.value = not(led.value)
+
+class EuclidianSequencer(object):
+    def __init__(self):
+        self.steps = 9
+        self.triggers = 2
+        self.active_step = 8
+        self.sequence = generateEuclidian(self.triggers, self.steps)
+        self.note_index = 0
+        self.velocity_index = 4
+        self.started = False
+
+class SequencerApp(object):
+    def __init__(self, sequence):
+        self.seq = sequence
+        self.a = a_button.value
+        self.b = b_button.value
+        self.switchIsLeft = switch.value
+
+    def getRed(self, i):
+        if i == self.seq.active_step:
+            return 64
+        else:
+            return 0
+
+    def getGreen(self, i):
+        if self.seq.sequence[i]:
+            return 48
+        else:
+            return 0
+
+    def getBlue(self, i):
+        # add velocity calculation
+        return 16
+
+    def updateSequenceDisplay(self):
+        for i in range(LED_COUNT):
+            if i < len(self.seq.sequence):
+                pix[i] = (self.getRed(i), self.getGreen(i), self.getBlue(i))
+            else:
+                pix[i] = (0, 0, 0)
+            
+    def updateConfigDisplay(self):
+        pass
+    
+    def updateNeoPixels(self):
+        if not(self.board.slide_is_left):
+            self.updateSequenceDisplay()
+        else:
+            self.updateConfigDisplay()
+        pix.show
+
+    def processUserInput(self, new):
+        pass
+   
+    def checkUserInput(self):
+        pass
+
+
+if DEV_MODE:
+    gc.collect()
+    print("Free bytes at end = " + str(gc.mem_free()))
+    
+z = SequencerApp(EuclidianSequencer())
+z.updateSequenceDisplay()
+
 while True:
-    msg_in = midi.receive()
-    if msg_in:
-        # if there is a message flip the red led
-        led.value = not(led.value)
-
-
-
-
-
-
-
+    pass
