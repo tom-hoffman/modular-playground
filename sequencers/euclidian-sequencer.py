@@ -171,22 +171,33 @@ class SequencerApp(object):
             self.updateSequenceDisplay()
         pix.show
 
-
-
     def addTrigger(self):
         pass
-    
+
+    def checkSwitch(self):
+        # Return value indicates if NeoPixels need to be updated.
+        if self.switchIsLeft != switch.value:
+            self.switchIsLeft = switch.value
+            return True
+        else:
+            return False
+
+    def checkA(self):
+        # Return value indicates if NeoPixels need to be updated.
+        update = False
+        if self.a != a_button.value:
+            if a_button.value:
+                self.seq.addStep()
+                update = True
+            self.a = a_button.value
+        return update
+            
     def main(self):
         while True:
-            if self.switchIsLeft != switch.value:
-                self.switchIsLeft = switch.value
+            # These method calls change state and return True or False.
+            # True indicates we need to call updateNeoPixels()
+            if (self.checkSwitch() or self.checkA()):
                 self.updateNeoPixels()
-            if self.a != a_button.value:
-                if a_button.value:
-                    print("Down")
-                    self.seq.addStep()
-                    self.updateNeoPixels()
-                self.a = a_button.value
             msg_in = midi.receive()
             if msg_in:
                 # if there is a message flip the red led
