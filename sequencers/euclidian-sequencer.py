@@ -85,53 +85,58 @@ if DEV_MODE:
     gc.collect()
     print("Free bytes after board setup = " + str(gc.mem_free()))
 
-############
-
-# function definitions
-
-def generateEuclidian(triggers, steps):
-    '''
-    Generates a "Euclidian rhythm" where triggers are
-    evenly distributed over a given number of steps.
-    Takes in a number of triggers and steps, 
-    returns a list of Booleans.
-    Based on Jeff Holtzkener's Javascript implementation at
-    https://medium.com/code-music-noise/euclidean-rhythms-391d879494df
-    '''
-    slope = triggers / steps
-    result = []
-    previous = None
-    for i in range(steps):
-        # adding 0.0001 to correct for imprecise math in CircuitPython.
-        current = math.floor((i * slope) + 0.001) 
-        result.append(current != previous)
-        previous = current
-    return result
-
-
-    
-
 
 ############
 # Objects
 
-
 class EuclidianSequencer(object):
+    
     def __init__(self):
         self.steps = 9
         self.triggers = 2
         self.active_step = 8
-        self.sequence = generateEuclidian(self.triggers, self.steps)
-        self.note_index = 0
-        self.velocity_index = 4
-        self.started = False
+        self.sequence = []
+        self.active_step = 0
 
+    def update(self):
+        '''
+        Generates a "Euclidian rhythm" where triggers are
+        evenly distributed over a given number of steps.
+        Takes in a number of triggers and steps, 
+        returns a list of Booleans.
+        Based on Jeff Holtzkener's Javascript implementation at
+        https://medium.com/code-music-noise/euclidean-rhythms-391d879494df
+        '''
+        slope = self.triggers / self.steps
+        result = []
+        previous = None
+        for i in range(self.steps):
+            # adding 0.0001 to correct for imprecise math in CircuitPython.
+            current = math.floor((i * slope) + 0.001) 
+            result.append(current != previous)
+            previous = current
+        self.sequence = result
+        return self  # so you can do method chaining.
+
+    def addStep(self):
+        if self.steps < 10:
+            self.steps += 1
+        else:
+            self.steps = 1
+            self.triggers = 0
+            self.active_step = 0
+        self.update()
+    
 class SequencerApp(object):
     def __init__(self, sequence):
         self.seq = sequence
         self.a = a_button.value
         self.b = b_button.value
         self.switchIsLeft = switch.value
+        self.note_index = 0
+        self.velocity_index = 4
+        self.started = False
+        self.starting_step = 0
 
     def getRed(self, i):
         if i == self.seq.active_step:
@@ -166,24 +171,33 @@ class SequencerApp(object):
             self.updateSequenceDisplay()
         pix.show
 
+
+
+    def addTrigger(self):
+        pass
+    
     def main(self):
         while True:
             if self.switchIsLeft != switch.value:
                 self.switchIsLeft = switch.value
                 self.updateNeoPixels()
             if self.a != a_button.value:
-                print("A changed.")
+                if a_button.value:
+                    print("Down")
+                    self.seq.addStep()
+                    self.updateNeoPixels()
                 self.a = a_button.value
             msg_in = midi.receive()
             if msg_in:
                 # if there is a message flip the red led
                 led.value = not(led.value)
 
-z = SequencerApp(EuclidianSequencer())
-z.updateNeoPixels()
+
+app = SequencerApp(EuclidianSequencer().update())
+app.updateNeoPixels()
 
 if DEV_MODE:
     gc.collect()
     print("Free bytes after object def and creation = " + str(gc.mem_free()))
 
-z.main()
+app.main()
