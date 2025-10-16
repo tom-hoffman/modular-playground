@@ -70,6 +70,9 @@ switch = digitalio.DigitalInOut(board.SLIDE_SWITCH)
 switch.direction = digitalio.Direction.INPUT
 switch.pull = digitalio.Pull.UP
 
+def switchIsLeft():
+    return switch.value
+
 midi = adafruit_midi.MIDI(midi_in = usb_midi.ports[0],
                           midi_out = usb_midi.ports[1],
                           out_channel = channel_out)
@@ -80,7 +83,7 @@ pix.show()
 
 if DEV_MODE:
     gc.collect()
-    print("Free bytes after setup = " + str(gc.mem_free()))
+    print("Free bytes after board setup = " + str(gc.mem_free()))
 
 ############
 
@@ -110,19 +113,8 @@ def generateEuclidian(triggers, steps):
 
 
 ############
-# Main loop(s)
+# Objects
 
-def main(state):
-    pulse_count = 0
-    a_button_down = a_button.value
-    b_button_down = b_button.value
-    switch_is_left = switch.value
-    while True:
-        
-        msg_in = midi.receive()
-        if msg_in:
-            # if there is a message flip the red led
-            led.value = not(led.value)
 
 class EuclidianSequencer(object):
     def __init__(self):
@@ -165,28 +157,33 @@ class SequencerApp(object):
                 pix[i] = (0, 0, 0)
             
     def updateConfigDisplay(self):
-        pass
+        pix.fill((8, 8, 8))
     
     def updateNeoPixels(self):
-        if not(self.board.slide_is_left):
-            self.updateSequenceDisplay()
-        else:
+        if switchIsLeft():
             self.updateConfigDisplay()
+        else:
+            self.updateSequenceDisplay()
         pix.show
 
-    def processUserInput(self, new):
-        pass
-   
-    def checkUserInput(self):
-        pass
+    def main(self):
+        while True:
+            if self.switchIsLeft != switch.value:
+                self.switchIsLeft = switch.value
+                self.updateNeoPixels()
+            if self.a != a_button.value:
+                print("A changed.")
+                self.a = a_button.value
+            msg_in = midi.receive()
+            if msg_in:
+                # if there is a message flip the red led
+                led.value = not(led.value)
 
+z = SequencerApp(EuclidianSequencer())
+z.updateNeoPixels()
 
 if DEV_MODE:
     gc.collect()
-    print("Free bytes at end = " + str(gc.mem_free()))
-    
-z = SequencerApp(EuclidianSequencer())
-z.updateSequenceDisplay()
+    print("Free bytes after object def and creation = " + str(gc.mem_free()))
 
-while True:
-    pass
+z.main()
