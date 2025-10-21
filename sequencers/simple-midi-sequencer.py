@@ -29,8 +29,9 @@ import adafruit_midi    # additional MIDI helpers from Adafruit
 # Uncomment only the message types you must read or send.
 # You can delete the rest. These are just the most commonly used messages.
 from adafruit_midi.note_on import NoteOn    
-from adafruit_midi.note_off import NoteOff
+# from adafruit_midi.note_off import NoteOff
 from adafruit_midi.timing_clock import TimingClock
+from adafruit_midi.midi_message import note_parser
 #from adafruit_midi.control_change import ControlChange
 #from adafruit_midi.program_change import ProgramChange
 #from adafruit_midi.system_exclusive import SystemExclusive
@@ -74,11 +75,43 @@ channel_in = 0
 # send messages on:
 channel_out = 15
 
-#notes = [63, 66, 71, 63, 65, 63, 61, 63, 61, 66, 71, 66, 63, 65, 63, 61]
-notes = [53, 55, 55, 55, 55, 55, 55, 55]
+notes = (('G3', '8dn'),
+         ('G3', '16n'),
+         ('A4', '4n'),
+         ('G3', '4n'),
+         ('C4', '4n'),
+         ('B4', 'dn'),
+         ('G3', '8dn'),
+         ('G3', '16n'),
+         ('A4', '4n'), 
+         ('G3', '4n'),
+         ('D4', '4n'),
+         ('C4', '2n'),
+         ('G3', '8dn'),
+         ('G3', '16n'),
+         ('G3', '4n'),
+         ('E4', '4n'),
+         ('C4', '4n'),
+         ('B4', '4n'),
+         ('A4', '4n'),
+         ('F3', '8dn'),
+         ('F3', '16n'),
+         ('E3','4n'),
+         ('D4','4n'),  
+         ('C4','4n'))
+
+NOTE_DURATIONS = {'32n' : 3,
+                  '16n' : 6,
+                  '8n' : 12,
+                  '4n' : 24,
+                  '2n' : 48,
+                  '1n' : 96,
+                  '1dn' : 144,
+                  '2dn' : 72,
+                  '4dn' : 36,
+                  '8dn' : 18}
 
 clockCount = 0
-activeNote = 0
 ############
 
 # board setup steps
@@ -116,7 +149,11 @@ if DEV_MODE:
 
 ############
 # Main loop(s)
-
+currentIndex = 0
+current_pitch = note_parser(notes[currentIndex][0])
+current_duration = NOTE_DURATIONS[notes[currentIndex][1]]
+print(current_duration)
+activeNote = currentIndex
 while True:
     msg_in = midi.receive() 
     if msg_in:
@@ -130,18 +167,3 @@ while True:
                 if activeNote >= len(notes):
                     activeNote = 0
             clockCount = clockCount + 1 
-
-
-
-# Main loop if you are playing samples:
-# These "with" statements are used to cleanly open and close 
-# files, data streams and data outputs in Python.
-# You'll need to point it a real .wav file.  
-
-#with open("example.wav", "rb") as wf:
-#    with WaveFile(wf) as wave:                      # loads file for playback
-#        with AudioOut(board.SPEAKER) as audio:      # sets up the speaker 
-#            while True:                             # start main loop
-#                msg_in = midi.receive() 
-#                if msg_in:
-#                    led.value = not(led.value)
