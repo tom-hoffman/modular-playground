@@ -52,16 +52,28 @@ class MiniMidi():
         # n is the high nybble
         return n & 0b1000
 
-    def processSystemMessage(d):
+    def processSystemExclusive(self, d):
+        pass
+
+    def processQuarterFrame(self, d):
+        pass
+
+    def processSystemCommon(self, d):
         m = d['low']
         if m == 0b0000:
-            print("System Exclusive")
+            if DEV_MODE:
+                print("System Exclusive")
+            return self.processSystemExclusive(d)
         elif m == 0b0001:
-            print("Quarter Frame")
+            if DEV_MODE:
+                print("Quarter Frame")
+            return self.processQuarterFrame(d)
         elif m == 0b0010:
-            print("Song Position Pointer")
+            if DEV_MODE:
+                print("Song Position Pointer")
         elif m == 0b0011:
-            print("Song Select")
+            if DEV_MODE:
+                print("Song Select")
         elif (m == 0b0100) or (m == 0b0101):
             if DEV_MODE:
                 print("Undefined")
@@ -71,12 +83,16 @@ class MiniMidi():
                 print("Tune Request")
             return {'msg' : 'Tune Request'}
 
+
+
+
+
     def processChannelMessage(d):
         pass
 
     def processMessage(self, d):
         if self.isSystemMessage(d):
-            return self.processSystemMessage(d)
+            return self.processSystemCommon(d)
         else:
             return self.processChannelMessage(d)
     
@@ -113,4 +129,4 @@ if DEV_MODE:
     print("Free bytes after setup = " + str(gc.mem_free()))
 
 while True:
-    midi.get_msg()
+    midi.get_msg() 
