@@ -89,7 +89,7 @@ if DEV_MODE:
 ############
 # Objects
 
-class SequenceAlgorithm(object):
+class EuclidianSequencer(object):
     
     def __init__(self):
         self.steps = 9
@@ -204,7 +204,7 @@ class SequencerApp(object):
                 led.value = not(led.value)
 
 
-app = SequencerApp(SequenceAlgorithm().update())
+app = SequencerApp(EuclidianSequencer().update())
 app.updateNeoPixels()
 
 if DEV_MODE:
