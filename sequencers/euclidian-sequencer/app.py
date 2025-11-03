@@ -1,60 +1,37 @@
-import board            # helps set up pins, etc. on the board
-import digitalio        # digital (on/off) output to pins, including board LED.
-import neopixel         # controls the RGB LEDs on the board
-
-import usb_midi         # basic MIDI over USB support
-
+from cpx import led, a_button, b_button, switch, switchIsLeft, pix, innie, outie
 
 # CONSTANTS
 
-_CLOCK_MSG = const(0b11111000)
+_NOTE_COUNT = const(6)
+# preset for Nord Drum 3p - 60, 62, 64, 65, 67, 69
+_NOTES = const((b'\x3C', b'\x3E', b'\x40', b'\x41', b'\x43', b'\x45'))
 
+_CLOCK_MSG = const(b'\xF8')
 _LED_COUNT = const(10)
 _CLOCK_LIMIT = const(24)  # for quarter note
 _MAX_VELOCITY = const(5)
 _DEFAULT_VELOCITY = const(4)
-_NOTE_COUNT = const(4)
-_NOTES = const((36, 38, 59, 47))
-# board setup steps
 
-led = digitalio.DigitalInOut(board.LED)
-led.direction = digitalio.Direction.OUTPUT
-led.value = True
+# todo
+# MIDI start/stop/continue
+# config mode
+# alignment
+# optimization
+# skip updating display as necessary
+# config file
+# restart - config option?
 
-a_button = digitalio.DigitalInOut(board.BUTTON_A)
-a_button.direction = digitalio.Direction.INPUT
-a_button.pull = digitalio.Pull.DOWN
 
-b_button = digitalio.DigitalInOut(board.BUTTON_B)
-b_button.direction = digitalio.Direction.INPUT
-b_button.pull = digitalio.Pull.DOWN
-
-switch = digitalio.DigitalInOut(board.SLIDE_SWITCH)
-switch.direction = digitalio.Direction.INPUT
-switch.pull = digitalio.Pull.UP
-
-def switchIsLeft():
-    return switch.value
-
-pix = neopixel.NeoPixel(board.NEOPIXEL, 10, brightness=0.2, auto_write=True)
-pix.brightness = 0.2
-pix.fill((255, 0, 255))
-pix.show()
-
-innie = usb_midi.ports[0]
-outie = usb_midi.ports[1]
 
 class SequencerApp(object):
     def __init__(self, sequence):
         self.seq = sequence
-        self.a = a_button.value
-        self.b = b_button.value
-        self.switchIsLeft = switch.value
         self.note_index = 0
-        self.velocity_index = 4
-        self.started = False
+        self.velocity_index = _DEFAULT_VELOCITY
         self.starting_step = 0
         self.clock_count = 0
+        self.started = False
+        self.isConfigMode = switchIsLeft()
 
     def getRed(self, i):
         if i == self.seq.active_step:
@@ -96,55 +73,46 @@ class SequencerApp(object):
             return True
         else:
             return False
-
-    # Should probably refactor these into one method
-
-    def checkA(self):
-        # Return value indicates if NeoPixels need to be updated.
-        update = False
-        if self.a != a_button.value:
-            if a_button.value:
-                self.seq.addStep()
-                update = True
-            self.a = a_button.value
-        return update
-        
-    def checkB(self):
-        update = False
-        if self.b != b_button.value:
-            if b_button.value:
-                self.seq.addTrigger()
-                update = True
-            self.b = b_button.value
-        return update
-
-    def getByte(self):
-        raw = innie.read(1)
-        if raw != b'':
-            # convert the byte type to a number
-            return ord(raw)     
-        else:
-            return None
     
     def get_msg(self):
-        b = self.getByte()
-        return b    
-
+        return innie.read(1)
+    
+    def sendNoteOn(self):
+        # 9F = ch16 note on; note60=3C; velo 64
+        msg = bytes.fromhex('9F 3C 64')
+        outie.write(msg)
+    
     def incrementClock(self):
         self.clock_count +=1 
         if self.clock_count >= _CLOCK_LIMIT:
             self.clock_count = 0
             self.seq.incrementActiveStep()
-            self.updateNeoPixels()
             led.value = not(led.value)
-            
+            self.updateNeoPixels()
+            if self.seq.activeStepIsTrigger():
+                self.sendNoteOn() 
+    
+    def checkButtons(self):
+        changed = False
+        a_button.update()
+        b_button.update()
+        if a_button.rose:
+            self.seq.addStep()
+            changed = True
+        elif b_button.rose:
+            self.seq.addTrigger()
+            changed = True
+        if changed:
+            self.updateNeoPixels()
+    
     def main(self):
+        delay_count = 0
         while True:
-            # These method calls change state and return True or False.
-            # True indicates we need to call updateNeoPixels()
-            if self.checkSwitch() or self.checkA() or self.checkB():
-                self.updateNeoPixels()
+            delay_count += 1
+            if delay_count == 63:
+                delay_count = 0
+                self.checkButtons()
             msg = self.get_msg()
-            if msg is not None:
-                if msg == _CLOCK_MSG:
-                    self.incrementClock()
+            if msg == _CLOCK_MSG:
+                self.incrementClock()
+

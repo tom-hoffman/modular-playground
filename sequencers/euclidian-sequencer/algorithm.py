@@ -1,5 +1,7 @@
 import math
 
+LED_COUNT = 10
+
 class SequenceAlgorithm(object):
     
     def __init__(self):
@@ -7,7 +9,6 @@ class SequenceAlgorithm(object):
         self.triggers = 2
         self.sequence = []
         self.active_step = 0
-        self.clock_count = 0
 
     def update(self):
         '''
@@ -33,7 +34,7 @@ class SequenceAlgorithm(object):
         return self 
 
     def addStep(self):
-        if self.steps < 10:
+        if self.steps < LED_COUNT:
             self.steps += 1
         else:
             self.steps = 1
@@ -50,3 +51,7 @@ class SequenceAlgorithm(object):
 
     def incrementActiveStep(self):
         self.active_step = (self.active_step + 1) % self.steps
+
+    def activeStepIsTrigger(self):
+        return self.sequence[self.active_step]
+        

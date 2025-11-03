@@ -10,27 +10,12 @@ if DEV_MODE:
     gc.collect()
     print("Starting free bytes (after gc) = " + str(gc.mem_free()))
 
-from micropython import const
-
 from algorithm import SequenceAlgorithm
 from app import SequencerApp
 
 if DEV_MODE:
     gc.collect()
     print("Free bytes after imports = " + str(gc.mem_free()))
-
-############
-
-
-
-# variables
-
-channel_out = 1
-
-############
-
-
-
 
 
 app = SequencerApp(SequenceAlgorithm().update())
