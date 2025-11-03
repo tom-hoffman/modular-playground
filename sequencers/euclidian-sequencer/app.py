@@ -32,6 +32,7 @@ class SequencerApp(object):
         self.clock_count = 0
         self.started = False
         self.isConfigMode = switchIsLeft()
+        self.dirty = False
 
     def getRed(self, i):
         if i == self.seq.active_step:
@@ -88,31 +89,32 @@ class SequencerApp(object):
             self.clock_count = 0
             self.seq.incrementActiveStep()
             led.value = not(led.value)
-            self.updateNeoPixels()
+            self.dirty = True
             if self.seq.activeStepIsTrigger():
                 self.sendNoteOn() 
     
     def checkButtons(self):
-        changed = False
         a_button.update()
         b_button.update()
         if a_button.rose:
             self.seq.addStep()
-            changed = True
+            self.dirty = True
         elif b_button.rose:
             self.seq.addTrigger()
-            changed = True
-        if changed:
-            self.updateNeoPixels()
+            self.dirty = True
+
     
     def main(self):
         delay_count = 0
         while True:
             delay_count += 1
-            if delay_count == 63:
+            if delay_count == 127:
                 delay_count = 0
                 self.checkButtons()
             msg = self.get_msg()
             if msg == _CLOCK_MSG:
                 self.incrementClock()
+            if self.dirty:
+                self.updateNeoPixels()
+                self.dirty = False
 
