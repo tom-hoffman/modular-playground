@@ -1,17 +1,16 @@
+# SPDX-FileCopyrightText: 2025 Tom Hoffman & E-Cubed students
+# SPDX-License-Identifier: MIT
 
-import gc
-gc.collect()
-print("Starting free bytes (after gc) = " + str(gc.mem_free()))
-    
-from app import SamplePlayerApp
+# Modular Playground Simple MIDI Sequencer
 
-channel = 15
-note = 60
+# Module Description:
+# Sends a pre-defined sequence of MIDI notes.
+from app import SequencePlayerApp
+from tune import NOTES
 
-app = SamplePlayerApp(channel, note)
+CHANNEL = 5
 
-gc.collect()
-print("Free bytes after setup = " + str(gc.mem_free()))
+app = SequencePlayerApp(CHANNEL, NOTES)
 
 app.main()
 
