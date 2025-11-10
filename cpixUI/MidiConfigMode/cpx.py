@@ -3,8 +3,6 @@
 import board            # helps set up pins, etc. on the board
 import digitalio        # digital (on/off) output to pins, including board LED.
 import neopixel         # controls the RGB LEDs on the board
-import touchio          # reading capacitive touch
-import audioio
 
 from adafruit_debouncer import Debouncer
 
@@ -22,24 +20,14 @@ b_button_raw.direction = digitalio.Direction.INPUT
 b_button_raw.pull = digitalio.Pull.DOWN
 b_button = Debouncer(b_button_raw)
 
-switch_raw = digitalio.DigitalInOut(board.SLIDE_SWITCH)
-switch_raw.direction = digitalio.Direction.INPUT
-switch_raw.pull = digitalio.Pull.UP
-switch = Debouncer(switch_raw)
-
-A3_cap = touchio.TouchIn(board.A3)
-A3 = Debouncer(A3_cap)
-
-    #cpx.A3.update()
-    #if cpx.A3.rose:
-    #    print("HAI")
+switch = digitalio.DigitalInOut(board.SLIDE_SWITCH)
+switch.direction = digitalio.Direction.INPUT
+switch.pull = digitalio.Pull.UP
 
 def switchIsLeft():
     return switch.value
 
 pix = neopixel.NeoPixel(board.NEOPIXEL, 10, brightness=0.2, auto_write=False)
-
-audio = audioio.AudioOut(board.A0)
 
 spkrenable = digitalio.DigitalInOut(board.SPEAKER_ENABLE)
 spkrenable.direction = digitalio.Direction.OUTPUT
