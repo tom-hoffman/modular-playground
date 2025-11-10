@@ -1,6 +1,5 @@
 # SPDX-FileCopyrightText: 2025 Tom Hoffman
 # SPDX-License-Identifier: MIT
-# ***** IF YOU UNCOMMENT LINE 211 THIS SHOULD GO FROM 10580 bytes free to MemoryError
 # Modular Playground CircuitPython Euclidian Sequencer
 
 DEV_MODE = True
