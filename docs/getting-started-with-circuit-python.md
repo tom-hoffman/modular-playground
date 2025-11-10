@@ -1,6 +1,10 @@
+* Update the firmware:
+  * Go here: https://learn.adafruit.com/adafruit-circuit-playground-express/updating-the-bootloader
+  * Scroll down to the green button that says `Circuit Playground Express latest update-bootloader.uf2
+  * Drag the file onto your Circuit Playground
 * Installing Circuit Python (for Circuit Playground).
   * Go here: https://circuitpython.org/board/circuitplayground_express/
-  * Download the 9.x version of CircuitPython (.uf2).
+  * Download the 10.x version of CircuitPython (.uf2).
   * If a dialog comes up, you *can* download that directly to the CPLAYBOOT drive.
   * Otherwise, you will need to drag the .uf2 file from your Downloads file to the CPLAYBOOT drive.
   * If the CPLAYBOOT drive does not come up and the neopixels are not a steady green, 
