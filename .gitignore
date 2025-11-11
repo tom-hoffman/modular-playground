@@ -6,6 +6,11 @@ __pycache__/
 # C extensions
 *.so
 
+# CircuitPython
+
+*.mpy
+mpy-cross
+
 # Distribution / packaging
 .Python
 build/
