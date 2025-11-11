@@ -1,50 +1,52 @@
-import gc
 import os
+import gc
 
-from audiocore import WaveFile
+from audiocore import WaveFile # type: ignore
 
 import cpx
-from minimal_midi import MinimalMidi
+from minimal_midi import MinimalMidi # type: ignore
 
-gc.collect()
-print("Free bytes app.py after imports = " + str(gc.mem_free()))
+_BANKS = ("kick", "snare", "perc")
 
-BANKS = ("kick", "snare", "perc")
-BANK_COLORS = ((0, 0, 16), (16, 0, 0), (0, 16, 0))
 
 class SamplePlayerApp(object):
-    def __init__(self, channel, note):
+    def __init__(self, channel, note, sample_index=0, bank_index=0, 
+                 wav_file=None, wav=None, midi=None):
         self.channel = channel
         self.note = note
-        self.sampleIndex = 0
-        self.bankIndex = 0
-        self.wav_file = None
+        self.sample_index = sample_index
+        self.bank_index = bank_index
+        self.wav_file = wav_file
         self.wav = None
         self.midi = MinimalMidi(channel, None)
     
     def changeSample(self):
-        path = BANKS[self.bankIndex] + '/' + str(self.sampleIndex)
+        gc.collect()
+        #string.join?
+        path = _BANKS[self.bank_index] + '/' + str(self.sample_index)
         fileName = os.listdir(path)[0]
         self.wav_file = open(path + '/' + fileName, 'rb')
         self.wav = WaveFile(self.wav_file)
-        
-    def updatePixels(self):
-        pass
-        
-    def checkButtons(self):
-        pass
-        
+
+    def updateButtons(self):
+        cpx.a_button.update()
+        cpx.b_button.update()
+        cpx.switch.update()
+
     def main(self):
-        self.changeSample()
-        self.updatePixels()
-        self.midi.clear_msgs()
+        _button_delay = 0
         while True:
-            self.checkButtons()
+            if _button_delay == 512:
+                self.updateButtons() 
+                self.checkButtons()
+                _button_delay = 0
+            else:
+                _button_delay += 1
             msg = self.midi.get_msg()
             if msg is not None:
                 if msg['type'] == 'NoteOn':
                     if msg['note'] == self.note:
                         cpx.audio.play(self.wav)
                         cpx.led.value = not cpx.led.value
-gc.collect()
-print("Free bytes app.py after imports = " + str(gc.mem_free()))
+                        print(gc.mem_free())
+

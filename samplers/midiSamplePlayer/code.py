@@ -1,12 +1,16 @@
-from app import SamplePlayerApp
+from midi_config_mode import MidiConfigMode
+from sample_select_mode import SampleSelectMode
 import gc
 
-app = SamplePlayerApp(15, 60)
+print("Starting Sample Player...")
 
-gc.collect()
-print("Free bytes after object def and creation = " + str(gc.mem_free()))
+app = SampleSelectMode(15, 60)
+app.changeSample()
+app.updatePixels()
+app.midi.clear_msgs()
 
 app.main()
+
 
 
 
