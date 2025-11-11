@@ -35,4 +35,4 @@ audio = audioio.AudioOut(board.A0)
 
 spkrenable = digitalio.DigitalInOut(board.SPEAKER_ENABLE)
 spkrenable.direction = digitalio.Direction.OUTPUT
-spkrenable.value = True
+spkrenable.value = False

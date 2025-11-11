@@ -1,5 +1,4 @@
 import os
-import gc
 
 from audiocore import WaveFile # type: ignore
 
@@ -19,10 +18,9 @@ class SamplePlayerApp(object):
         self.wav_file = wav_file
         self.wav = None
         self.midi = MinimalMidi(channel, None)
+        self.msg = None
     
     def changeSample(self):
-        gc.collect()
-        #string.join?
         path = _BANKS[self.bank_index] + '/' + str(self.sample_index)
         fileName = os.listdir(path)[0]
         self.wav_file = open(path + '/' + fileName, 'rb')
@@ -34,19 +32,10 @@ class SamplePlayerApp(object):
         cpx.switch.update()
 
     def main(self):
-        _button_delay = 0
-        while True:
-            if _button_delay == 512:
-                self.updateButtons() 
-                self.checkButtons()
-                _button_delay = 0
-            else:
-                _button_delay += 1
-            msg = self.midi.get_msg()
-            if msg is not None:
-                if msg['type'] == 'NoteOn':
-                    if msg['note'] == self.note:
-                        cpx.audio.play(self.wav)
-                        cpx.led.value = not cpx.led.value
-                        print(gc.mem_free())
+        self.msg = self.midi.get_msg()
+        if self.msg is not None:
+            if self.msg['type'] == 'NoteOn':
+                if self.msg['note'] == self.note:
+                    cpx.audio.play(self.wav)
+                    cpx.led.value = not cpx.led.value
 
