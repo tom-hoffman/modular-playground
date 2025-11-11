@@ -1,6 +1,6 @@
 import cpx
 import app
-from binaryCounter import displayByte
+from binary_counter import displayByte
 
 print("Starting...")
 
