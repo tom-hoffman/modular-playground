@@ -7,7 +7,7 @@ print("Starting Sample Player...")
 CHANNEL = 5
 NOTE = 36
 
-app = SampleSelectMode(15, 60)
+app = SampleSelectMode(CHANNEL, NOTE)
 app.changeSample()
 app.updatePixels()
 app.midi.clear_msgs()
