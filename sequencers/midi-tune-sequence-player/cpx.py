@@ -2,8 +2,6 @@ import board            # helps set up pins, etc. on the board
 import digitalio        # digital (on/off) output to pins, including board LED.
 import neopixel         # controls the RGB LEDs on the board
 
-import usb_midi         # basic MIDI over USB support
-
 from adafruit_debouncer import Debouncer
 
 led = digitalio.DigitalInOut(board.LED)
@@ -28,9 +26,4 @@ def switchIsLeft():
     return switch.value
 
 pix = neopixel.NeoPixel(board.NEOPIXEL, 10, brightness=0.2, auto_write=False)
-pix.fill((255, 0, 255))
-pix.show()
-
-innie = usb_midi.ports[0]
-outie = usb_midi.ports[1]
 
