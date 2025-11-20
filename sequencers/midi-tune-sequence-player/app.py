@@ -61,6 +61,7 @@ class SequencePlayerApp(object):
             self.tune = getTune(self.notes, self.tuneIndex)
             self.noteIndex = 0
             self.clockCount = 0
+            changed = False
 
     def process_MIDI(self):
         self.msg = self.midi.get_msg()
