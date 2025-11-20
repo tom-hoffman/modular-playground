@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: 2025 Tom Hoffman
+# SPDX-License-Identifier: MIT
+# Modular Playground CircuitPython Euclidian Sequencer
+
+DEV_MODE = True
+# We use the gc library to check and manage available RAM during development
+if DEV_MODE:
+    import gc
+    gc.collect()
+    print("Starting free bytes (after gc) = " + str(gc.mem_free()))
+
+from algorithm import SequenceAlgorithm
+from app import SequencerApp
+
+if DEV_MODE:
+    gc.collect()
+    print("Free bytes after imports = " + str(gc.mem_free()))
+
+
+app = SequencerApp(SequenceAlgorithm().update())
+app.updateNeoPixels()
+
+if DEV_MODE:
+    gc.collect()
+    print("Free bytes after object def and creation = " + str(gc.mem_free()))
+
+app.main()
+
