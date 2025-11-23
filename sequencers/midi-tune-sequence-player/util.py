@@ -27,3 +27,20 @@ def note_parser(midstr):
     #Octave
     answer += (int(midstr[-1]))*12
     return answer
+
+def getTune(notes, index):
+    return notes[index]
+
+def getNotePair(tune, index):
+    # Returns (pitch, duration) from the notes tuple.
+    return tune[index]
+
+def getPitch(tune, index):
+    note_pair = getNotePair(tune, index)
+    pitch_text = note_pair[0]
+    return note_parser(pitch_text) 
+
+def getDuration(tune, index):
+    note_pair = getNotePair(tune, index)
+    note_text = note_pair[1]
+    return NOTE_DURATIONS[note_text] 
