@@ -7,16 +7,16 @@ from util import *
 class SequencePlayerApp(object):
     def __init__(self, 
                  notes, 
-                 midi_out,
+                 midi,
                  tuneIndex = 0,
+                 tune = None,
                  clockCount = 0,
                  noteIndex = 0,
-                 tune = None,
                  pitch = None,
                  duration = None,
                  playing = False):
         self.notes = notes
-        self.midi = MinimalMidi(None, midi_out)
+        self.midi = midi
         self.tuneIndex = tuneIndex
         self.clockCount = clockCount
         self.noteIndex = noteIndex
@@ -33,6 +33,8 @@ class SequencePlayerApp(object):
         else:
             self.duration = getDuration(self.tune, self.noteIndex)
         self.playing = playing
+
+    # add red led
 
     def updatePixels(self):
         cpx.pix.fill((32, 0, 32))
@@ -67,9 +69,16 @@ class SequencePlayerApp(object):
     
     def get_MIDI(self):
         self.msg = self.midi.get_msg()
-        if self.msg is not None:
-            return self.process_MIDI()
+        return self.msg is not None
+
+    def send_note(self):
+        prev_pitch = self.pitch
+        self.pitch = getPitch(self.tune, self.noteIndex)             
+        if self.pitch:
+            self.duration = getDuration(self.tune, self.noteIndex)
+            self.midi.send_note_on(self.pitch, 127)
+            self.playing = True
         else:
-            return self
-
-
+            self.midi.send_note_off(prev_pitch)
+            self.pitch = prev_pitch
+            self.playing = False 
