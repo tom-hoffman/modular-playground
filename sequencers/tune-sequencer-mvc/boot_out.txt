@@ -1,0 +1,4 @@
+Adafruit CircuitPython 10.0.3 on 2025-10-17; Adafruit CircuitPlayground Express with samd21g18
+Board ID:circuitplayground_express
+UID:EA2C71A1434C305020312E54323117FF
+boot.py output:
