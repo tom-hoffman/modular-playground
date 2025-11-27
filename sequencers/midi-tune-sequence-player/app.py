@@ -69,13 +69,12 @@ class SequencePlayerApp(object):
         self.updatePixels()
 
     def checkButtons(self):
-        a_button.update()
-        b_button.update()
-        if a_button.rose:
+        cpx.a_button.update()
+        cpx.b_button.update()
+        if cpx.a_button.rose:
             self.tuneIndex -= 1
-        if b_button.rose:
+        if cpx.b_button.rose:
             self.tuneIndex += 1
-        
 
     def main(self):
         self.updatePixels()
