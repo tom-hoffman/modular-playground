@@ -1,67 +1,41 @@
-import gc
 import os
 
-from audiocore import WaveFile    
+from audiocore import WaveFile # type: ignore
 
-from cpx import led, a_button, b_button, switch, switchIsLeft, pix, innie, outie, audio, spkrenable
+import cpx
+from minimal_midi import MinimalMidi # type: ignore
 
-BANKS = ("kick", "snare", "perc")
-BANK_COLORS = ((0, 0, 16), (16, 0, 0), (0, 16, 0))
+_BANKS = ("kick", "snare", "perc")
 
-def generateNoteOnValue(channel):
-    return int.to_bytes(0b10010000 | channel)
 
 class SamplePlayerApp(object):
-    def __init__(self, channel, note):
+    def __init__(self, channel, note, sample_index=0, bank_index=0, 
+                 wav_file=None, wav=None, midi=None):
         self.channel = channel
-        self.noteOn = generateNoteOnValue(self.channel)
-        print(self.noteOn)
         self.note = note
-        self.sampleIndex = 0
-        self.bankIndex = 0
-        self.wav_file = None
+        self.sample_index = sample_index
+        self.bank_index = bank_index
+        self.wav_file = wav_file
         self.wav = None
-
-
-
+        self.midi = MinimalMidi(channel, None)
+        self.msg = None
+    
     def changeSample(self):
-        path = BANKS[self.bankIndex] + '/' + str(self.sampleIndex)
+        path = _BANKS[self.bank_index] + '/' + str(self.sample_index)
         fileName = os.listdir(path)[0]
         self.wav_file = open(path + '/' + fileName, 'rb')
         self.wav = WaveFile(self.wav_file)
 
-    def checkButtons(self):
-        a_button.update()
-        b_button.update()
-        if a_button.rose:
-            self.bankIndex = (self.bankIndex + 1) % 3
-            self.changeSample()
-            self.updatePixels()
-        if b_button.rose:
-            self.sampleIndex = (self.sampleIndex + 1) % 10
-            self.changeSample()
-            self.updatePixels()
-
-    def get_msg(self):
-        return innie.read(1)
-
-    def updateBackground(self):
-        pix.fill(BANK_COLORS[self.bankIndex])
-
-    def updateSelector(self):
-        pix[self.sampleIndex] = (32, 32, 32)
-
-    def updatePixels(self):
-        self.updateBackground()
-        self.updateSelector()
-        pix.show()
+    def updateButtons(self):
+        cpx.a_button.update()
+        cpx.b_button.update()
+        cpx.switch.update()
 
     def main(self):
-        self.changeSample()
-        self.updatePixels()
-        while True:
-            self.checkButtons()
-            msg = self.get_msg()
-            if msg == b'\x9f':
-                audio.play(self.wav)
-                led.value = not led.value
+        self.msg = self.midi.get_msg()
+        if self.msg is not None:
+            if self.msg['type'] == 'NoteOn':
+                if self.msg['note'] == self.note:
+                    cpx.audio.play(self.wav)
+                    cpx.led.value = not cpx.led.value
+

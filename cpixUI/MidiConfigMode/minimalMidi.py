@@ -67,13 +67,6 @@ class MinimalMidi(object):
 print("Starting...")
 midi = MinimalMidi(1, 15)
 midi.clear_msgs()
-count = 0
-while True:
-    m = midi.get_msg()
-    if m:
-        print(m)
-    midi.sendNoteOn(60, 127)
-    midi.sendClock()
-    midi.sendNoteOff(60)
+
     
 

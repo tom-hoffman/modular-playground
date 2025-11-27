@@ -5,86 +5,50 @@
 
 # Module Description:
 # Sends a pre-defined sequence of MIDI notes.
-from app import SequencePlayerApp
+import active
+from minimal_midi import MinimalMidi
+import tune
 import gc
 
-# listen for messages from:
-channel_in = 0
-# send messages on:
-channel_out = 15
+# send MIDI messages on:
+channel_out = 1
 
-NOTES = (
-            (# happy birthday
-            ('G4', '8dn'),
-            ('G4', '16n'),
-         
-            ('A4', '4n'),
-            ('G4', '4n'),
-            ('C5', '4n'),
-         
-            ('B4', '4n'),
-            ('G4', '8dn'),
-            ('G4', '16n'),
-         
-            ('A4', '4n'), 
-            ('G4', '4n'),
-            ('D5', '4n'),
-         
-            ('C5', '2n'),
-            ('G4', '8dn'),
-            ('G4', '16n'),
-         
-            ('G5', '4n'),
-            ('E5', '4n'),
-            ('C5', '4n'),
-         
-            ('B4', '4n'),
-            ('A4', '4n'),
-            ('F5', '8dn'),
-            ('F5', '16n'),
-         
-            ('E5','4n'),
-            ('C5','4n'),  
-            ('D5','4n'),
-            ('C5', '2n'),
-            (0, '2n'),
-            (0, '1n')
-            ),
-            (# Billie Jean riff
-            ('F3', '4n'),
-            ('C3', '4n'),
-            ('E3', '4n'),
-            ('F3', '4n'),
-            ('E3', '4n'),
-            ('C3', '4n'),
-            ('B2', '4n'),
-            ('C3', '4n')
-            ),
-            (# How many More Times (Led Zep.)
-            ('E3', '4n'),
-            ('E4', '8n'),
-            ('D4', '8n'),
-            ('C4', '4n'),
-            ('D4', '4n'),
-            ('E3', '4n'), 
-            ('E4', '4n'),
-            ('D4', '4n'),
-            ('C4', '8n'), 
-            ('D4', '8n')
-            ),
-            (# A Beatles riff...?
-            ('E4', '8n'),
-            ('E4', '8n'),
-            ('D4', '16n'),
-            ('E4', '16n'),
-            ('G4', '8n'),
-            ('E4', '4n')
-            )
-)
+app = active.ActivePlayer(tune.NOTES, MinimalMidi(None, channel_out))
+app.midi.clear_msgs()
+count = 0    
 
+while True:
+    got_msg = app.get_MIDI() # return boolean
+    if got_msg:
+        '''
+        if app['msg'] == 'Stop':
+            app = StoppedPlayer(self.notes,
+                                self.midi.out_channel,
+                                self.tuneIndex,
+                                self.tune
+                                0,  # reset clockCount
+                                0,  # reset noteIndex
+                                tune.NOTES, 
+                                )
+        '''
+        app = app.process_MIDI()
+        app.updatePixels()
+    if count & 0b100000000:
+        app.check_buttons()
+        count = 0
+        print(gc.mem_free())
+        app.updatePixels()
+    else:
+        count += 1
 
-app = SequencePlayerApp(NOTES)
-
-app.main()
-gc.collect()
-print("Bytes free: " + str(gc.mem_free()))
+'''
+            return ActivePlayer(self.notes, 
+                                self.midi.out_channel,
+                                self.tuneIndex,
+                                self.clockCount,
+                                self.noteIndex,
+                                self.tune,
+                                self.pitch,
+                                self.duration,
+                                self.playing)
+                                '''

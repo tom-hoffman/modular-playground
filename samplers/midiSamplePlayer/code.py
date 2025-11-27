@@ -1,17 +1,28 @@
+from midi_config_mode import MidiConfigMode
+from sample_select_mode import SampleSelectMode
 
-import gc
-gc.collect()
-print("Starting free bytes (after gc) = " + str(gc.mem_free()))
-    
-from app import SamplePlayerApp
 
-channel = 15
-note = 60
+print("Starting Sample Player...")
 
-app = SamplePlayerApp(channel, note)
+CHANNEL = 5
+NOTE = 36
 
-gc.collect()
-print("Free bytes after setup = " + str(gc.mem_free()))
+app = SampleSelectMode(CHANNEL, NOTE)
+app.changeSample()
+app.updatePixels()
+app.midi.clear_msgs()
 
 app.main()
+
+_button_delay = 0
+
+while True:
+    if _button_delay == 512:
+        app.updateButtons() 
+        app.checkButtons()
+        _button_delay = 0
+    else:
+        _button_delay += 1
+    app.main()
+
 
