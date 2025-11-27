@@ -1,5 +1,20 @@
+import gc
+gc.collect()
+gc.mem_free()
+print("model.py before imports:", gc.mem_free())
+
 import tune
+gc.collect()
+gc.mem_free()
+print("model.py after tune import:", gc.mem_free())
+
+
+
 import util
+gc.collect()
+gc.mem_free()
+print("model.py after util import:", gc.mem_free())
+
 
 class TuneModel(object):
     def __init__(self, tune_index=0, note_index=0, clock_count=0, 
@@ -10,16 +25,9 @@ class TuneModel(object):
         self.divider = divider
         self.pitch = pitch
         self.duration = duration
-
-    def get_tune(self):
-        return tune.TUNES[self.tune_index]
-
-    def get_note_pair(self):
-        # Returns (pitch, duration) from the notes tuple.
-        return self.getTune()[self.note_index]
     
     def set_pitch_and_duration(self):
-        np = self.get_note_pair()
+        np = tune.TUNES[self.tune_index][self.note_index]
         self.pitch = util.note_parser(np[0])
         self.duration = util.NOTE_DURATIONS[np[1]]
 

@@ -2,8 +2,21 @@ import board            # helps set up pins, etc. on the board
 import digitalio        # digital (on/off) output to pins, including board LED.
 import neopixel         # controls the RGB LEDs on the board
 
-from adafruit_debouncer import Debouncer
+class Debouncer(object):
 
+    def __init__(self, b, current_value=None):
+        self.b = b
+        if current_value is None:
+            self.current_value = b.value
+        else:
+            self.current_value = current_value
+
+    def went_down(self):
+        new = self.b.value
+        changed = new and (not self.current_value)
+        self.current_value = new
+        return changed
+        
 led = digitalio.DigitalInOut(board.LED)
 led.direction = digitalio.Direction.OUTPUT
 led.value = True
@@ -26,4 +39,3 @@ def switchIsLeft():
     return switch.value
 
 pix = neopixel.NeoPixel(board.NEOPIXEL, 10, brightness=0.2, auto_write=False)
-

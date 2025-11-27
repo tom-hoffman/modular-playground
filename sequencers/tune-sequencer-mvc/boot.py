@@ -2,7 +2,7 @@
 # from https://github.com/todbot/circuitpython-tricks#usb
 
 # customize name here:
-name = "TUNE-SEQ"
+name = "YIELD"
 
 import storage
 storage.remount("/", readonly=False)
