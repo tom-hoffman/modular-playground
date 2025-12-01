@@ -9,17 +9,22 @@
 import gc
 print("at start: ", gc.mem_free())
 
-from controller import TuneController # type: ignore
+from controller import Starting # type: ignore
+from minimal_midi import MinimalMidi
+from model import TuneModel
+from view import SelectorView
 
 
 # send MIDI messages on:
 channel_out = 1
-gc.collect()
 print("before app creation:", gc.mem_free())
-app = TuneController(channel_out)
+app = Starting(TuneModel(),
+                     SelectorView(),
+                     MinimalMidi(None, channel_out))
 
-app.update_display()
 app.midi.clear_msgs()
+
 print("after app creation:", gc.mem_free())
+
 while True:
-    app.main()
+    app = app.main()
