@@ -10,6 +10,7 @@ __pycache__/
 
 *.mpy
 mpy-cross
+boot_out.txt
 
 # Distribution / packaging
 .Python
