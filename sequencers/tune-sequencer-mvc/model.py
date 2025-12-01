@@ -1,8 +1,5 @@
 
-import gc
 import os
-
-print("model.py after util import:", gc.mem_free())
 
 NOTE_DURATIONS = {'32n' : 3,
                   '16n' : 6,
@@ -52,13 +49,16 @@ def open_file(tune_index):
     
 class TuneModel(object):
     def __init__(self, tune_index=0, clock_count=0, 
-                 divider=0, pitch=0, duration=0):
+                 divider=0, pitch=0, duration=0,
+                 changed=True):
         self.tune_index = tune_index
         self.clock_count = clock_count
         self.divider = divider
         self.pitch = pitch
         self.duration = duration
         self.tune_generator = open_file(self.tune_index)
+        self.changed = changed
+
 
     def reset_tune(self):
         self.clock_count = 0
@@ -79,11 +79,11 @@ class TuneModel(object):
         self.clock_count = 0
         pair = line.split(',')
         raw_pitch = pair[0]
-        if not raw_pitch:
+        if not raw_pitch:  # if it is a blank line
             self.advance_pitch_and_duration()
         else:
             self.duration = NOTE_DURATIONS[pair[1].strip()]
-            self.pitch = note_parser(pair[0].strip())
+            self.pitch = note_parser(raw_pitch.strip())
 
     def update_tune(self):
         self.tune_generator.close()
