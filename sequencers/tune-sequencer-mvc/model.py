@@ -50,15 +50,15 @@ def open_file(tune_index):
 class TuneModel(object):
     def __init__(self, tune_index=0, clock_count=0, 
                  divider=0, pitch=0, duration=0,
-                 changed=True):
+                 intensity=1, changed=True):
         self.tune_index = tune_index
         self.clock_count = clock_count
         self.divider = divider
         self.pitch = pitch
         self.duration = duration
         self.tune_generator = open_file(self.tune_index)
+        self.intensity = intensity
         self.changed = changed
-
 
     def reset_tune(self):
         self.clock_count = 0
@@ -66,7 +66,7 @@ class TuneModel(object):
 
     def get_next_line(self):
         try:
-            return next(self.tune_generator)  # make this a separate function with a return value
+            return next(self.tune_generator)
         except StopIteration:
             # start over if we've gotten to the end of the file
             # and call this function again
@@ -91,23 +91,14 @@ class TuneModel(object):
         self.reset_tune()
 
     def increment_tune(self):
-        starting = self.tune_index
         self.tune_index = (self.tune_index + 1) % TUNE_COUNT
-        try:
-            self.update_tune()
-        except:
-            self.tune_index = starting
+        self.update_tune()
 
     def decrement_tune(self):
-        starting = self.tune_index
-        self.tune_index = (self.tune_index - 1)
+        self.tune_index = (self.tune_index -1)
         if self.tune_index < 0:
             self.tune_index = TUNE_COUNT - 1
-        try:
-            self.update_tune()
-        except:
-            self.tune_index = starting
-
+        self.update_tune()
 
 
 

@@ -49,6 +49,7 @@ class Sustaining(MidiController):
         self.model.clock_count += 1
         self.midi.send_note_off(self.model.pitch)
         self.model.changed = True
+        self.model.intensity = 0.7
         return Counting(self.model, self.midi)
 
 class Counting(MidiController):
@@ -56,6 +57,7 @@ class Counting(MidiController):
     def next(self):
         if self.model.clock_count == 1:
             self.model.changed = True
+            self.model.intensity = 0
         self.model.clock_count += 1
         if self.model.clock_count >= (self.model.duration - 1):
             self.model.changed = True
