@@ -91,14 +91,23 @@ class TuneModel(object):
         self.reset_tune()
 
     def increment_tune(self):
+        starting = self.tune_index
         self.tune_index = (self.tune_index + 1) % TUNE_COUNT
-        self.update_tune()
+        try:
+            self.update_tune()
+        except:
+            self.tune_index = starting
 
     def decrement_tune(self):
-        self.tune_index = (self.tune_index -1)
+        starting = self.tune_index
+        self.tune_index = (self.tune_index - 1)
         if self.tune_index < 0:
             self.tune_index = TUNE_COUNT - 1
-        self.update_tune()
+        try:
+            self.update_tune()
+        except:
+            self.tune_index = starting
+
 
 
 
