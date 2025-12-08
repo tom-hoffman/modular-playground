@@ -6,12 +6,16 @@
 # Module Description:
 # Sends a pre-defined sequence of MIDI notes.
 
-import cpx
 import gc
 
 from midi_controller import Starting # type: ignore
+print("After midi controller: " + str(gc.mem_free()))
 from minimal_midi import MinimalMidi
+print("After minimal_midi: " + str(gc.mem_free()))
+gc.collect()
 from model import TuneModel
+print("After model: " + str(gc.mem_free()))
+
 from board_controller import SelectorView
 
 # send MIDI messages on:

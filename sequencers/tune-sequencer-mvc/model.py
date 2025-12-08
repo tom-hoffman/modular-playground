@@ -1,7 +1,10 @@
 
 import os
 
-NOTE_DURATIONS = {'32n' : 3,
+TUNE_COUNT = 10
+DIVIDERS = [3, 2, 1, 0.5, (1/3)]
+
+_NOTE_DURATIONS = {'32n' : 3,
                   '16n' : 6,
                   '8n' : 12,
                   '4n' : 24,
@@ -29,13 +32,11 @@ def note_parser(midstr):
     answer += (int(midstr[-1]))*12  
     return answer
 
-TUNE_COUNT = 10
-
 def read_lines_generator(filepath):
     '''This is a special type of function called a generator.
-    It returns a single line and "pauses" at the yield statement.
+    It returns a single line of the tune and "pauses" at the yield statement.
     This means we don't have to load the entire song file at once,
-    saving memory (at the price of some speed?).'''
+    saving memory (at the price of apparently no significant speed).'''
     with open(filepath, 'r') as f:
         for line in f:
             yield line.strip()
@@ -49,11 +50,11 @@ def open_file(tune_index):
     
 class TuneModel(object):
     def __init__(self, tune_index=0, clock_count=0, 
-                 divider=0, pitch=0, duration=0,
-                 intensity=1, changed=True):
+                 divider_index=2, pitch=0, duration=0,
+                 intensity=3, changed=True):
         self.tune_index = tune_index
         self.clock_count = clock_count
-        self.divider = divider
+        self.divider_index = divider_index
         self.pitch = pitch
         self.duration = duration
         self.tune_generator = open_file(self.tune_index)
@@ -82,7 +83,7 @@ class TuneModel(object):
         if not raw_pitch:  # if it is a blank line
             self.advance_pitch_and_duration()
         else:
-            self.duration = NOTE_DURATIONS[pair[1].strip()]
+            self.duration = _NOTE_DURATIONS[pair[1].strip()] // DIVIDERS[self.divider_index]
             self.pitch = note_parser(raw_pitch.strip())
 
     def update_tune(self):
@@ -100,5 +101,15 @@ class TuneModel(object):
             self.tune_index = TUNE_COUNT - 1
         self.update_tune()
 
+    def increment_tune(self):
+        self.tune_index = (self.tune_index + 1) % TUNE_COUNT
+        self.update_tune()
+        self.changed = True
 
+    def decrement_tune(self):
+        self.tune_index = (self.tune_index -1)
+        if self.tune_index < 0:
+            self.tune_index = TUNE_COUNT - 1
+        self.update_tune()
+        self.changed = True
 

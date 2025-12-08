@@ -35,7 +35,7 @@ switch = digitalio.DigitalInOut(board.SLIDE_SWITCH)
 switch.direction = digitalio.Direction.INPUT
 switch.pull = digitalio.Pull.UP
 
-def switchIsLeft():
+def switch_is_left():
     return switch.value
 
 pix = neopixel.NeoPixel(board.NEOPIXEL, 10, brightness=0.2, auto_write=False)
