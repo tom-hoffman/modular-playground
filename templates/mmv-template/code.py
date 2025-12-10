@@ -1,10 +1,10 @@
 # SPDX-FileCopyrightText: 2025 Tom Hoffman & E-Cubed students
 # SPDX-License-Identifier: MIT
 
-# Modular Playground Simple MIDI Tune Sequencer
+# Modular Playground Application Template
 
 # Module Description:
-# Sends a pre-defined sequence of MIDI notes.
+# 
 
 import gc
 
