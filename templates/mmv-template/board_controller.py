@@ -1,47 +1,39 @@
 import cpx
 import model
 
-_BASE_BRIGHTNESS = 0.2
-_BACKGROUND = (16, 0, 16)
-_CURSOR = (32, 32, 0)
-
 class View(object):
 
     def __init__(self, model, pix=cpx.pix):
         self.model = model 
         self.pix = pix
-        
+
     def main(self):
+        # called by code.py regularly
         self.check_buttons()
         if self.model.changed:
             self.update_pixels()  
         return self
-    
 
+class ActiveView(View):
 
-class SelectorView(View):
+    def update_pixels(self):
+        # Re-draw the neopixels.
+        cpx.pix.show()
 
     def update_mode(self):
         if cpx.switch_is_left():
             self.model.changed = True
-            return DividerView(self.model, self.pix)
+            return ConfigurationView(self.model, self.pix)
         else:
             return self
-
-    def update_pixels(self):
-        cpx.pix.brightness = _BASE_BRIGHTNESS + self.model.intensity
-        cpx.pix.fill(_BACKGROUND)
-        cpx.pix[self.model.tune_index] = _CURSOR
-        self.model.changed = False
-        cpx.pix.show()
-
+    
     def check_buttons(self):
         if cpx.a_button.went_down():
-            self.model.decrement_tune()
+            pass  # usually a method of the model.
         elif cpx.b_button.went_down():
-            self.model.increment_tune()
+            pass  # usually a method of the model.
 
-class DividerView(View):
+class ConfigurationView(View):
 
     def check_buttons(self):
         if cpx.a_button.went_down():
