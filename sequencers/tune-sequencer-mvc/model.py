@@ -4,16 +4,19 @@ import os
 TUNE_COUNT = 10
 DIVIDERS = [3, 2, 1, 0.5, (1/3)]
 
-_NOTE_DURATIONS = {'32n' : 3,
-                  '16n' : 6,
-                  '8n' : 12,
-                  '4n' : 24,
-                  '2n' : 48,
-                  '1n' : 96,
-                  '1dn' : 144,
-                  '2dn' : 72,
-                  '4dn' : 36,
-                  '8dn' : 18}
+_NOTE_DURATIONS = {'32n' : 3,  # 32nd note
+                  '16n' : 6,   # 16th note
+                  '8n' : 12,   # 8th note
+                  '4n' : 24,   # quarter note
+                  '2n' : 48,   # half note
+                  '1n' : 96,   # whole note
+                  '1dn' : 144, # dotted whole note
+                  '2dn' : 72,  # dotted half note
+                  '4dn' : 36,  # dotted quarter note
+                  '8dn' : 18,  # dotted 8th note
+                  '8tr' : 8,   # 8th note triplet
+                  '4tr' : 16   # quarter note triplet        
+                  }
 
 def note_parser(midstr):
     if midstr == "REST":
