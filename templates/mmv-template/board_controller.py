@@ -17,6 +17,7 @@ class View(object):
 class ActiveView(View):
 
     def update_mode(self):
+        # Check the switch and return current mode.
         if cpx.switch_is_left():
             self.model.changed = True
             return ConfigurationView(self.model, self.pix)
@@ -48,9 +49,10 @@ class ConfigurationView(View):
             return self
         else:
             self.model.changed = True
-            return SelectorView(self.model, self.pix)    
+            return ActiveView(self.model, self.pix)    
 
     def update_pixels(self):
+        print('.', end='')
         self.pix.fill((0, 32, 0))
         self.model.changed = False
         self.pix.show()

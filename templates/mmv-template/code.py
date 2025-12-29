@@ -20,14 +20,15 @@ from board_controller import ActiveView
 # send MIDI messages on:
 channel_out = 1
 
-tm = TuneModel()
+tm = ApplicationModel()
 
 mc = Starting(tm, MinimalMidi(None, channel_out))
 mc.midi.clear_msgs()
 
-bc = SelectorView(tm)
+bc = ActiveView(tm).update_mode()
 bc.update_pixels()
 print("After object creation: " + str(gc.mem_free()))
 while True:
     mc = mc.main()
+    bc = bc.update_mode()
     bc = bc.main()
