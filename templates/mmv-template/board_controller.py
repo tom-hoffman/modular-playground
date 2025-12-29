@@ -52,7 +52,6 @@ class ConfigurationView(View):
             return ActiveView(self.model, self.pix)    
 
     def update_pixels(self):
-        print('.', end='')
         self.pix.fill((0, 32, 0))
         self.model.changed = False
         self.pix.show()

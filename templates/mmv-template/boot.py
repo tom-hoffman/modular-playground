@@ -2,7 +2,10 @@
 # from https://github.com/todbot/circuitpython-tricks#usb
 
 # customize name here:
-name = "NEW_TEMPLATE"
+# Because of the limitations of the old school Microsoft format
+# this MUST BE 8 CHARACTERS OR LESS
+# and ALL CAPS are recommended.  
+name = "TEMPLATE"
 
 import storage
 storage.remount("/", readonly=False)
