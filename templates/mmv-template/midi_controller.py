@@ -17,53 +17,18 @@ class MidiController(object):
     def main(self):
         msg = self.midi.get_msg()
         if msg is not None:
-            self.toggle_led()
-            if msg['type'] == 'Clock':
-                return self.next()
-            elif msg['type'] == 'Stop':
-                self.model.reset_tune()
-                self.model.changed = True
-                return Stopped(self.model, self.midi)
-            elif msg['type'] == 'Start':
-                self.model.changed = True
-                return Starting(self.model, self.midi)
-            else:
-                return self
+            # process msg
+            return self
         else:
             return self
 
 class Starting(MidiController):
 
     def next(self):
-        self.model.advance_pitch_and_duration()
-        if self.model.pitch:
-            self.midi.send_note_on(self.model.pitch, 127)
-        else:
-            self.midi.send_note_off(0)
-        self.model.changed = True
-        return Sustaining(self.model, self.midi)
-
-class Sustaining(MidiController):
-
-    def next(self):
-        self.model.clock_count += 1
-        self.midi.send_note_off(self.model.pitch)
-        self.model.changed = True
-        self.model.intensity = 0.7
-        return Counting(self.model, self.midi)
-
-class Counting(MidiController):
-
-    def next(self):
-        if self.model.clock_count == 1:
-            self.model.changed = True
-            self.model.intensity = 0
-        self.model.clock_count += 1
-        if self.model.clock_count >= (self.model.duration - 1):
-            self.model.changed = True
-            return Starting(self.model, self.midi)
-        else:
-            return self
+        '''This is a sub-class of MidiController representing a state of the midi parser.
+        It implements next() which returns the next state of the parser.
+        e.g., from Starting to Sustaining (a note).'''
+        return self
 
 class Stopped(MidiController):
     def next(self):
