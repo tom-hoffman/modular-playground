@@ -8,15 +8,14 @@
 
 import gc
 
-from midi_controller import Starting # type: ignore
+from midi_controller import Starting 
 print("After midi controller: " + str(gc.mem_free()))
 from minimal_midi import MinimalMidi
 print("After minimal_midi: " + str(gc.mem_free()))
-gc.collect()
-from model import TuneModel
+from model import ApplicationModel
 print("After model: " + str(gc.mem_free()))
 
-from board_controller import SelectorView
+from board_controller import ActiveView
 
 # send MIDI messages on:
 channel_out = 1
