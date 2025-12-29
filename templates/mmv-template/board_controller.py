@@ -31,6 +31,8 @@ class ActiveView(View):
     
     def update_pixels(self):
         # Re-draw the neopixels.
+        self.pix.fill((0, 0, 32))
+        self.model.changed = False
         cpx.pix.show()
 
 class ConfigurationView(View):
@@ -49,7 +51,7 @@ class ConfigurationView(View):
             return SelectorView(self.model, self.pix)    
 
     def update_pixels(self):
-        self.pix.fill((0, 0, 0))
+        self.pix.fill((0, 32, 0))
         self.model.changed = False
         self.pix.show()
 
