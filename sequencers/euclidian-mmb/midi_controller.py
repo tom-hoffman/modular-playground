@@ -10,7 +10,7 @@ _NOTE_COUNT = const(6)
 _NOTES = (60, 62, 64, 65, 67, 69)
 
 _VELOCITY_COUNT = const(6)
-_VELOCITIES = const((0, 25, 50, 75, 100, 125))
+_VELOCITIES = const((0, 25, 50, 75, 100, 127))
 
 class MidiController(object):
 
@@ -36,13 +36,14 @@ class MidiController(object):
         else:
             return self
 
-class Playing(MidiController):
+class Playing(MidiController):        
     def clock(self):
-        if self.model.increment_clock():
+        if self.model.clock_count == 0:
             self.led.value = not self.led.value
             if self.model.is_active_step():
                 self.midi.send_note_on(_NOTES[self.model.note_index],
                                        _VELOCITIES[self.model.velocity_index])
+        self.model.increment_clock()
         return self
 
 class Stopped(MidiController):

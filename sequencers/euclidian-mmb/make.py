@@ -7,9 +7,10 @@ import subprocess
 from pathlib import Path
 
 
-# Argument is the path to the destination drive,
-# including its name.
-# e.g., ./make.py /media/hoffman/EUCLID0
+# Arguments are:
+# 1) the path to mpy-cross
+# 2) the path to the destination drive, including its name, 
+# e.g., ./make.py /home/hoffman/Desktop/mpy-cross /media/hoffman/EUCLID0
 
 # We're assuming this is run from the root directory
 # of the project, and not iterating through any sub-directories.
@@ -49,7 +50,8 @@ if __name__ == "__main__":
                 go_ahead = True
             if go_ahead and (not excluded):
                 subprocess.run(mpy_cross_path + " " + local_name, shell=True)
+                shutil.move(remote_new_name, remote_full_path)
                 print("Created " + remote_full_path)
             elif go_ahead:
                 shutil.copyfile(remote_new_name, remote_full_path)
-                print("Moved " + remote_full_path)
+                print("Copied " + remote_full_path)

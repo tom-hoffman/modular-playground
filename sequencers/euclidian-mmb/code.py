@@ -30,22 +30,23 @@ tm.generate()
 
 mc = midi_controller.Playing(tm, MinimalMidi(None, channel_out))
 
-bc = board_controller.PlayingView(tm).update_mode()
+bc = board_controller.SeqPlayingView(tm).update_mode()
 bc.update_pixels()
 print("After object creation: " + str(gc.mem_free()))
 
-mc.midi.clear_msgs()
-
 def update_board(m, b):
     if isinstance(m, midi_controller.Playing):
-        bc = board_controller.PlayingView(bcmodel)
-    else: 
-        bc = board_controller.StoppedView(b.model)
+        return board_controller.SeqPlayingView(b.model)
+    elif isinstance(m, midi_controller.Stopped):
+        return board_controller.SeqStoppedView(b.model)
+
+mc.midi.clear_msgs()
+bc = update_board(mc, bc)
 
 while True:
     mc = mc.main()
     if tm.midi_changed:
-        update_board(bc, mc)
+        bc = update_board(mc, bc)
         tm.midi_changed = False
     bc = bc.update_mode()
     bc = bc.main()

@@ -2,11 +2,10 @@ import math
 
 # CONSTANTS
 
-MAX_VELOCITY = const(5)
+MAX_VELOCITY = const(6)
 DEFAULT_VELOCITY = const(4)
 
 _CLOCK_LIMIT = const(24)  # for quarter note
-
 
 def gen_mask(n, acc):
     # generates a bitmask for n bits
@@ -17,11 +16,12 @@ def gen_mask(n, acc):
 
 class SequenceModel(object):
 
-    def __init__(self, note_index, note_count, steps=9, triggers=2, led_count=9):
+    def __init__(self, note_index, note_count, steps=2, triggers=1, led_count=9):
         self.note_index = note_index
         self.note_count = note_count
-        self.triggers = 2
-        self.shift = 0
+        self.steps = steps
+        self.triggers = triggers
+        self.rotation = 0
         self.sequence = [False] * steps
         self.active_step = 0
         self.velocity_index = DEFAULT_VELOCITY
@@ -39,20 +39,20 @@ class SequenceModel(object):
         Based on Jeff Holtzkener's Javascript implementation at
         https://medium.com/code-music-noise/euclidean-rhythms-391d879494df
         '''
-        steps = len(self.sequence)
         if self.triggers == 0:
-            self.sequence = [False] * steps
+            self.sequence = [False] * self.steps
         else:
-            slope = self.triggers / steps
+            slope = self.triggers / self.steps
             result = []
             previous = None
-            for i in range(steps):
+            for i in range(self.steps):
                 # adding 0.0001 to correct for imprecise math in CircuitPython.
                 current = math.floor((i * slope) + 0.001) 
                 result.append(current != previous)
                 previous = current
-            self.sequence = result
-        return self 
+            rotated = result[self.rotation:] + result[:self.rotation]
+            self.sequence = rotated
+            self.update_display = True
 
     def increment_note(self):
         self.note_index += 1
@@ -63,9 +63,6 @@ class SequenceModel(object):
             self.active_step = (self.active_step + 1) % len(self.sequence)
             self.update_display = True
             self.clock_count = 0
-            return True
-        else:
-            return False
 
     def is_active_step(self):
         return self.sequence[self.active_step]
@@ -73,7 +70,8 @@ class SequenceModel(object):
     def stop_reset(self):
         self.reset_clock()
         self.active_step = 0
-        self.midi_changed()
+        self.update_display = True
+        self.midi_changed = True
 
     def reset_clock(self):
         self.clock_count = 0
@@ -81,11 +79,36 @@ class SequenceModel(object):
     def triggered(self):
         return 1 & self.seq
 
-    def addStep(self):
+    def add_step(self):
         if self.steps < self.led_count:
             self.steps += 1
         else:
             self.steps = 1
             self.triggers = 0
             self.active_step = 0
-            self.generate()
+        self.generate()
+
+    def add_trigger(self):
+        if self.triggers < self.steps:
+            self.triggers += 1
+        else:
+            self.triggers = 0
+        self.generate()
+    
+    def add_rotation(self):
+        self.rotation = (self.rotation + 1) % self.steps
+        self.generate()
+    
+    def sub_rotation(self):
+        self.rotation -= 1
+        if self.rotation < 0:
+            self.rotation = self.steps - 1
+        self.generate()
+    
+    def increment_velocity(self):
+        self.velocity_index = (self.velocity_index + 1) % MAX_VELOCITY
+        self.update_display = True
+
+    def increment_note(self):
+        self.note_index = (self.note_index + 1) % self.note_count
+        self.update_display = True
