@@ -44,7 +44,8 @@ mc.midi.clear_msgs()
 bc = update_board(mc, bc)
 
 while True:
-    mc = mc.main()
+    for i in range(256):
+        mc = mc.main()
     if tm.midi_changed:
         bc = update_board(mc, bc)
         tm.midi_changed = False
