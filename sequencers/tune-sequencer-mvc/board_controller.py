@@ -1,5 +1,6 @@
 import cpx
 import model
+from config import *
 
 _BASE_BRIGHTNESS = 0.2
 _BACKGROUND = (16, 0, 16)

@@ -1,10 +1,10 @@
 import math
+from config import *
 
 # CONSTANTS
 MAX_VELOCITY = const(6)
 DEFAULT_VELOCITY = const(4)
 
-_PPQN = const(3)  # pulses per quarter note
 
 def gen_mask(n, acc):
     # generates a bitmask for n bits
@@ -58,7 +58,7 @@ class SequenceModel(object):
 
     def increment_clock(self):
         self.clock_count += 1
-        if self.clock_count >= _PPQN:
+        if self.clock_count >= PPQN:
             self.active_step = (self.active_step + 1) % len(self.sequence)
             self.update_display = True
             self.clock_count = 0
