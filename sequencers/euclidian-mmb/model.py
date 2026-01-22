@@ -5,7 +5,6 @@ from config import *
 MAX_VELOCITY = const(6)
 DEFAULT_VELOCITY = const(4)
 
-
 def gen_mask(n, acc):
     # generates a bitmask for n bits
     if n == 1:
