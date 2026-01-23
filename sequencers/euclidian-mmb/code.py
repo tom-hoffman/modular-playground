@@ -8,6 +8,8 @@
 
 import gc
 
+from config import *
+
 import midi_controller
 print("After midi controller: " + str(gc.mem_free()))
 from minimal_midi import MinimalMidi
@@ -18,11 +20,6 @@ import board_controller
 
 # send MIDI messages on:
 # this is the "raw" 0-15 scale
-channel_out = 15
-# note index
-note = 0
-# number of notes
-notes = 6
 led_count = 10
 
 tm = SequenceModel(note, notes, led_count=led_count)
@@ -44,7 +41,7 @@ mc.midi.clear_msgs()
 bc = update_board(mc, bc)
 
 while True:
-    for i in range(256):
+    for i in range(128):
         mc = mc.main()
     if tm.midi_changed:
         bc = update_board(mc, bc)

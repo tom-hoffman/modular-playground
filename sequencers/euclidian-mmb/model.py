@@ -2,8 +2,7 @@ import math
 from config import *
 
 # CONSTANTS
-MAX_VELOCITY = const(6)
-DEFAULT_VELOCITY = const(4)
+MAX_VELOCITY = 6
 
 def gen_mask(n, acc):
     # generates a bitmask for n bits

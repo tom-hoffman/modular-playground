@@ -5,9 +5,7 @@
 from micropython import const
 import cpx
 
-_NOTE_COUNT = const(6)
-# preset for Nord Drum 3p - 60, 62, 64, 65, 67, 69
-_NOTES = (60, 62, 64, 65, 67, 69)
+
 
 _VELOCITY_COUNT = const(6)
 _VELOCITIES = const((0, 25, 50, 75, 100, 127))
@@ -41,7 +39,7 @@ class Playing(MidiController):
         if self.model.clock_count == 0:
             self.led.value = not self.led.value
             if self.model.is_active_step():
-                self.midi.send_note_on(_NOTES[self.model.note_index],
+                self.midi.send_note_on(NOTE_NUMBERS[self.model.note_index],
                                        _VELOCITIES[self.model.velocity_index])
         self.model.increment_clock()
         return self

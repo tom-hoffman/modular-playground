@@ -23,7 +23,7 @@ def files(path):
 def addM(name):
     return name[:-2] + 'm' + name[-2:]
 
-excluded_files = ['make.py', 'code.py', 'boot.py']
+excluded_files = ['make.py', 'code.py', 'boot.py', ' config.py']
 
 print("Scanning current directory...")
 
