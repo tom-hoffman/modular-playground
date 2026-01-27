@@ -5,10 +5,9 @@
 # Because of the limitations of the old school Microsoft format
 # this MUST BE 8 CHARACTERS OR LESS
 # and ALL CAPS are recommended.  
-name = "EUCLID0"
-
+import config
 import storage
 storage.remount("/", readonly=False)
 m = storage.getmount("/")
-m.label = name
+m.label = config.USB_NAME
 storage.remount("/", readonly=True)
