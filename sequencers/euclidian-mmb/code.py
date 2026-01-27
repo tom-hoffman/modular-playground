@@ -8,7 +8,7 @@
 
 import gc
 
-from config import *
+import config
 
 import midi_controller
 print("After midi controller: " + str(gc.mem_free()))
@@ -22,10 +22,10 @@ import board_controller
 # this is the "raw" 0-15 scale
 led_count = 10
 
-tm = SequenceModel(note, notes, led_count=led_count)
+tm = SequenceModel(config.note, config.NOTE_NUMBERS, led_count=led_count)
 tm.generate()
 
-mc = midi_controller.Playing(tm, MinimalMidi(None, channel_out))
+mc = midi_controller.Playing(tm, MinimalMidi(None, config.channel_out))
 
 bc = board_controller.SeqPlayingView(tm).update_mode()
 bc.update_pixels()

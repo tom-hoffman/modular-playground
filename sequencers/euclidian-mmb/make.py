@@ -23,7 +23,8 @@ def files(path):
 def addM(name):
     return name[:-2] + 'm' + name[-2:]
 
-excluded_files = ['make.py', 'code.py', 'boot.py', 'config.py']
+excluded_files = ['make.py', 'code.py', 'boot.py']
+ignored_files = ['config.py']
 
 print("Scanning current directory...")
 
@@ -31,6 +32,8 @@ if __name__ == "__main__":
     mpy_cross_path = sys.argv[1]
     remote_path = sys.argv[2]
     for local_name in files('.'):
+        if local_name in ignored_files:
+            continue
         if (local_name[-3:] == '.py'):
             go_ahead = False
             local_time = os.path.getmtime(local_name)

@@ -1,5 +1,5 @@
+import config
 import math
-from config import *
 
 # CONSTANTS
 MAX_VELOCITY = 6
@@ -13,15 +13,17 @@ def gen_mask(n, acc):
 
 class SequenceModel(object):
 
-    def __init__(self, note_index, note_count, steps=2, triggers=1, led_count=9):
+    def __init__(self, note_index, note_count, steps=config.DEFAULT_STEPS, 
+                 triggers=config.DEFAULT_TRIGGERS, led_count=9,
+                 rotation = config.DEFAULT_ROTATION):
         self.note_index = note_index
         self.note_count = note_count
         self.steps = steps
         self.triggers = triggers
-        self.rotation = 0
+        self.rotation = rotation
         self.sequence = [False] * steps
         self.active_step = 0
-        self.velocity_index = DEFAULT_VELOCITY
+        self.velocity_index = config.DEFAULT_VELOCITY
         self.clock_count = 0
         self.update_display = True
         self.midi_changed = True
@@ -56,7 +58,7 @@ class SequenceModel(object):
 
     def increment_clock(self):
         self.clock_count += 1
-        if self.clock_count >= PPQN:
+        if self.clock_count >= config.PPQN:
             self.active_step = (self.active_step + 1) % len(self.sequence)
             self.update_display = True
             self.clock_count = 0
