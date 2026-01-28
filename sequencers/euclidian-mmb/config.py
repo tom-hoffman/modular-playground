@@ -19,7 +19,7 @@ note = 0
 # pulses per quarter note
 PPQN = 24
 
-
+# starting values for the sequencer
 DEFAULT_VELOCITY = 4
 DEFAULT_STEPS = 4
 DEFAULT_TRIGGERS = 1
