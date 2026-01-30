@@ -39,6 +39,10 @@ class Playing(MidiController):
             if self.model.is_active_step():
                 self.midi.send_note_on(config.NOTE_NUMBERS[self.model.note_index],
                                        _VELOCITIES[self.model.velocity_index])
+                cpx.out_pin.value = True
+        elif self.model.clock_count == 12:
+            cpx.out_pin.value = False
+
         self.model.increment_clock()
         return self
 

@@ -29,11 +29,16 @@ a_button = Debouncer(a_button_raw)
 b_button_raw = digitalio.DigitalInOut(board.BUTTON_B)
 b_button_raw.direction = digitalio.Direction.INPUT
 b_button_raw.pull = digitalio.Pull.DOWN
-b_button = Debouncer(b_button_raw)
+b_button = Debouncer(b_button_raw) 
 
 switch = digitalio.DigitalInOut(board.SLIDE_SWITCH)
 switch.direction = digitalio.Direction.INPUT
 switch.pull = digitalio.Pull.UP
+
+out_pin = digitalio.DigitalInOut(board.D6)
+out_pin.direction = digitalio.Direction.OUTPUT
+out
+
 
 def switch_is_left():
     return switch.value
