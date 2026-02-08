@@ -35,9 +35,9 @@ switch = digitalio.DigitalInOut(board.SLIDE_SWITCH)
 switch.direction = digitalio.Direction.INPUT
 switch.pull = digitalio.Pull.UP
 
-out_pin = digitalio.DigitalInOut(board.D6)
+out_pin = digitalio.DigitalInOut(board.D10)
 out_pin.direction = digitalio.Direction.OUTPUT
-out
+
 
 
 def switch_is_left():
