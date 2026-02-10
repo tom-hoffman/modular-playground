@@ -38,8 +38,6 @@ switch.pull = digitalio.Pull.UP
 out_pin = digitalio.DigitalInOut(board.D10)
 out_pin.direction = digitalio.Direction.OUTPUT
 
-
-
 def switch_is_left():
     return switch.value
 

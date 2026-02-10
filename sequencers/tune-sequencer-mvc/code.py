@@ -30,5 +30,6 @@ bc = SelectorView(tm)
 bc.update_pixels()
 print("After object creation: " + str(gc.mem_free()))
 while True:
+    bc = bc.update_mode()
     mc = mc.main()
     bc = bc.main()
