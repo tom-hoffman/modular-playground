@@ -1,0 +1,90 @@
+REST, 2n
+G5, 8n
+A5, 8n
+G5, 8n
+B5, 8n
+
+B5, 2n
+REST, 4n
+G5, 8n
+G5, 8n
+
+F#5, 2n
+G5, 4n
+A5, 4n
+
+E5, 8n
+D5, 8n
+D5,2dn
+
+REST, 2n
+D5, 8n
+C5, 8n
+B4, 8n
+C5, 8n
+
+C5, 2n
+REST, 4n
+E5, 8n
+E5, 8n
+
+F#5, 2n
+B5, 4n
+F5, 4n
+
+A5, 8n
+G5, 8n
+G5, 2dn
+
+REST, 2n
+G5, 8n
+A5, 8n
+G5, 8n
+B5, 8n
+
+B5, 2n
+REST, 4n
+E5, 8n
+F#5, 8n
+
+G5, 4n
+G5, 4n
+A5, 2n
+
+D5, 4n
+A5, 2n
+G5, 2n
+
+G5, 2n
+REST, 4n
+C4, 8n
+D4, 8n
+
+E4, 8n
+C5, 8n
+G5, 2dn
+
+REST, 4n
+REST, 2n
+B4, 8n
+C4, 8n
+
+D5, 8n
+C5, 8n
+A5, 2dn
+
+REST, 2n
+G5, 8n
+G5, 8n
+F#5, 8n
+G5, 8n
+
+G5, 4n
+REST, 4n
+REST, 2n
+
+REST, 2n
+G5, 8n
+A5, 8n
+G5, 8n
+B5, 8n
