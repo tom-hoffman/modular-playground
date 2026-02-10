@@ -13,11 +13,11 @@ def gen_mask(n, acc):
 
 class SequenceModel(object):
 
-    def __init__(self, note_index, note_count, steps=config.DEFAULT_STEPS, 
+    def __init__(self, note_index, note_tuple, steps=config.DEFAULT_STEPS, 
                  triggers=config.DEFAULT_TRIGGERS, led_count=9,
                  rotation = config.DEFAULT_ROTATION):
         self.note_index = note_index
-        self.note_count = note_count
+        self.note_tuple = note_tuple
         self.steps = steps
         self.triggers = triggers
         self.rotation = rotation
@@ -54,14 +54,15 @@ class SequenceModel(object):
             self.update_display = True
 
     def increment_note(self):
-        self.note_index += 1
+        self.note_index = (self.note_index + 1) % len(self.note_tuple)
+        self.update_display = True
 
     def increment_clock(self):
         self.clock_count += 1
         if self.clock_count >= config.PPQN:
             self.active_step = (self.active_step + 1) % len(self.sequence)
             self.update_display = True
-            self.clock_count = 0
+            self.clock_count = 0 
 
     def is_active_step(self):
         return self.sequence[self.active_step]
@@ -106,8 +107,4 @@ class SequenceModel(object):
     
     def increment_velocity(self):
         self.velocity_index = (self.velocity_index + 1) % MAX_VELOCITY
-        self.update_display = True
-
-    def increment_note(self):
-        self.note_index = (self.note_index + 1) % self.note_count
         self.update_display = True

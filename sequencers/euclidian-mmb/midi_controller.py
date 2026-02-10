@@ -42,7 +42,6 @@ class Playing(MidiController):
                 cpx.out_pin.value = True
         elif self.model.clock_count == 12:
             cpx.out_pin.value = False
-
         self.model.increment_clock()
         return self
 
