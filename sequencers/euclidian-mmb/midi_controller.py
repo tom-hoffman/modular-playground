@@ -40,7 +40,7 @@ class Playing(MidiController):
                 self.midi.send_note_on(config.NOTE_NUMBERS[self.model.note_index],
                                        _VELOCITIES[self.model.velocity_index])
                 cpx.out_pin.value = True
-        elif self.model.clock_count == 12:
+        elif self.model.clock_count == config.GATE_DURATION:
             cpx.out_pin.value = False
         self.model.increment_clock()
         return self

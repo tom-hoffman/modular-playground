@@ -19,6 +19,10 @@ note = 0
 # pulses per quarter note
 PPQN = 24
 
+# duration of analog gate
+# currently must be less than PPQN
+GATE_DURATION = 6
+
 # starting values for the sequencer
 DEFAULT_VELOCITY = 4
 DEFAULT_STEPS = 4
