@@ -9,6 +9,14 @@ USB_NAME = "EUCLID0"
 # this is the "raw" 0-15 scale
 channel_out = 15
 
+# MIDI repeat count
+# this is the number of times we check and process the MIDI queue 
+# for every time we check and update the board buttons, neopixels, etc.
+# raise this value if you are getting audible rhythm lag
+# which will in turn increase button and neopixel lag
+
+MIDI_READ_REPEAT = 128
+
 # These are the note values each sequencer will put out.
 # preset for Nord Drum 3p - 60, 62, 64, 65, 67, 69
 NOTE_NUMBERS = (60, 62, 64, 65, 67, 69)

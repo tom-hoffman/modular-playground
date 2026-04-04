@@ -7,6 +7,7 @@
 # and ALL CAPS are recommended.  
 import config
 import storage
+
 storage.remount("/", readonly=False)
 m = storage.getmount("/")
 m.label = config.USB_NAME
