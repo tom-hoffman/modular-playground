@@ -18,8 +18,6 @@ from model import SequenceModel
 print("After model: " + str(gc.mem_free()))
 import board_controller
 
-# send MIDI messages on:
-# this is the "raw" 0-15 scale
 led_count = 10
 
 tm = SequenceModel(config.note, config.NOTE_NUMBERS, led_count=led_count)

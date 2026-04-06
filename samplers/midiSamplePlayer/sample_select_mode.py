@@ -1,8 +1,7 @@
 import cpx
 import app
 
-_BANK_COLORS = ((0, 0, 16), (16, 0, 0), (0, 16, 0))
-_SELECTION_COOL = (16, 16, 16)
+
 
 
 class SampleSelectMode(app.SamplePlayerApp):
@@ -11,7 +10,7 @@ class SampleSelectMode(app.SamplePlayerApp):
         cpx.pix.fill(_BANK_COLORS[self.bank_index])
 
     def updateSelection(self):
-        cpx.pix[self.sample_index] = _SELECTION_COOL
+        cpx.pix[self.sample_index] = SELECTION_COLOR
 
     def updatePixels(self):
         self.updateBackground()

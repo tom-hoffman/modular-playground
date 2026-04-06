@@ -3,16 +3,16 @@ import os
 from audiocore import WaveFile # type: ignore
 
 import cpx
+import config
 from minimal_midi import MinimalMidi # type: ignore
 
-_BANKS = ("kick", "snare", "perc")
 
 
 class SamplePlayerApp(object):
 
     
     def changeSample(self):
-        path = _BANKS[self.bank_index] + '/' + str(self.sample_index)
+        path = config.BANKS[self.bank_index] + '/' + str(self.sample_index)
         fileName = os.listdir(path)[0]
         self.wav_file = open(path + '/' + fileName, 'rb')
         self.wav = WaveFile(self.wav_file)
