@@ -15,13 +15,15 @@ channel_out = 15
 # raise this value if you are getting audible rhythm lag
 # which will in turn increase button and neopixel lag
 
-MIDI_READ_REPEAT = 128
+MIDI_READ_REPEAT = 256
 
 # These are the note values each sequencer will put out.
 # preset for Nord Drum 3p - 60, 62, 64, 65, 67, 69
 NOTE_NUMBERS = (60, 62, 64, 65, 67, 69)
 
-# The note index THIS sequence sends out:
+
+
+# The note index THIS sequence sends out when restarted:
 note = 0
 
 # pulses per quarter note

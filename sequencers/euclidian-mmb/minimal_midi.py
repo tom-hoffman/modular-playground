@@ -7,6 +7,8 @@ import usb_midi
 
 from micropython import const
 
+import config
+
 _CLOCK = const(b'\xF8')
 _START = const(b'\xFA')
 _CONTINUE = const(b'\xFB')
@@ -14,6 +16,7 @@ _STOP = const(b'\xFC')
 
 _NOTE_ON_NYBBLE = const(0b1001)
 _NOTE_OFF_NYBBLE = const(0b1000)
+_DATA_MSG_MASK = const(0b10000000)
 _CHANNEL_NYBBLE_MASK = const(0b1111)
 
 # These "ports" are not to be confused with MIDI channels, etc.
@@ -63,9 +66,13 @@ class MinimalMidi(object):
             return None
     
     def get_msg(self):
-        m = _INNIE.read(1)  # is there a reason to use a buffer here?
-        # processing single byte messages
-        if m == b'':
+        m = _INNIE.read(1)              # grab a byte
+                                        # processing single byte messages
+        if m == b'':                    # drop empty bytes
+            return None
+        else:
+            n = ord(m)                  # convert to an integer
+        if not(n & _DATA_MSG_MASK):     # ditch stray data bytes quickly
             return None
         elif m == _CLOCK:
             return {'type' : 'Clock'}
@@ -75,10 +82,9 @@ class MinimalMidi(object):
             return {'type' : 'Stop'}
         elif m == _CONTINUE:
             return {'type' : 'Continue'}
-        else:
-            n = ord(m) # continuing with n as integer
-        if (n & 0b1111) == self.in_channel:
-            return self.process_channel_msg(n)
+
+        #if (n & 0b1111) == self.in_channel:
+        #    return self.process_channel_msg(n)
         else:
             return None
         
