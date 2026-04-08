@@ -10,6 +10,7 @@ USB_NAME = "PLAYER" + str(CPX_NUMBER)
 
 
 BANKS = ("kick", "snare", "perc")
+SAMPLE_COUNT = 10
 
 _BANK_COLORS = ((0, 0, 16), (16, 0, 0), (0, 16, 0))
 _SELECTION_COLOR = (16, 16, 16)
@@ -30,7 +31,9 @@ note_number = 60
 
 # CC values
 # Leave this empty if you don't want/need CC control
-CC_VALUES = (16) 
+# CC_VALUES = {}
+CC_VALUES = {16 : 'sample_index',
+             20 : 'bank_index'}
 
 # temporary MIDI notes ;-)
 

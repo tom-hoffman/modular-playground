@@ -5,10 +5,11 @@
 # Inputs -> NoteOn, optional CC.
 
 import cpx
+import config
 
 class MidiController(object):
 
-    def __init__(self, model, midi, led=cpx.led):
+    def __init__(self, model, midi, led=cpx.led, audio=cpx.audio):
         self.model = model
         self.midi = midi
         self.led = led
@@ -16,13 +17,25 @@ class MidiController(object):
     def toggle_led(self):
         self.led.value = not(self.led.value)
 
+    def process_cc(self, msg):
+        fun = msg['function']
+        if fun in self.model.cc_keys:
+            if config.CC_VALUES[fun] == 'sample_index':
+                self.model.sample_cc_count = msg['value']
+            elif config.CC_VALUES[fun] == 'bank_index':
+                self.model.bank_cc_count = msg['value']
+            self.model.update_display = True
+
     def main(self):
         msg = self.midi.get_msg()
         if msg is not None:
-            # process msg
-            return self
-        else:
-            return self
+            if msg['type'] == 'CC':
+                self.process_cc(msg)
+            elif msg['type'] == 'NoteOn':
+                pass
+            elif msg['type'] == 'NoteOff':
+                pass
+        return self
 
 class Starting(MidiController):
 

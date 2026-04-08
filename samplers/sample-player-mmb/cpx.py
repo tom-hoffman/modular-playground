@@ -39,3 +39,9 @@ def switch_is_left():
     return switch.value
 
 pix = neopixel.NeoPixel(board.NEOPIXEL, 10, brightness=0.2, auto_write=False)
+
+audio = audioio.AudioOut(board.A0)
+
+spkrenable = digitalio.DigitalInOut(board.SPEAKER_ENABLE)
+spkrenable.direction = digitalio.Direction.OUTPUT
+spkrenable.value = False

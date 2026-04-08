@@ -5,6 +5,8 @@
 # Copyright 2026
 # Tom Hoffman
 
+### modify this to copy the sample directories!!!
+
 import argparse
 from pathlib import Path
 import subprocess
