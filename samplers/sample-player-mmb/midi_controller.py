@@ -21,6 +21,7 @@ class MidiController(object):
         fun = msg['function']
         if fun in self.model.cc_keys:
             if config.CC_VALUES[fun] == 'sample_index':
+                # change these to method calls that generate new overall counts
                 self.model.sample_cc_count = msg['value']
             elif config.CC_VALUES[fun] == 'bank_index':
                 self.model.bank_cc_count = msg['value']
