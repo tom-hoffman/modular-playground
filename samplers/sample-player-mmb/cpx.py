@@ -22,6 +22,9 @@ led = digitalio.DigitalInOut(board.LED)
 led.direction = digitalio.Direction.OUTPUT
 led.value = True
 
+def toggle_led():
+    led.value = not(led.value)
+
 a_button_raw = digitalio.DigitalInOut(board.BUTTON_A)
 a_button_raw.direction = digitalio.Direction.INPUT
 a_button_raw.pull = digitalio.Pull.DOWN

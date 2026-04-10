@@ -1,5 +1,5 @@
 import cpx
-import model
+import config
 
 class View(object):
 
@@ -10,7 +10,7 @@ class View(object):
     def main(self):
         # called by code.py regularly
         self.check_buttons()
-        if self.model.changed:
+        if self.model.update_display:
             self.update_pixels()  
         return self
 
@@ -26,17 +26,26 @@ class ActiveView(View):
 
     def check_buttons(self):
         if cpx.a_button.went_down():
-            pass  # usually a method of the model.
+            self.model.increment_bank()
         elif cpx.b_button.went_down():
-            pass  # usually a method of the model.
-    
-    def update_pixels(self):
-        # Re-draw the neopixels.
-        self.pix.fill((0, 0, 32))
-        self.model.changed = False
-        cpx.pix.show()
+            self.model.increment_sample()
+
+    def updateBackground(self):
+        self.pix.fill(config._BANK_COLORS[self.model.bank_index])
+
+    def updateSelection(self):
+        self.pix[self.sample_index] = config._SELECTION_COLOR
+
+    def updatePixels(self):
+        self.updateBackground()
+        self.updateSelection()
+        self.model.update_display = False
+        self.pix.show()
 
 class ConfigurationView(View):
+    '''
+    This view should let you change the MIDI note you're listening for.
+    '''
 
     def check_buttons(self):
         if cpx.a_button.went_down():
@@ -48,12 +57,12 @@ class ConfigurationView(View):
         if cpx.switch_is_left():
             return self
         else:
-            self.model.changed = True
+            self.model.update_display = True
             return ActiveView(self.model, self.pix)    
 
     def update_pixels(self):
         self.pix.fill((0, 32, 0))
-        self.model.changed = False
+        self.model.update_display = False
         self.pix.show()
 
 
