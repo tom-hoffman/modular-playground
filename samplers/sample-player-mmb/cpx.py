@@ -1,6 +1,7 @@
 import board            # helps set up pins, etc. on the board
 import digitalio        # digital (on/off) output to pins, including board LED.
 import neopixel         # controls the RGB LEDs on the board
+import audioio          # outputting the samples.
 
 class Debouncer(object):
 
