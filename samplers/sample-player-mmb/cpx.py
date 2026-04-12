@@ -3,6 +3,8 @@ import digitalio        # digital (on/off) output to pins, including board LED.
 import neopixel         # controls the RGB LEDs on the board
 import audioio          # outputting the samples.
 
+import config
+
 class Debouncer(object):
 
     def __init__(self, b, current_value=None):
@@ -48,4 +50,4 @@ audio = audioio.AudioOut(board.A0)
 
 spkrenable = digitalio.DigitalInOut(board.SPEAKER_ENABLE)
 spkrenable.direction = digitalio.Direction.OUTPUT
-spkrenable.value = False
+spkrenable.value = config.SPEAKER_ENABLE

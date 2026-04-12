@@ -19,7 +19,7 @@ class ActiveView(View):
     def update_mode(self):
         # Check the switch and return current mode.
         if cpx.switch_is_left():
-            self.model.changed = True
+            self.model.update_display = True
             return ConfigurationView(self.model, self.pix)
         else:
             return self
@@ -30,15 +30,15 @@ class ActiveView(View):
         elif cpx.b_button.went_down():
             self.model.increment_sample()
 
-    def updateBackground(self):
+    def update_background(self):
         self.pix.fill(config._BANK_COLORS[self.model.bank_index])
 
-    def updateSelection(self):
-        self.pix[self.sample_index] = config._SELECTION_COLOR
+    def update_selection(self):
+        self.pix[self.model.sample_index] = config._SELECTION_COLOR
 
-    def updatePixels(self):
-        self.updateBackground()
-        self.updateSelection()
+    def update_pixels(self):
+        self.update_background()
+        self.update_selection()
         self.model.update_display = False
         self.pix.show()
 

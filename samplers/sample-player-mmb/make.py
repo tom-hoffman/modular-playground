@@ -6,6 +6,7 @@
 # Tom Hoffman
 
 ### modify this to copy the sample directories!!!
+### add a warning if config.py has been changed in the source tree!!!
 
 import argparse
 from pathlib import Path
@@ -116,6 +117,7 @@ def main():
     
     shutil.make_archive(os.getcwd(), 'zip', remote_dir)
     print(f"  ✓ ZIP file saved to: {Path(__file__).resolve().parents[1]}")
+    ### Add fsck code.
 
 if __name__ == "__main__":
     main()

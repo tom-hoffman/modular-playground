@@ -7,22 +7,25 @@
 # 
 
 import gc
+print("Starting memory: " + str(gc.mem_free()))
+import config
 
-from midi_controller import Starting 
-print("After midi controller: " + str(gc.mem_free()))
 from minimal_midi import MinimalMidi
 print("After minimal_midi: " + str(gc.mem_free()))
 from model import PlayerModel
 print("After model: " + str(gc.mem_free()))
+from midi_controller import MidiController 
+print("After midi controller: " + str(gc.mem_free()))
+
 
 from board_controller import ActiveView
 
 # send MIDI messages on:
 channel_out = 1
 
-tm = ApplicationModel()
+tm = PlayerModel()
 
-mc = Starting(tm, MinimalMidi(None, channel_out))
+mc = MidiController(tm, MinimalMidi(config.channel_in))
 mc.midi.clear_msgs()
 
 bc = ActiveView(tm).update_mode()

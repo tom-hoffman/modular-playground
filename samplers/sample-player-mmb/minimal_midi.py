@@ -58,6 +58,7 @@ class MinimalMidi(object):
         return {'type' : 'CC', 'function' : f, 'value' : v}
 
     def process_note(self, m: str) -> dict:
+        print("Hitting midi library.")
         n = ord(_INNIE.read(1))
         v = ord(_INNIE.read(1))
         return {'type' : m, 'note' : n, 'velocity' : v}
@@ -71,7 +72,7 @@ class MinimalMidi(object):
         if self.has_cc:                 # slight optimization?
             if n == self.cc_value:
                 return self.process_cc()
-        elif n == self.note_on_value:     
+        if n == self.note_on_value:
             return self.process_note('NoteOn')
         elif n == self.note_off_value:
             return self.process_note('NoteOff')

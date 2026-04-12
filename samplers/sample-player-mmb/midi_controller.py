@@ -16,6 +16,7 @@ class MidiController(object):
         self.model = model
         self.midi = midi
         self.led = led
+        self.audio = audio
 
     def toggle_led(self):
         self.led.value = not(self.led.value)
@@ -45,11 +46,13 @@ class MidiController(object):
         if msg is not None:
             # ordered by timing priority
             if msg['type'] == 'NoteOn':
-                self.audio.play(self.wav)
-                cpx.toggle_led()
+                if msg['note'] == self.model.note:
+                    self.audio.play(self.model.wav)
+                    cpx.toggle_led()
             elif msg['type'] == 'CC':
                 self.process_cc(msg)
             elif msg['type'] == 'NoteOff':
-                self.audio.stop()
-                cpx.toggle_led()
+                if msg['note'] == self.model.note:
+                    self.audio.stop()
+                    cpx.toggle_led()
         return self
