@@ -20,7 +20,11 @@ _SELECTION_COLOR = (16, 16, 16)
 
 # Listen for MIDI messages on:
 # this is the "raw" 0-15 scale
-channel_in = 2
+# channel for note messages
+note_channel_in = 0
+# channel for cc messages 
+cc_channel_in = 2
+
 
 # MIDI repeat count
 # this is the number of times we check and process the MIDI queue 

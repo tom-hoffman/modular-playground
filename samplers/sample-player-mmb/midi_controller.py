@@ -41,18 +41,19 @@ class MidiController(object):
         '''
         Main MIDI loop, calling get_msg() and calling relevant methods.
         '''
-        msg = self.midi.get_msg()
-        # get_msg() handles filtering by channel and message type
-        if msg is not None:
-            # ordered by timing priority
-            if msg['type'] == 'NoteOn':
-                if msg['note'] == self.model.note:
-                    self.audio.play(self.model.wav)
-                    cpx.toggle_led()
-            elif msg['type'] == 'CC':
-                self.process_cc(msg)
-            elif msg['type'] == 'NoteOff':
-                if msg['note'] == self.model.note:
-                    self.audio.stop()
-                    cpx.toggle_led()
+        for i in range(config.MIDI_READ_REPEAT):
+            msg = self.midi.get_msg()
+            # get_msg() handles filtering by channel and message type
+            if msg is not None:
+                # ordered by timing priority
+                if msg['type'] == 'NoteOn':
+                    if msg['note'] == self.model.note:
+                        self.audio.play(self.model.wav)
+                        cpx.toggle_led()
+                elif msg['type'] == 'CC':
+                    self.process_cc(msg)
+                elif msg['type'] == 'NoteOff':
+                    if msg['note'] == self.model.note:
+                        self.audio.stop()
+                        cpx.toggle_led()
         return self
