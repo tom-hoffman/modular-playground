@@ -8,7 +8,7 @@ def update_index(button_count: int, cc_count: int, mod: int):
 
 class PlayerModel(object):
     def __init__(self, note=config.note_number, 
-                 bank_button_count=0, bank_cc_count=0, 
+                 bank_button_count=config.STARTING_BANK_INDEX, bank_cc_count=0, 
                  sample_button_count=0, sample_cc_count=0, wav=None):
         self.note = note
         self.bank_button_count = bank_button_count

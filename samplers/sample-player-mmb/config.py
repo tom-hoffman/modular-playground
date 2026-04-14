@@ -15,6 +15,9 @@ USB_NAME = "PLAYER" + str(CPX_NUMBER)
 BANKS = ("kick", "snare", "perc")
 SAMPLE_COUNT = 10
 
+# Bank which will be enabled when the CPX is booted (by index number)
+STARTING_BANK_INDEX = 0
+
 _BANK_COLORS = ((0, 0, 16), (16, 0, 0), (0, 16, 0))
 _SELECTION_COLOR = (16, 16, 16)
 
