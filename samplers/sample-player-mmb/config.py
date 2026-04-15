@@ -15,12 +15,19 @@ USB_NAME = "PLAYER" + str(CPX_NUMBER)
 BANKS = ("kick", "snare", "perc")
 SAMPLE_COUNT = 10
 
+# Bank which will be enabled when the CPX is booted (by index number)
+STARTING_BANK_INDEX = 0
+
 _BANK_COLORS = ((0, 0, 16), (16, 0, 0), (0, 16, 0))
 _SELECTION_COLOR = (16, 16, 16)
 
 # Listen for MIDI messages on:
 # this is the "raw" 0-15 scale
-channel_in = 2
+# channel for note messages
+note_channel_in = 0
+# channel for cc messages 
+cc_channel_in = 2
+
 
 # MIDI repeat count
 # this is the number of times we check and process the MIDI queue 

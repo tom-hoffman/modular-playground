@@ -24,8 +24,10 @@ from board_controller import ActiveView
 channel_out = 1
 
 tm = PlayerModel()
+tm.change_sample()
 
-mc = MidiController(tm, MinimalMidi(config.channel_in))
+mc = MidiController(tm, MinimalMidi(config.note_channel_in, 
+                                    config.cc_channel_in))
 mc.midi.clear_msgs()
 
 bc = ActiveView(tm).update_mode()

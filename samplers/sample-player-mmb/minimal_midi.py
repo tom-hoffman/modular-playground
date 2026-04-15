@@ -34,18 +34,12 @@ def generate_status_byte(ch: int, nybble: int):
 
 class MinimalMidi(object):
     """Tightly implementing the subset of MIDI we need."""
-    def __init__(self, in_channel):
-        self.in_channel = in_channel & _FOUR_BIT_MASK
-        self.note_on_value = generate_status_byte(in_channel, _NOTE_ON_NYBBLE)
-        self.note_off_value = generate_status_byte(in_channel, _NOTE_OFF_NYBBLE)
-        self.cc_value = generate_status_byte(in_channel, _CC_NYBBLE)
+    def __init__(self, note_in_channel, cc_in_channel):
+        self.note_in_channel = note_in_channel & _FOUR_BIT_MASK
+        self.note_on_value = generate_status_byte(note_in_channel, _NOTE_ON_NYBBLE)
+        self.note_off_value = generate_status_byte(note_in_channel, _NOTE_OFF_NYBBLE)
+        self.cc_value = generate_status_byte(cc_in_channel, _CC_NYBBLE)
         self.has_cc = bool(config.CC_VALUES)
-
-    def switch_channel(self, ch: int):
-        self.in_channel = ch & _FOUR_BIT_MASK
-        self.note_on_value = generate_status_byte(ch, _NOTE_ON_NYBBLE)
-        self.note_off_value = generate_status_byte(ch, _NOTE_OFF_NYBBLE)
-        self.cc_value = generate_status_byte(ch, _CC_NYBBLE)       
 
     def clear_msgs(self):
         m = _INNIE.read(1)
@@ -69,7 +63,7 @@ class MinimalMidi(object):
             return None
         else:
             n = ord(m)                  # convert to an integer
-        if self.has_cc:                 # slight optimization?
+        if self.has_cc:                 # slight optimization
             if n == self.cc_value:
                 return self.process_cc()
         if n == self.note_on_value:
@@ -79,7 +73,15 @@ class MinimalMidi(object):
         else:
             return None
         
-
+    '''
+    # don't need yet...?
+    # also update for different cc channel
+    def switch_channel(self, ch: int):
+        self.in_channel = ch & _FOUR_BIT_MASK
+        self.note_on_value = generate_status_byte(ch, _NOTE_ON_NYBBLE)
+        self.note_off_value = generate_status_byte(ch, _NOTE_OFF_NYBBLE)
+        self.cc_value = generate_status_byte(ch, _CC_NYBBLE)       
+    '''
 
 
     

@@ -73,9 +73,13 @@ def main():
         '''
         cases:
         * isn't a Python file: skip
-        * is in SKIP: skip
+        * is in SKIP: 
+            * skip
         * is in DONT_UPDATE:
             * if it does not exist, send a copy
+            * else:
+                * if local is newer, print a warning ⚠
+                * else: skip
         * is in DONT_PRECOMPILE:
             * if local is newer, send a copy
         * else:
@@ -90,7 +94,10 @@ def main():
                 shutil.copyfile(str(remote_path.name), str(remote_path))
                 print(f"  ✓ Copied: {remote_path.name}")
             else:
-                print(f"  ✗ Skipping (DONT_UPDATE): {remote_path.name}")
+                if local_is_more_recent(local_path, remote_path):
+                    print(f"  ⚠ WARNING: you may need to manually update {filename}")
+                else:
+                    print(f"  ✗ Remote copy up to date:")        
         elif filename in DONT_PRECOMPILE:
             if remote_path.exists():
                 if local_is_more_recent(local_path, remote_path):
@@ -114,6 +121,7 @@ def main():
     
     shutil.make_archive(os.getcwd(), 'zip', remote_dir)
     print(f"  ✓ ZIP file saved to: {Path(__file__).resolve().parents[1]}")
+    ### Add fsck code.
 
 if __name__ == "__main__":
     main()

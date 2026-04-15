@@ -6,7 +6,6 @@
 # Tom Hoffman
 
 ### modify this to copy the sample directories!!!
-### add a warning if config.py has been changed in the source tree!!!
 
 import argparse
 from pathlib import Path
@@ -76,9 +75,13 @@ def main():
         '''
         cases:
         * isn't a Python file: skip
-        * is in SKIP: skip
+        * is in SKIP: 
+            * skip
         * is in DONT_UPDATE:
             * if it does not exist, send a copy
+            * else:
+                * if local is newer, print a warning ⚠
+                * else: skip
         * is in DONT_PRECOMPILE:
             * if local is newer, send a copy
         * else:
@@ -93,7 +96,10 @@ def main():
                 shutil.copyfile(str(remote_path.name), str(remote_path))
                 print(f"  ✓ Copied: {remote_path.name}")
             else:
-                print(f"  ✗ Skipping (DONT_UPDATE): {remote_path.name}")
+                if local_is_more_recent(local_path, remote_path):
+                    print(f"  ⚠ WARNING: you may need to manually update {filename}")
+                else:
+                    print(f"  ✗ Remote copy up to date:")        
         elif filename in DONT_PRECOMPILE:
             if remote_path.exists():
                 if local_is_more_recent(local_path, remote_path):
