@@ -2,8 +2,12 @@
 
 """Build script for PERFEC System applicaitons for the Circuit Playground."""
 
+# This processes the files in the same directory as make.py and 
+# recursivesly copies any subdirectories (without precompiling).
+
 # Copyright 2026
 # Tom Hoffman
+
 
 import argparse
 from pathlib import Path
@@ -18,6 +22,9 @@ PY_EXT = "py"
 
 def is_python_file(filename: str) -> bool:
     return filename.endswith(PY_EXT)
+
+def is_directory(local_path: Path) -> bool:
+    return local_path.is_dir()
 
 def local_is_more_recent(local_path: Path, remote_path: Path):
     return (os.path.getmtime(local_path) > os.path.getmtime(remote_path))
@@ -72,7 +79,10 @@ def main():
         remote_path = generateRemotePath(remote_dir, filename)
         '''
         cases:
-        * isn't a Python file: skip
+        * isn't a Python file: 
+            * is a directory:
+                recursively copy
+            * else: skip
         * is in SKIP: 
             * skip
         * is in DONT_UPDATE:
@@ -86,25 +96,32 @@ def main():
             if local is newer, complile and send a copy
         '''
         if not(is_python_file(filename)):
-            print(f"  ✗ Not a Python file: {filename}")
+            if is_directory(local_path):
+                try:
+                    shutil.copytree(local_path, remote_dir / filename)
+                except FileExistsError:
+                    pass
+                print(f"  ✓ Copied {filename} directory tree.")
+            else:
+                print(f"    ✗ Not a Python file: {filename}") 
         elif filename in SKIP:
-            print(f"  ✗ Skipping: {filename}")
+            print(f"    ✗ Skipping: {filename}")
         elif filename in DONT_UPDATE:
             if not(remote_path.exists()):
                 shutil.copyfile(str(remote_path.name), str(remote_path))
                 print(f"  ✓ Copied: {remote_path.name}")
             else:
                 if local_is_more_recent(local_path, remote_path):
-                    print(f"  ⚠ WARNING: you may need to manually update {filename}")
+                    print(f" ⚠ WARNING: you may need to manually update {filename}")
                 else:
-                    print(f"  ✗ Remote copy up to date:")        
+                    print(f"    ✗ Remote copy up to date: {remote_path.name}")        
         elif filename in DONT_PRECOMPILE:
             if remote_path.exists():
                 if local_is_more_recent(local_path, remote_path):
                     shutil.copyfile(str(remote_path.name), str(remote_path))
                     print(f"  ✓ Updated: {remote_path.name}")
                 else:
-                    print(f"  ✗ Remote copy up to date: {remote_path.name}")
+                    print(f"    ✗ Remote copy up to date: {remote_path.name}")
             else:
                 shutil.copyfile(str(remote_path.name), str(remote_path))
                 print(f"  ✓ Copied: {remote_path.name}")
@@ -114,13 +131,13 @@ def main():
                     compile_and_copy(local_path, remote_path, mpy_cross_exe)
                     print(f"  ✓ Compiled and updated: {remote_path.name}")
                 else:
-                    print(f"  ✗ Remote copy up to date: {remote_path.name}")
+                    print(f"    ✗ Remote copy up to date: {remote_path.name}")
             else:
                 compile_and_copy(local_path, remote_path, mpy_cross_exe)
                 print(f"  ✓ Compiled and copied: {remote_path.name}")
     
     shutil.make_archive(os.getcwd(), 'zip', remote_dir)
-    print(f"  ✓ ZIP file saved to: {Path(__file__).resolve().parents[1]}")
+    print(f" ✓ ZIP file saved to: {Path(__file__).resolve().parents[1]}")
     ### Add fsck code.
 
 if __name__ == "__main__":

@@ -7,7 +7,7 @@
 # messages as quickly as possible.
 
 # Note that MinimalMidi uses 0-15 numbering for MIDI channels.
-# Your MIDI device may display channels as 1-15,
+# Your MIDI device may display channels as 1-15, 
 # thus you may need to subtract 1 from the displayed value
 # to match the value here.
 
