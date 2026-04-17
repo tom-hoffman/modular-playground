@@ -7,32 +7,25 @@
 # 
 
 import gc
-import config
 
-from midi_controller import Starting 
-print("After midi controller: " + str(gc.mem_free()))
-
+from minimal_midi import MinimalMidi
+print("After minimal_midi: " + str(gc.mem_free()))
 from model import ApplicationModel
 print("After model: " + str(gc.mem_free()))
 
 from board_controller import ActiveView
 
-import usb_midi
 
-from micropython import const
-
-_CLOCK = const(b'\xF8')
-
-# These "ports" are not to be confused with MIDI channels, etc.
-_OUTIE = usb_midi.ports[1]
-
-def send_clock(self):
-    _OUTIE.write(_CLOCK)
 
 tm = ApplicationModel()
+
+mc = Starting(tm, MinimalMidi(None, channel_out))
+mc.midi.clear_msgs()
 
 bc = ActiveView(tm).update_mode()
 bc.update_pixels()
 print("After object creation: " + str(gc.mem_free()))
 while True:
-    pass
+    mc = mc.main()
+    bc = bc.update_mode()
+    bc = bc.main()
