@@ -1,5 +1,4 @@
 import cpx
-import model
 
 class View(object):
 
