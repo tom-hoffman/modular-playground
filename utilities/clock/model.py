@@ -3,7 +3,6 @@ import supervisor
 
 import config
 
-# below from https://docs.circuitpython.org/en/latest/shared-bindings/supervisor/index.html
 _TICKS_PERIOD = const(1<<29)
 _TICKS_MAX = const(_TICKS_PERIOD-1)
 _TICKS_HALFPERIOD = const(_TICKS_PERIOD//2)
@@ -50,6 +49,7 @@ class ApplicationModel(object):
         self.millis_per_pulse = self.ticks_diff(m, self.last_tap) // config.ppqn
         self.last_tap = m
 
+    # below from https://docs.circuitpython.org/en/latest/shared-bindings/supervisor/index.html
     @staticmethod
     def ticks_diff(ticks1, ticks2):
         "Compute the signed difference between two ticks values, assuming that they are within 2**28 ticks"
