@@ -1,10 +1,5 @@
 # minimal_midi.py
-# Please note that this file is not a complete library but a
-# template for a customized MIDI handling module. 
-# CircuitPython on a CPX is both memory constrained and slow
-# for real time MIDI processing on a busy MIDI network.  
-# Customize the main loop in particular to process needed 
-# messages as quickly as possible. 
+# This version only sends three global messages.
 
 # Note that MinimalMidi uses 0-15 numbering for MIDI channels.
 # Your MIDI device may display channels as 1-16,
