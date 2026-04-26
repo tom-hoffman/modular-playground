@@ -1,12 +1,12 @@
+# PERFEC System Euclidian Sequencer
+# midi_controller.py
+# copyright 2026, Tom Hoffman
+# MIT License
+
 # Handle user and MIDI input/output
-# business logic goes in model
-# stay between model and view
 
 import config
-from micropython import const
 import cpx
-
-_VELOCITIES = const((0, 25, 50, 75, 100, 127))
 
 class MidiController(object):
 
@@ -32,13 +32,15 @@ class MidiController(object):
         else:
             return self
 
+
 class Playing(MidiController):        
     def clock(self):
+        '''Handle clock messages when the sequencer is playing.'''
         if self.model.clock_count == 0:
             self.led.value = not self.led.value
             if self.model.is_active_step():
                 self.midi.send_note_on(config.NOTE_NUMBERS[self.model.note_index],
-                                       _VELOCITIES[self.model.velocity_index])
+                                       config.VELOCITIES[self.model.velocity_index])
                 cpx.out_pin.value = True
         elif self.model.clock_count == config.GATE_DURATION:
             cpx.out_pin.value = False

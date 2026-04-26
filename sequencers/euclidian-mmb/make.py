@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 
-"""Build script for PERFEC System applicaitons for the Circuit Playground."""
+# PERFEC System Euclidian Sequencer
+# make.py
+# copyright 2026, Tom Hoffman
+# MIT License
 
 # This processes the files in the same directory as make.py and 
 # recursivesly copies any subdirectories (without precompiling).
 
 # Copyright 2026
 # Tom Hoffman
-
 
 import argparse
 from pathlib import Path
@@ -138,7 +140,6 @@ def main():
     
     shutil.make_archive(os.getcwd(), 'zip', remote_dir)
     print(f" ✓ ZIP file saved to: {Path(__file__).resolve().parents[1]}")
-    ### Add fsck code.
 
 if __name__ == "__main__":
     main()

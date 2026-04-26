@@ -1,3 +1,10 @@
+# PERFEC System Euclidian Sequencer
+# board_controller.py
+# copyright 2026, Tom Hoffman
+# MIT License
+
+# handles board input and output
+
 import cpx
 
 class View(object):
@@ -92,7 +99,6 @@ class ConfigView(View):
                 cpx.pix[i] = (0, 32, 0)
             else:
                 cpx.pix[i] = (0, 0, 0)
-
 
     def update_pixels(self):
         self.display_note()

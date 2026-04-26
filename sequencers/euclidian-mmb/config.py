@@ -1,6 +1,9 @@
+# PERFEC System Euclidian Sequencer
 # config.py
+# copyright 2026, Tom Hoffman
+# MIT License
 
-# Put starting variables here that might need to be changed by the user.
+# Starting variables that might need to be changed by the user.
 
 # Give each Circuit Playground a unique name so you don't get confused!
 USB_NAME = "EUCLID0"
@@ -21,7 +24,7 @@ MIDI_READ_REPEAT = 256
 # preset for Nord Drum 3p - 60, 62, 64, 65, 67, 69
 NOTE_NUMBERS = (60, 62, 64, 65, 67, 69)
 
-
+VELOCITIES = const((0, 25, 50, 75, 100, 127))
 
 # The note index THIS sequence sends out when restarted:
 note = 0

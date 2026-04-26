@@ -1,22 +1,25 @@
-# SPDX-FileCopyrightText: 2025 Tom Hoffman & E-Cubed students
-# SPDX-License-Identifier: MIT
+# PERFEC System Euclidian Sequencer
+# code.py
+# copyright 2026, Tom Hoffman
+# MIT License
 
-# Modular Playground Euclidian Sequencer
+# This module contains the main loop of the application.
 
-# Module Description:
-# 
 
 import gc
+print("After gc: " + str(gc.mem_free()))
 
 import config
-
 import midi_controller
 print("After midi controller: " + str(gc.mem_free()))
+
 from minimal_midi import MinimalMidi
 print("After minimal_midi: " + str(gc.mem_free()))
+
 from model import SequenceModel
 print("After model: " + str(gc.mem_free()))
 import board_controller
+print("After board controller: " + str(gc.mem_free()))
 
 led_count = 10
 

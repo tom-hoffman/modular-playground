@@ -1,3 +1,8 @@
+# PERFEC System Euclidian Sequencer
+# model.py
+# copyright 2026, Tom Hoffman
+# MIT License
+
 import config
 import math
 

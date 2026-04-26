@@ -1,3 +1,10 @@
+# PERFEC System Euclidian Sequencer
+# midi_controller.py
+# copyright 2026, Tom Hoffman
+# MIT License
+
+# Very stripped down and MIDI processing. Only handles the messages we need, and only the data we need from those messages.
+
 # Note that MinimalMidi uses 0-15 numbering for MIDI channels.
 # Your MIDI device may display channels as 1-15,
 # thus you may need to subtract 1 from the displayed value
@@ -17,7 +24,6 @@ _STOP = const(b'\xFC')
 _NOTE_ON_NYBBLE = const(0b1001)
 _NOTE_OFF_NYBBLE = const(0b1000)
 _DATA_MSG_MASK = const(0b10000000)
-_CHANNEL_NYBBLE_MASK = const(0b1111)
 
 # These "ports" are not to be confused with MIDI channels, etc.
 _INNIE = usb_midi.ports[0]
@@ -71,7 +77,7 @@ class MinimalMidi(object):
         if m == b'':                    # drop empty bytes
             return None
         else:
-            n = ord(m)                  # convert to an integer
+            n = m[0]                    # convert to an integer
         if not(n & _DATA_MSG_MASK):     # ditch stray data bytes quickly
             return None
         elif m == _CLOCK:
@@ -82,9 +88,6 @@ class MinimalMidi(object):
             return {'type' : 'Stop'}
         elif m == _CONTINUE:
             return {'type' : 'Continue'}
-
-        #if (n & 0b1111) == self.in_channel:
-        #    return self.process_channel_msg(n)
         else:
             return None
         

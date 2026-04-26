@@ -1,3 +1,10 @@
+# PERFEC System Euclidian Sequencer
+# cpx.py
+# copyright 2026, Tom Hoffman
+# MIT License
+
+# Set up board hardware and simple button Debouncer.
+
 import board            # helps set up pins, etc. on the board
 import digitalio        # digital (on/off) output to pins, including board LED.
 import neopixel         # controls the RGB LEDs on the board
