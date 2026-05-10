@@ -274,30 +274,3 @@ class app():
 
 app_instance = app()
 app_instance.main()
-
-# 3/30/2026 - Re-Added input handler.. also about to finish encoder rotary selection, which will be used for file selection.
-# [encoder switch] -- Add function to switch between modes (file select, midi channel select, etc.)
-# [encoder rotation] -- Add function to scroll through options (files, channels, etc.)
-# [keys] -- revert to just like 'if' statements or something ig :(
-
-# 4/1/2026 - Added file loading with encoder selection
-# Quick note: when making the [RESTART, PLAY, STOP] buttons use buttons [9, 10, 11]
-
-# 4/27/2026 - Note: So the plan is to add a feature where the buttons act as a numberpad to select midi channels while actively using the device. 
-# this mode is to ba accessed by pressing both the play and stop buttons at the same time, acceseced by buttons [9, 11] in its own function.
-
-# 4/29/26 [#1] - small fixes to code, commented out unneeded code
-
-# if you expected this to be professional you should probably reconsider, this was made by a random highshool student in their not so free time
-# if you have any complaints make sure to not email me about it :)
-# if you do, i'll send you a zip bomb with the solution inside if you can somehow manage to find it in 2,000,000 TiB of random data :)
-# @Kawabae or @KawabaeDidAMusicdid this if you have an issue
-
-# To anyone on this computer, please do not touch anything with an account attatched to it, nor the text editor. its actually getting really annoying fixing every random little change T^T
-# thank uuu 
-
-# ^-^
-#">,<
-#( >[<3]
-# v /
-#        For your troubles :3
