@@ -51,7 +51,7 @@ def toggle_led():
     led = not led
 
 def process_key_press(e):
-    key_states [e.key_number] = e.pressed
+    key_states[e.key_number] = e.pressed
 
 def update_keys():
     key_event = macro_pad.keys.events.get()
