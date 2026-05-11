@@ -41,14 +41,14 @@ class AppModel():
 key_states = [False] * 12
 macro_pad = MacroPad()
 led = macro_pad.red_led
-midi_player = Custom_Player()
+# midi_player = Custom_Player()
 app_model = AppModel(os.listdir('/midi'))
 
 def toggle_led():
     led = not led
 
 def process_key_states(ks: list[bool]):
-    app.model.keys_changed = False
+    app_model.keys_changed = False
     # etc
 
 def update_keys(ks: list[bool], e: keypad.Event):
@@ -61,6 +61,7 @@ def get_keys(ks: list[bool]):
         app_model.keys_changed = True
         ks = update_keys(ks, key_event)
         get_keys(ks)  # hey, recursion!
+        print(ks)
     return ks
 
 while True:
@@ -70,6 +71,6 @@ while True:
     # get_encoder(encoder_state)
     # if app_model.encoder_changed:
         # process_encoder_state(encoder_state)
-    if midi_player.playing:
-        midi_player.play()
+    # if midi_player.playing:
+        # midi_player.play()
     # anything else?
