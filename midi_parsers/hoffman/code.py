@@ -8,10 +8,6 @@ from adafruit_macropad import MacroPad
 from adafruit_midi.note_on import NoteOn
 from adafruit_midi.note_off import NoteOff
 
-
-
-
-
 class Custom_Player(adafruit_midi_parser.MIDIPlayer):
 
     def on_note_on(self, note, velocity, channel):
@@ -51,27 +47,29 @@ app_model = AppModel(os.listdir('/midi'))
 def toggle_led():
     led = not led
 
-def process_key_states():
-    pass
+def process_key_states(ks: list[bool]):
+    app.model.keys_changed = False
+    # etc
 
+def update_keys(ks: list[bool], e: keypad.Event):
+    ks[e.key_number] = e.pressed
+    return ks
 
-def update_keys(e):
-    key_states[e.key_number] = e.pressed
-
-def get_keys():
+def get_keys(ks: list[bool]):
     key_event = macro_pad.keys.events.get()
     if key_event:
         app_model.keys_changed = True
-        update_keys(key_event)
-        get_keys()  # hey, recursion!
+        ks = update_keys(ks, key_event)
+        get_keys(ks)  # hey, recursion!
+    return ks
 
 while True:
-    get_keys()
+    key_states = get_keys(key_states)
     if app_model.keys_changed:
-        process_key_states()
-    # get_encoder()
+        process_key_states(key_states)
+    # get_encoder(encoder_state)
     # if app_model.encoder_changed:
-        # process_encoder_state()
+        # process_encoder_state(encoder_state)
     if midi_player.playing:
         midi_player.play()
     # anything else?
