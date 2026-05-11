@@ -35,11 +35,12 @@ class Custom_Player(adafruit_midi_parser.MIDIPlayer):
 class AppModel():
 
     def __init__(self, file_names, current_file=0, selected_file=0,
-                 out_channel=2):
+                 out_channel=2, keys_changed=False):
         self.file_names = file_names
         self.current_file = current_file
         self.selected_file = selected_file
         self.out_channel = out_channel
+        self.keys_changed = keys_changed
 
 key_states = [False] * 12
 macro_pad = MacroPad()
@@ -50,14 +51,27 @@ app_model = AppModel(os.listdir('/midi'))
 def toggle_led():
     led = not led
 
-def process_key_press(e):
+def process_key_states():
+    pass
+
+
+def update_keys(e):
     key_states[e.key_number] = e.pressed
 
-def update_keys():
+def get_keys():
     key_event = macro_pad.keys.events.get()
     if key_event:
-        process_key_press(key_event)
-        update_keys()  # hey, recursion!
+        app_model.keys_changed = True
+        update_keys(key_event)
+        get_keys()  # hey, recursion!
 
 while True:
-    update_keys()
+    get_keys()
+    if app_model.keys_changed:
+        process_key_states()
+    # get_encoder()
+    # if app_model.encoder_changed:
+        # process_encoder_state()
+    if midi_player.playing:
+        midi_player.play()
+    # anything else?
